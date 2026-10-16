@@ -15,22 +15,23 @@ export default function EChart({ option, height = 420, ariaLabel }: {
   option: echarts.EChartsCoreOption; height?: number; ariaLabel: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const optRef = useRef(option);
-  optRef.current = option;
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const chart = echarts.init(el);
-    chart.setOption(optRef.current, true);
-    const ro = new ResizeObserver(() => chart.resize());
-    ro.observe(el);
-    return () => { ro.disconnect(); chart.dispose(); };
-  }, []);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const chart = echarts.getInstanceByDom(el);
-    if (chart) chart.setOption(option, true);
+    let chart = echarts.getInstanceByDom(el);
+    if (!chart) {
+      chart = echarts.init(el);
+      const ro = new ResizeObserver(() => chart?.resize());
+      ro.observe(el);
+      (el as unknown as { __ro?: ResizeObserver }).__ro = ro;
+    }
+    chart.setOption(option, true);
   }, [option]);
+  useEffect(() => () => {
+    const el = ref.current;
+    if (!el) return;
+    (el as unknown as { __ro?: ResizeObserver }).__ro?.disconnect();
+    echarts.getInstanceByDom(el)?.dispose();
+  }, []);
   return <div ref={ref} style={{ height }} role="img" aria-label={ariaLabel} className="w-full" />;
 }

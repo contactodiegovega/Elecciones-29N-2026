@@ -28,9 +28,36 @@ def check(cond, msg):
     print(f"[export] ok: {msg}")
 
 
+def clean(obj):
+    """NaN/NaT/pd.NA -> None (JSON válido); fechas y numpy -> tipos nativos."""
+    import math
+    import numpy as np
+    import pandas as pd
+    if obj is None or obj is pd.NA or obj is pd.NaT:
+        return None
+    if isinstance(obj, float) and math.isnan(obj):
+        return None
+    if isinstance(obj, dict):
+        return {k: clean(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [clean(v) for v in obj]
+    if isinstance(obj, np.integer):
+        return int(obj)
+    if isinstance(obj, np.floating):
+        return None if math.isnan(float(obj)) else float(obj)
+    if isinstance(obj, np.bool_):
+        return bool(obj)
+    if hasattr(obj, "isoformat"):
+        try:
+            return obj.isoformat()
+        except Exception:
+            return str(obj)
+    return obj
+
+
 def wjson(path: Path, obj):
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(obj, ensure_ascii=False, separators=(",", ":"),
+    path.write_text(json.dumps(clean(obj), ensure_ascii=False, separators=(",", ":"),
                                default=str), encoding="utf-8")
     print(f"[export] {path.relative_to(ROOT)} ({path.stat().st_size / 1024:.0f} KB)")
 
@@ -151,8 +178,12 @@ def main() -> None:
     # --- demografía ---
     enr = pd.read_parquet(PROC / "phase4" / "turnout_features_enriched.parquet")
     enr["target_election_date"] = enr["target_election_date"].astype(str)
+    cov = pd.read_csv(ROOT / "reports" / "tables" / "phase4" / "feature_coverage.csv")
+    age_nat = pd.read_csv(ROOT / "reports" / "tables" / "phase4" / "q4_02_edad_nacional.csv")
     wjson(WEBDATA / "demography.json",
           {"rows": enr.to_dict(orient="records"),
+           "coverage": cov.to_dict(orient="records"),
+           "age_national": age_nat.reset_index().to_dict(orient="records"),
            "dictionary": "reports/tables/phase4/data_dictionary.csv"})
     check(True, "turnout + polls + demography")
 

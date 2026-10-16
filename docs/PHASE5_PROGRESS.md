@@ -10,4 +10,13 @@
   (componentes propios ligeros para controlar bundle); ECharts como única librería
   de gráficos; mapa ECharts + GeoJSON propio.
 
+## CP0 Protección (2026-10-16)
+- pytest 53 passed; export re-ejecutado OK (52 prov, sin pérdidas; nuts3 movido a data/raw).
+- Commits: `73f31cf` (fases 3-4), `9b699d2` (fase 5 estado 5A/5B). Sin push (sin remoto).
+- `.gitignore`: node_modules, .next, out, raw, secretos. Sin secretos en repo.
+
+## Desbloqueo TS (2026-10-16)
+- `@types/geojson` a devDependencies; `??` inalcanzable corregido sin cambiar lógica.
+- `tsc --noEmit` OK; `npm run build` OK (/, /historico, /territorio estáticas).
+
 ## 5B — siguiente: shell + portada + histórico.

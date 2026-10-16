@@ -38,22 +38,6 @@ function PageInner() {
     return (c: string) => m.get(c) ?? c;
   }, [terr]);
 
-  const values = useMemo(() => {
-    if (!rows || !nat) return new Map<string, number>();
-    const out = new Map<string, number>();
-    if (metric === "turnout") {
-      const byProv = new Map<string, { v: number; e: number }>();
-      for (const r of rows) {
-        const a = byProv.get(r.p) ?? { v: 0, e: 0 };
-        a.v += r.v; byProv.set(r.p, a);
-      }
-      const e = nat.find((x) => x.election === election);
-      void e;
-      return out;
-    }
-    return out;
-  }, [rows, nat, election, metric, party]);
-
   // turnout provincial se calcula desde el JSON de turnout para exactitud
   const [turnoutMap, setTurnoutMap] = useState<Map<string, number>>(new Map());
   useEffect(() => {
@@ -72,7 +56,7 @@ function PageInner() {
     for (const r of rows) tot.set(r.p, (tot.get(r.p) ?? 0) + r.v);
     const pv = new Map<string, number>();
     for (const r of rows) if (r.party === party) pv.set(r.p, (pv.get(r.p) ?? 0) + r.v);
-    for (const [p, t] of tot) m.set(p, t ? +(pv.get(p)! / t * 100 ?? 0).toFixed(2) : 0);
+    for (const [p, t] of tot) m.set(p, t ? +((pv.get(p) ?? 0) / t * 100).toFixed(2) : 0);
     for (const [p, v] of pv) if (!tot.get(p)) m.set(p, 0);
     return m;
   }, [rows, party]);
