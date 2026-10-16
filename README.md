@@ -1,17 +1,19 @@
-# Observatorio Electoral España 2026 — FASE 1 + 2 + 3 + 4
+# Observatorio Electoral España 2026 — FASES 1–5 (web incluida; fase 6 lista para desplegar)
 
-Foco: **Data Science / ML**. Análisis histórico del Congreso (1977–2023) + encuestas
-nacionales 2019–2026 + backtesting + enriquecimiento demográfico/económico.
-El 29N-2026 aún no tiene resultados: **no se inventa ninguna fila de 2026 ni
-pronósticos**. Alcance hasta FASE 4 (`OPENCODE_FASE_4_ENRIQUECIMIENTO_VALIDACION.md`):
-sin web, sin API. Todo ML es retrospectivo y declara si supera o no a los baselines.
+Qué resuelve: explorar 16 elecciones generales al Congreso (1977–2023, 52
+circunscripciones, 1.778 candidaturas), demografía/paro/renta provinciales con vintage,
+1.232 sondeos fechados y la evaluación retrospectiva honesta de modelos de
+participación (el baseline `mean3`, 3,56 pp macro, sigue ganando). Sin pronósticos del 29N.
 
-## Requisitos
+## Web local (Next.js estático, desde `web/`)
 
-- Windows + VS Code + PowerShell, **Python 3.12+** (probado con 3.14.4).
-- Sin venv obligatorio; instalar dependencias con pip.
+```powershell
+Set-Location web
+npm install
+npm run dev      # http://localhost:3000
+```
 
-## Instalación y ejecución (PowerShell, desde la raíz del repo)
+## Pipeline completo (PowerShell, desde la raíz)
 
 ```powershell
 # 1) Dependencias
@@ -61,7 +63,12 @@ python src/electoral/ml/revalidate.py
 # 14) Tests finales fase 4 (53 en total)
 python -m pytest tests/ -q
 
-# 15) CLI de consulta de TODAS las candidaturas (top-N, Todos, búsqueda, filtros, export)
+# 15) FASE 5: exportar datos web + validar + compilar
+python src/electoral/export_web.py
+Set-Location web
+npm run lint; npm run typecheck; npm test; npm run build
+
+# 16) CLI de consulta de TODAS las candidaturas (top-N, Todos, búsqueda, filtros, export)
 python src/electoral/query.py --election 2023-07-23 --top 6
 python src/electoral/query.py --election 2023-07-23 --top 0 --out todas_2023.csv
 python src/electoral/query.py --search "BILDU" --top 0
