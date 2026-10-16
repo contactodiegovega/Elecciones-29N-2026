@@ -23,12 +23,14 @@ function PageInner() {
   const [party, setParty] = useState(sp.get("party") ?? "PP");
   const [prov, setProv] = useState<string | null>(sp.get("province"));
   const [rows, setRows] = useState<LabelRow[] | null>(null);
+  const [mapReady, setMapReady] = useState(false);
 
   useEffect(() => {
     Promise.all([loadMeta(), loadNational(), loadTerritories(), loadColors(), loadGeo()]).then(
       ([m, n, t, c, g]) => {
         setMeta(m); setNat(n); setTerr(t); setColors(c); setGeo(g);
         try { echarts.registerMap("es", g as unknown as Parameters<typeof echarts.registerMap>[1]); } catch { /* ya registrado */ }
+        setMapReady(true);
       });
   }, []);
   useEffect(() => { loadLabels(election).then(setRows).catch(() => setRows([])); }, [election]);
@@ -69,7 +71,7 @@ function PageInner() {
     router.replace(`?${q.toString()}`);
   };
 
-  if (!meta || !nat || !geo) return <p role="status">Cargando mapa…</p>;
+  if (!meta || !nat || !geo || !mapReady) return <p role="status">Cargando mapa…</p>;
   const data = [...shown.entries()].map(([code, value]) => ({ name: code, value }));
   const vals = [...shown.values()].filter((v) => !Number.isNaN(v));
   const option = {

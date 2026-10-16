@@ -19,4 +19,11 @@
 - `@types/geojson` a devDependencies; `??` inalcanzable corregido sin cambiar lógica.
 - `tsc --noEmit` OK; `npm run build` OK (/, /historico, /territorio estáticas).
 
-## 5B — siguiente: shell + portada + histórico.
+## 5B–5D Páginas (2026-10-16)
+- 8 rutas con datos reales; mapa GISCO registrado bajo demanda (bug de orden corregido).
+- `export_web.py`: saneado NaN→null (bug cazado por test), demografía ampliada,
+  raw GISCO movido a `data/raw/`.
+
+## 5E Validación (2026-10-16) — COMPLETA salvo E2E
+- lint/typecheck/vitest(8)/build OK; QA estática 8/8 rutas 200; pytest 53 OK.
+- E2E Playwright pendiente (manual). `docs/PHASE5_REPORT.md` escrito.

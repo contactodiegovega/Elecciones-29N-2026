@@ -5,6 +5,13 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Observatorio Electoral España — 1977–2023",
   description: "Resultados históricos del Congreso, demografía, encuestas y evaluación retrospectiva de modelos. Sin pronósticos.",
+  openGraph: {
+    title: "España en las urnas — Observatorio Electoral 1977–2023",
+    description: "Datos históricos, demografía, encuestas y laboratorio ML retrospectivo. Sin pronósticos del 29N.",
+    type: "website",
+    locale: "es_ES",
+  },
+  twitter: { card: "summary", title: "España en las urnas", description: "Observatorio electoral histórico 1977–2023." },
 };
 
 const NAV = [
