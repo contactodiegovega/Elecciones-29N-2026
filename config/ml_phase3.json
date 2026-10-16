@@ -1,0 +1,19 @@
+{
+  "seed": 42,
+  "target": "turnout_pct",
+  "test_elections": ["2011-11-20", "2015-12-20", "2016-06-26", "2019-04-28", "2019-11-10", "2023-07-23"],
+  "features": ["prev_turnout", "delta_prev", "mean_last3", "electores_growth_prev", "cera_share_prev", "n_prev_elections"],
+  "recent_k": 3,
+  "models": {
+    "ridge": {"alpha": 1.0},
+    "elasticnet": {"alpha": 1.0, "l1_ratio": 0.5},
+    "hgbr": {"max_iter": 200, "max_leaf_nodes": 15, "min_samples_leaf": 20, "learning_rate": 0.05}
+  },
+  "party_pilot": {
+    "party_id": "PSOE",
+    "features": ["prev_share", "delta_share_prev", "n_prev_present"],
+    "test_elections": ["2015-12-20", "2016-06-26", "2019-04-28", "2019-11-10", "2023-07-23"]
+  },
+  "min_test_elections": 3,
+  "run_stamp": "phase3-2026-10-16"
+}

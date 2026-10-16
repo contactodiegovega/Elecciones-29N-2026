@@ -1,0 +1,11 @@
+test_election,model,party,MAE_pp,RMSE_pp,bias_pp,n_train_rows
+2015-12-20,prev_share,PSOE,5.846,6.54,5.738,520
+2015-12-20,ridge_psoe,PSOE,5.181,6.11,4.844,520
+2016-06-26,prev_share,PSOE,0.861,1.041,-0.311,572
+2016-06-26,ridge_psoe,PSOE,2.938,3.275,-2.868,572
+2019-04-28,prev_share,PSOE,6.032,6.481,-5.859,624
+2019-04-28,ridge_psoe,PSOE,8.264,8.64,-8.198,624
+2019-11-10,prev_share,PSOE,1.348,1.925,0.306,676
+2019-11-10,ridge_psoe,PSOE,2.937,3.381,-1.345,676
+2023-07-23,prev_share,PSOE,3.293,5.115,-2.571,728
+2023-07-23,ridge_psoe,PSOE,5.098,5.825,-5.052,728

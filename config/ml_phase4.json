@@ -1,0 +1,15 @@
+{
+  "seed": 42,
+  "folds": ["2011-11-20", "2015-12-20", "2016-06-26", "2019-04-28", "2019-11-10", "2023-07-23"],
+  "base_features": ["prev_turnout", "delta_prev", "mean_last3", "electores_growth_prev", "cera_share_prev", "n_prev_elections"],
+  "new_features": ["share_18_29", "share_30_44", "share_45_64", "share_65plus", "share_foreign", "pop_growth_yoy", "pop_total_2852", "unemployment_rate", "activity_rate", "employment_rate", "adrh_wages", "adrh_pensions", "adrh_unemp_benefits", "adrh_other_benefits", "adrh_other_income"],
+  "models": ["ridge_full", "hgbr_full"],
+  "ridge": {"alpha": 1.0},
+  "hgbr": {"max_iter": 200, "max_leaf_nodes": 15, "min_samples_leaf": 20, "learning_rate": 0.05},
+  "ablation_blocks": {
+    "no_epa": ["unemployment_rate", "activity_rate", "employment_rate"],
+    "no_age": ["share_18_29", "share_30_44", "share_45_64", "share_65plus", "share_foreign", "pop_growth_yoy"],
+    "no_adrh": ["adrh_wages", "adrh_pensions", "adrh_unemp_benefits", "adrh_other_benefits", "adrh_other_income"]
+  },
+  "run_stamp": "phase4-2026-10-16"
+}

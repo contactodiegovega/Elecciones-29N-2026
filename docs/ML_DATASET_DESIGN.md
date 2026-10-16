@@ -6,8 +6,8 @@
 |---|---|---|
 | `turnout_features.parquet` | 780 | 15 transiciones × 52 prov: `prev_turnout`, `delta_prev`, `mean_last3`, `electores_growth_prev`, `cera_share_prev`, `n_prev_elections` |
 | `turnout_targets.parquet` | 780 | `target_turnout` separado (no dentro de features) |
-| `party_evolution_features.parquet` | 8 736 | (target, prov, partido presente en t−1): `prev_share`, `delta_share_prev`, `prev_votes/seats`, `n_prev_present` |
-| `party_targets.parquet` | 8 736 | `target_share/votes`, `present_in_target` |
+| `party_evolution_features.parquet` | 10 764 | (target, prov, partido presente en t−1): `prev_share`, `delta_share_prev`, `prev_votes/seats`, `n_prev_present` |
+| `party_targets.parquet` | 10 764 | `target_share/votes`, `present_in_target` |
 | `poll_features.parquet` | 10 316 | 3 397 pre-2023 + 6 919 ciclo-2026: `estimate_pct`, `estimate_type`, `days_to_election`, `sample_size` |
 
 | `poll_targets.parquet` | 1 346 | `poll_error_pp` vs oficial PP/PSOE/VOX 2023 |
@@ -36,7 +36,7 @@
 - Bloques por elección completa, expanding window: entrenar con elecciones < t, evaluar en
   t ∈ {2004, 2008, 2011, 2015, 2016, 2019-04, 2019-11, 2023}. Jamás split aleatorio
   intra-elección.
-- n efectivo: 15 transiciones (turnout), 8 736 filas correlacionadas intra-elección
+- n efectivo: 15 transiciones (turnout), 10 764 filas correlacionadas intra-elección
   (party), 1 346 errores de sondeo (polls, 140 sondeos únicos en ventana ≤30 días pre-2023). Incertidumbre
   obligatoria.
 - Advertencias: etiquetas 2000/2011/2015 no comparables sin mapeo (ya aplicado a nivel

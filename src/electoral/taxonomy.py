@@ -166,6 +166,10 @@ def map_label(label: str) -> tuple[str | None, str, str]:
         return ("AP", conf, "rule: Alianza Popular (sigla AP o coalición AP-led: AP-PDP…)")
     if up.startswith("COALICION POPULAR") and ("AP-" in ac or "AP-PDP" in up):
         return ("AP", "medium", "rule: Coalición Popular 1986 (AP-PDP-PL, AP-led)")
+    if ac == "CD" and "COALICION DEMOCRATICA" in up:
+        return ("AP", "medium", "rule: Coalición Democrática 1979 (AP-led, inequívoca)")
+    if "PSP-US" in up or up.startswith("PARTIDO SOCIALISTA POPULAR -"):
+        return ("PSOE", "medium", "rule: PSP absorbido por el PSOE en 1978 (continuidad documentada)")
     if ac == "AP":
         return ("AP", "high", "rule: sigla AP")
     if ac == "PCE":

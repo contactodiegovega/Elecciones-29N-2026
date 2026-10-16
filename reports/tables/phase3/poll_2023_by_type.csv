@@ -1,0 +1,7 @@
+party_id,estimate_type,n,MAE,bias
+PP,direct_intention,196,15.39,-15.39
+PP,estimated_vote,253,1.771,-0.311
+PSOE,direct_intention,196,11.176,-11.176
+PSOE,estimated_vote,252,4.936,-4.936
+VOX,direct_intention,196,4.077,-4.023
+VOX,estimated_vote,253,1.631,1.448

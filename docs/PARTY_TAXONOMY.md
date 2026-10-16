@@ -31,8 +31,8 @@ Tablas: `data/processed/party_registry.parquet` (36 partidos),
 | 1996 | 91,87 | | 2019-11 | 88,89 |
 | 2000 | 92,65 | | 2023 | 94,54 |
 
-477/1 778 etiquetas con partido (los 36 partidos del registro tienen al menos una);
-el resto (1 301) son minoritarias históricas y
+479/1 778 etiquetas con partido (los 36 partidos del registro tienen al menos una);
+el resto (1 299) son minoritarias históricas y
 confluencias no fusionables automáticamente. El voto no mapeado concentra:
 confluencias Podemos/IU 2015–2019 (correctamente sin fusionar: 2016 al 77 %),
 minoritarios históricos 1977–1979 y Ruiz-Mateos 1989.
@@ -48,6 +48,9 @@ minoritarios históricos 1977–1979 y Ruiz-Mateos 1989.
 - `UPN-PP` (Navarra, incluye 0,38 M históricos) → coalición propia, no suma a PP ni UPN.
 - `CUP-PR` → CUP; `EH Bildu` (con espacio, la sigla contiene espacio) → BILDU por
   presencia de `BILDU` en la etiqueta.
+- Fase 4 (backlog resuelto, inequívoco): `COALICION DEMOCRATICA - CD` 1979 (1,03 M) → AP
+  (medium, coalición AP-led); `PSP-US` 1977 (0,82 M) → PSOE (medium, absorción 1978).
+  1979 sube a 91,15 % del voto mapeado.
 
 ## Vista analítica opcional `family_id`
 

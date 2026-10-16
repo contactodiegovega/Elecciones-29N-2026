@@ -1,0 +1,16 @@
+columna,definicion,unidad,fuente
+target_election_date,fecha del comicio objetivo,dims,turnout_features fase 2
+as_of_date,corte: última elección con datos usados,dims,<= target siempre
+province_code,código INE 2 dígitos,dims,52
+prev_turnout,participación t-1 (%),%,fase 2
+delta_prev,cambio t-2->t-1 (pp),pp,fase 2 corregida
+mean_last3,media últimas 3 (%),%,fase 2
+electores_growth_prev,crec. censo hasta t-1 (%),%,fase 2 corregida
+cera_share_prev,% CERA en t-1,%,fase 2 corregida
+share_18_29 / 30_44 / 45_64 / 65plus,% residentes por banda (padrón vintage),%,36780; residente≠elector
+share_foreign,% residentes extranjeros (padrón vintage),%,36780
+pop_growth_yoy,crec. padrón interanual (%),%,36780; nulo 2004
+pop_total_2852,"población total (2852, fallback<=vintage)",personas,2852 (fin 2021)
+unemployment_rate / activity_rate / employment_rate,tasas EPA vintage (Ambos sexos),%,72989; EPA≠registrado
+adrh_wages / pensions / unemp_benefits / other_benefits / other_income,"% renta por fuente (ADRH vintage, assumed)",%,53687; nulos forales
+vintage_ref / vintage_status,referencia y estado por fila,meta,rule/assumed

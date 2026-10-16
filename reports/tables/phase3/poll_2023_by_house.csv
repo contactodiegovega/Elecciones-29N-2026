@@ -1,0 +1,91 @@
+party_id,pollster,n,MAE,bias
+PP,Cluster17,2,0.6,-0.33
+PP,Opinòmetre,1,0.73,-0.73
+PP,SigmaDos,1,0.87,0.87
+PP,Top Position,1,0.87,0.87
+PP,Sondaxe,11,0.888,-0.248
+PP,Ágora Integral,1,1.03,-1.03
+PP,EM-Analytics,36,1.271,-0.855
+PP,Celeste-Tel,5,1.346,0.27
+PP,Hamalgama Métrica,6,1.437,-0.447
+PP,Data10,18,1.481,0.72
+PP,KeyData,7,1.504,-0.93
+PP,Ipsos,2,1.52,1.52
+PP,Sigma Dos,23,1.525,0.335
+PP,YouGov,3,1.663,-1.663
+PP,NC Report,14,1.964,1.913
+PP,Metroscopia,1,1.97,1.97
+PP,InvyMark,12,2.3,-2.272
+PP,Target Point,9,2.526,2.526
+PP,AtlasIntel,1,2.53,-2.53
+PP,GAD3,23,2.687,2.557
+PP,IMOP,7,6.264,-5.959
+PP,SocioMétrica,31,7.911,-7.865
+PP,40dB,49,8.771,-8.771
+PP,GESOP,19,9.114,-9.114
+PP,DYM,43,9.73,-9.59
+PP,CIS,52,13.77,-13.745
+PP,Simple Lógica,61,15.616,-15.591
+PP,CEMOP,1,15.73,-15.73
+PP,SW Demoscopia,7,18.83,-18.83
+PP,Intercampo,2,19.03,-19.03
+PSOE,AtlasIntel,1,2.54,-2.54
+PSOE,Opinòmetre,1,2.94,-2.94
+PSOE,SigmaDos,1,3.04,-3.04
+PSOE,Ipsos,2,3.54,-3.54
+PSOE,Metroscopia,1,3.54,-3.54
+PSOE,YouGov,3,3.607,-3.607
+PSOE,Top Position,1,3.84,-3.84
+PSOE,GAD3,23,3.875,-3.875
+PSOE,Cluster17,2,3.89,-3.89
+PSOE,Target Point,9,3.962,-3.962
+PSOE,Sondaxe,11,4.113,-4.113
+PSOE,Sigma Dos,23,4.814,-4.814
+PSOE,EM-Analytics,36,5.234,-5.234
+PSOE,KeyData,7,5.754,-5.754
+PSOE,InvyMark,12,5.79,-5.79
+PSOE,NC Report,14,5.89,-5.89
+PSOE,Ágora Integral,1,6.04,-6.04
+PSOE,IMOP,7,6.111,-6.111
+PSOE,Celeste-Tel,5,6.24,-6.24
+PSOE,Intercampo,2,6.84,-6.84
+PSOE,Hamalgama Métrica,6,7.157,-7.157
+PSOE,Data10,17,7.228,-7.228
+PSOE,40dB,49,7.25,-7.25
+PSOE,SW Demoscopia,7,7.569,-7.569
+PSOE,GESOP,19,8.277,-8.277
+PSOE,CIS,52,9.046,-9.046
+PSOE,DYM,43,9.135,-9.135
+PSOE,SocioMétrica,31,9.634,-9.634
+PSOE,Simple Lógica,61,11.96,-11.96
+PSOE,CEMOP,1,15.04,-15.04
+VOX,Opinòmetre,1,0.22,0.22
+VOX,Ipsos,2,0.4,-0.28
+VOX,Target Point,9,0.618,0.253
+VOX,Metroscopia,1,0.62,0.62
+VOX,GAD3,23,0.777,0.033
+VOX,Top Position,1,0.82,0.82
+VOX,Sigma Dos,23,0.959,0.698
+VOX,NC Report,14,1.024,0.384
+VOX,Sondaxe,11,1.053,1.02
+VOX,SigmaDos,1,1.28,-1.28
+VOX,40dB,49,1.282,0.418
+VOX,YouGov,3,1.52,1.52
+VOX,Cluster17,2,1.57,1.57
+VOX,Celeste-Tel,5,1.712,1.28
+VOX,EM-Analytics,36,1.928,1.928
+VOX,KeyData,7,1.963,1.963
+VOX,InvyMark,12,2.028,2.028
+VOX,SocioMétrica,31,2.074,-0.145
+VOX,CEMOP,1,2.08,-2.08
+VOX,Data10,18,2.12,2.12
+VOX,Ágora Integral,1,2.52,2.52
+VOX,Hamalgama Métrica,6,2.953,2.953
+VOX,DYM,43,3.134,-2.527
+VOX,GESOP,19,3.704,-2.275
+VOX,IMOP,7,3.88,-0.223
+VOX,AtlasIntel,1,4.52,4.52
+VOX,CIS,52,4.637,-3.974
+VOX,Simple Lógica,61,4.812,-3.975
+VOX,SW Demoscopia,7,5.923,-5.923
+VOX,Intercampo,2,6.13,-6.13

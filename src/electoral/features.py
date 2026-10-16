@@ -28,9 +28,12 @@ def build_turnout(to: pd.DataFrame):
     t["turnout"] = pd.to_numeric(t["votantes"], errors="coerce") / pd.to_numeric(t["electores"], errors="coerce") * 100
     t["cera_share"] = pd.to_numeric(t["electores_cera"], errors="coerce") / pd.to_numeric(t["electores"], errors="coerce") * 100
     t = t.sort_values(["province_code", "t_idx"])
-    t["electores_growth"] = t.groupby("province_code")["electores"].pct_change(fill_method=None) * 100
+    # Todo lo "prev" se desplaza una posición: solo pasado estricto respecto al target.
+    # (delta/growth/cera sin desplazar usarían el censo y el resultado objetivo: fuga.)
+    t["electores_growth"] = (t.groupby("province_code")["electores"].pct_change(fill_method=None) * 100).shift(1)
     t["prev_turnout"] = t.groupby("province_code")["turnout"].shift(1)
-    t["delta_prev"] = t.groupby("province_code")["turnout"].diff()
+    t["delta_prev"] = t.groupby("province_code")["turnout"].diff().shift(1)
+    t["cera_share_prev_raw"] = t.groupby("province_code")["cera_share"].shift(1)
     t["mean_last3"] = t.groupby("province_code")["turnout"].transform(
         lambda s: s.shift(1).rolling(3, min_periods=1).mean())
     t["n_prev"] = t.groupby("province_code").cumcount()
@@ -44,7 +47,7 @@ def build_turnout(to: pd.DataFrame):
         "delta_prev": f["delta_prev"].round(2),
         "mean_last3": f["mean_last3"].round(2),
         "electores_growth_prev": pd.to_numeric(f["electores_growth"], errors="coerce").round(2),
-        "cera_share_prev": pd.to_numeric(f["cera_share"], errors="coerce").round(2),
+        "cera_share_prev": pd.to_numeric(f["cera_share_prev_raw"], errors="coerce").round(2),
         "n_prev_elections": f["n_prev"],
         "feature_available_at": f["prev_ed"],
         "data_published_at": f["prev_ed"],
@@ -80,35 +83,45 @@ def build_party(res: pd.DataFrame, to: pd.DataFrame):
     base["share"] = base["votes"].astype(float) / base["votos_candidaturas"].astype(float) * 100
     assert base.duplicated(subset=key + ["t_idx"]).sum() == 0
     base["prev_idx"] = base["t_idx"] - 1
-    # presente en t-1: join exacto con (prov, partido, t-1); ausente -> sin fila
-    p1 = base.merge(base[key + ["t_idx", "share", "votes", "seats"]],
-                    left_on=key + ["prev_idx"], right_on=key + ["t_idx"],
-                    suffixes=("", "_prev"), how="inner")
-    p1["prev2_idx"] = p1["prev_idx"] - 1
-    p2 = p1.merge(base[key + ["t_idx", "share"]],
-                  left_on=key + ["prev2_idx"], right_on=key + ["t_idx"],
-                  suffixes=("", "_prev2"), how="left")
+    # Lado izquierdo = presencias en t-1 (todo lo predecible con pasado); el target t
+    # se une de forma OPCIONAL: la fila existe aunque el partido falte en t.
+    nmax = max(idx.values())
+    mask = base["t_idx"] < nmax
     nprev = base.groupby(key)["t_idx"].transform(lambda s: s.rank(method="first")).astype(int)
-    p2 = p2.merge(base[key + ["t_idx"]].assign(n=nprev), on=key + ["t_idx"], how="left")
+    base = base.drop(columns=["prev_idx"])  # evita duplicar etiqueta al renombrar t_idx
+    left = base[mask].rename(
+        columns={"t_idx": "prev_idx", "share": "share_prev",
+                 "votes": "votes_prev", "seats": "seats_prev"})[
+                     key + ["prev_idx", "share_prev", "votes_prev", "seats_prev"]].copy()
+    left["n_prev_present"] = nprev[mask].values
+    left["target_idx"] = left["prev_idx"] + 1
+    p1 = left.merge(base[key + ["t_idx"]].assign(share_tgt=base["share"].values,
+                                                             votes_tgt=base["votes"].values),
+                    left_on=key + ["target_idx"], right_on=key + ["t_idx"],
+                    how="left")
+    p1["prev2_idx"] = p1["prev_idx"] - 1
+    p2 = p1.merge(base[key + ["t_idx"]].assign(share_prev2=base["share"].values),
+                  left_on=key + ["prev2_idx"], right_on=key + ["t_idx"],
+                  suffixes=("", "_dup"), how="left")
     asof = p2["prev_idx"].map(lambda i: eds[int(i)].date().isoformat())
+    tgt = p2["target_idx"].map(lambda i: eds[int(i)].date().isoformat())
     feat = pd.DataFrame({
-        "target_election_date": pd.to_datetime(p2["ed"]).dt.date.astype(str),
+        "target_election_date": tgt,
         "as_of_date": asof,
         "province_code": p2["province_code"], "party_id": p2["party_id"],
         "prev_share": p2["share_prev"].round(3),
         "delta_share_prev": (p2["share_prev"] - p2["share_prev2"]).round(3),
         "prev_votes": pd.to_numeric(p2["votes_prev"], errors="coerce").astype("Int64"),
         "prev_seats": pd.to_numeric(p2["seats_prev"], errors="coerce").astype("Int64"),
-        "n_prev_present": p2["n"].astype(int),
+        "n_prev_present": p2["n_prev_present"].astype(int),
         "feature_available_at": asof, "data_published_at": asof,
     })
-    cur = p2[["province_code", "party_id", "ed", "share", "votes"]].copy()
     targ = pd.DataFrame({
-        "target_election_date": pd.to_datetime(cur["ed"]).dt.date.astype(str),
-        "province_code": cur["province_code"], "party_id": cur["party_id"],
-        "target_share": cur["share"].round(3),
-        "target_votes": pd.to_numeric(cur["votes"], errors="coerce").astype("Int64"),
-        "present_in_target": True,
+        "target_election_date": tgt,
+        "province_code": p2["province_code"], "party_id": p2["party_id"],
+        "target_share": p2["share_tgt"].round(3),
+        "target_votes": pd.to_numeric(p2["votes_tgt"], errors="coerce").astype("Int64"),
+        "present_in_target": p2["share_tgt"].notna(),
     })
     feat.to_parquet(PROC / "party_evolution_features.parquet", index=False)
     targ.to_parquet(PROC / "party_targets.parquet", index=False)
