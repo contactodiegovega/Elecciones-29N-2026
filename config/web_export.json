@@ -1,0 +1,11 @@
+{
+  "version": "fase5-2026-10-16.v1",
+  "script": "src/electoral/export_web.py",
+  "artifacts": ["meta.json", "territories.json", "results_national.json",
+    "labels_by_election/{fecha}.json (16)", "turnout.json",
+    "polls_2023.json", "polls_2026.json", "demography.json",
+    "ml.json", "oos_map.json", "colors.json", "taxonomy.json",
+    "maps/spain_provinces.geojson"],
+  "invariants": ["1778 etiquetas", "81/81 en 2023", "52 provincias", "16 elecciones",
+    "sin 2026", "sin filas de resultado en encuestas", "métricas ML = CSV fase3/4"]
+}

@@ -1,9 +1,10 @@
-# Observatorio Electoral España 2026 — FASE 1 + FASE 2
+# Observatorio Electoral España 2026 — FASE 1 + 2 + 3 + 4
 
 Foco: **Data Science / ML**. Análisis histórico del Congreso (1977–2023) + encuestas
-nacionales 2019–2026. El 29N-2026 aún no tiene resultados: **no se inventa ninguna fila
-de 2026 ni pronósticos**. Alcance: FASE 1 (`OPENCODE_FASE_1_DATOS_EDA.md`) y FASE 2
-(`OPENCODE_FASE_2_ENCUESTAS_EDA_AVANZADO.md`): sin web, sin API, sin modelos entrenados.
+nacionales 2019–2026 + backtesting + enriquecimiento demográfico/económico.
+El 29N-2026 aún no tiene resultados: **no se inventa ninguna fila de 2026 ni
+pronósticos**. Alcance hasta FASE 4 (`OPENCODE_FASE_4_ENRIQUECIMIENTO_VALIDACION.md`):
+sin web, sin API. Todo ML es retrospectivo y declara si supera o no a los baselines.
 
 ## Requisitos
 
@@ -39,10 +40,28 @@ python src/electoral/eda_phase2.py
 # 8) FASE 2: features con corte temporal (sin entrenar)
 python src/electoral/features.py
 
-# 9) Tests (33: 15 fase 1 + 18 fase 2)
+# 9) FASE 3: backtest participación (baselines + Ridge/ElasticNet/HGBR, expanding window)
+python src/electoral/ml/backtest.py
+
+# 10) FASE 3: diagnóstico encuestas 2023 (descriptivo; NO se entrena corrector) + piloto PSOE
+python src/electoral/ml/poll_diagnostics.py
+python src/electoral/ml/party_pilot.py
+
+# 11) FASE 3: figuras (4 PNG en reports/figures/phase3/)
+python src/electoral/ml/figures.py
+
+# 12) Tests (45: 15 fase 1 + 18 fase 2 + 12 fase 3)
 python -m pytest tests/ -q
 
-# 10) CLI de consulta de TODAS las candidaturas (top-N, Todos, búsqueda, filtros, export)
+# 13) FASE 4: enriquecimiento INE (padrón/EPA/renta/censo) + EDA + revalidación ML
+python src/electoral/enrichment.py
+python src/electoral/eda_phase4.py
+python src/electoral/ml/revalidate.py
+
+# 14) Tests finales fase 4 (53 en total)
+python -m pytest tests/ -q
+
+# 15) CLI de consulta de TODAS las candidaturas (top-N, Todos, búsqueda, filtros, export)
 python src/electoral/query.py --election 2023-07-23 --top 6
 python src/electoral/query.py --election 2023-07-23 --top 0 --out todas_2023.csv
 python src/electoral/query.py --search "BILDU" --top 0
@@ -53,7 +72,8 @@ python src/electoral/query.py --search "BILDU" --top 0
 ```
 src/electoral/        # download, build_tables, taxonomy, colors, polls, eda,
                       # eda_phase2, features, query (+ __init__.py)
-config/               # party_colors.json (registro cromático central)
+                      # ml/: backtest, poll_diagnostics, party_pilot, figures, leakage
+config/               # party_colors.json (colores) + ml_phase3.json (semilla, folds, modelos)
 data/raw/             # brutos sin modificar (Excel Interior, CSV INE, HTML encuestas)
 data/processed/       # 20 parquet + audits, coverage, CSV resumen
 data/reference/       # party_registry.csv
@@ -61,12 +81,41 @@ data/templates/       # polls_manual_template.csv (cargas manuales futuras)
 notebooks/            # 01_exploracion_fase1.ipynb (opcional; los scripts bastan)
 reports/figures/      # 5 PNG fase 1 (con colores corporativos)
 reports/figures/phase2/  # 12 PNG fase 2
+reports/figures/phase3/  # 4 PNG fase 3 (backtest y diagnóstico)
+reports/figures/phase4/  # 12 PNG fase 4 (10 EDA + 2 revalidación)
 reports/tables/phase2/   # 8 CSV íntegros (todas las candidaturas)
+reports/tables/phase3/   # OOS + diagnósticos (ver § ML)
+reports/tables/phase4/   # cobertura, diccionario, EDA, métricas revalidación
 docs/                 # SOURCES, DATA_QUALITY, EDA, ML_FEASIBILITY (fase 1) +
                       # PHASE2_BASELINE_AUDIT, PARTY_TAXONOMY, PARTY_COLORS,
-                      # POLL_SOURCES_PENDING, EDA_PHASE2, ML_DATASET_DESIGN
-tests/                # test_quality.py (15) + test_phase2.py (18)
+                      # POLL_SOURCES_PENDING, EDA_PHASE2, ML_DATASET_DESIGN +
+                      # PHASE3_DATA_AUDIT, PHASE3_FEASIBILITY, PHASE3_BACKTEST_REPORT,
+                      # PHASE3_MODEL_CARD +
+                      # PHASE4_BASELINE_AUDIT, PHASE4_SOURCE_CATALOG,
+                      # PHASE4_TEMPORAL_INTEGRITY, EDA_PHASE4, PHASE4_ML_REVALIDATION,
+                      # PHASE4_SUMMARY
+tests/                # test_quality.py (15) + test_phase2.py (18) + test_phase3.py (12)
+                      # + test_phase4.py (8) = 53
 ```
+
+## Resultados ML — FASE 3 (retrospectivo; detalle en `docs/PHASE3_BACKTEST_REPORT.md`)
+
+| Modelo | Macro MAE (pp) | Ponderado censo |
+|---|---|---|
+| mean3 (baseline) | **3,56** | **3,38** |
+| elasticnet | 3,64 | 3,34 |
+| last_election | 4,00 | 3,95 |
+| hgbr | 4,11 | 3,97 |
+| ridge | 4,31 | 4,12 |
+| trend1 | 6,89 | 6,77 |
+
+6 elecciones retenidas (2011→2023), 1 872 predicciones OOS. **El ML no demuestra valor
+sobre baselines simples.** Piloto PSOE: prev_share 3,48 < ridge 4,88. Encuestas 2023:
+solo diagnóstico (1 elección etiquetada → NO GO a corrector).
+
+Revalidación FASE 4 (mismos folds, +15 features INE con vintage): ridge 4,31→**3,80**,
+hgbr 4,11→**3,68** (mejoran en 4–5/6 elecciones vs ML fase 3) pero `mean3` (3,56) sigue
+ganando. Detalle en `docs/PHASE4_ML_REVALIDATION.md`.
 
 ## Tablas nuevas FASE 2 (`data/processed/*.parquet`)
 
@@ -78,7 +127,7 @@ tests/                # test_quality.py (15) + test_phase2.py (18)
 | `polls` | 1 232 | 36 casas, campo 2019→2026, con licencia y flags |
 | `poll_estimates` | 12 945 | % por partido + indecisos/abstención; huecos sin fila |
 | `turnout_features` / `turnout_targets` | 780 | features solo pasado + targets separados |
-| `party_evolution_features` / `party_targets` | 8 320 | idem por (provincia, partido) |
+| `party_evolution_features` / `party_targets` | 10 764 | idem por (provincia, partido) |
 | `poll_features` / `poll_targets` | 10 316 / 1 346 | idem por sondeo (targets solo pre-2023) |
 
 ## Supuestos registrados
