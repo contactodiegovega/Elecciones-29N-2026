@@ -1,0 +1,53 @@
+province_code,province_name_interior,province_name_ine,ccaa_code,ccaa_name
+01,Araba/Álava,Araba/Álava,16,País Vasco
+02,Albacete,Albacete,08,Castilla - La Mancha
+03,Alicante/Alacant,Alicante/Alacant,10,Comunitat Valenciana
+04,Almería,Almería,01,Andalucía
+05,Ávila,Ávila,07,Castilla y León
+06,Badajoz,Badajoz,11,Extremadura
+07,"Balears, Illes","Balears, Illes",04,"Balears, Illes"
+08,Barcelona,Barcelona,09,Cataluña
+09,Burgos,Burgos,07,Castilla y León
+10,Cáceres,Cáceres,11,Extremadura
+11,Cádiz,Cádiz,01,Andalucía
+12,Castellón/Castelló,Castellón/Castelló,10,Comunitat Valenciana
+13,Ciudad Real,Ciudad Real,08,Castilla - La Mancha
+14,Córdoba,Córdoba,01,Andalucía
+15,A Coruña,"Coruña, A",12,Galicia
+16,Cuenca,Cuenca,08,Castilla - La Mancha
+17,Girona,Girona,09,Cataluña
+18,Granada,Granada,01,Andalucía
+19,Guadalajara,Guadalajara,08,Castilla - La Mancha
+20,Gipuzkoa,Gipuzkoa,16,País Vasco
+21,Huelva,Huelva,01,Andalucía
+22,Huesca,Huesca,02,Aragón
+23,Jaén,Jaén,01,Andalucía
+24,León,León,07,Castilla y León
+25,Lleida,Lleida,09,Cataluña
+26,La Rioja,"Rioja, La",17,"Rioja, La"
+27,Lugo,Lugo,12,Galicia
+28,Madrid,Madrid,13,"Madrid, Comunidad de"
+29,Málaga,Málaga,01,Andalucía
+30,Murcia,Murcia,14,"Murcia, Región de"
+31,Navarra,Navarra,15,"Navarra, Comunidad Foral de"
+32,Ourense,Ourense,12,Galicia
+33,Asturias,Asturias,03,"Asturias, Principado de"
+34,Palencia,Palencia,07,Castilla y León
+35,Las Palmas,"Palmas, Las",05,Canarias
+36,Pontevedra,Pontevedra,12,Galicia
+37,Salamanca,Salamanca,07,Castilla y León
+38,Santa Cruz de Tenerife,Santa Cruz de Tenerife,05,Canarias
+39,Cantabria,Cantabria,06,Cantabria
+40,Segovia,Segovia,07,Castilla y León
+41,Sevilla,Sevilla,01,Andalucía
+42,Soria,Soria,07,Castilla y León
+43,Tarragona,Tarragona,09,Cataluña
+44,Teruel,Teruel,02,Aragón
+45,Toledo,Toledo,08,Castilla - La Mancha
+46,Valencia/València,Valencia/València,10,Comunitat Valenciana
+47,Valladolid,Valladolid,07,Castilla y León
+48,Bizkaia,Bizkaia,16,País Vasco
+49,Zamora,Zamora,07,Castilla y León
+50,Zaragoza,Zaragoza,02,Aragón
+51,Ceuta,Ceuta,18,Ceuta
+52,Melilla,Melilla,19,Melilla

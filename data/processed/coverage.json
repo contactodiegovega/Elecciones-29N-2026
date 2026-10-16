@@ -1,0 +1,42 @@
+{
+  "elections_n": 16,
+  "election_dates": [
+    "1977-06-15",
+    "1979-03-01",
+    "1982-10-28",
+    "1986-06-22",
+    "1989-10-29",
+    "1993-06-06",
+    "1996-03-03",
+    "2000-03-12",
+    "2004-03-14",
+    "2008-03-09",
+    "2011-11-20",
+    "2015-12-20",
+    "2016-06-26",
+    "2019-04-28",
+    "2019-11-10",
+    "2023-07-23"
+  ],
+  "provinces_n": 52,
+  "results_rows": 92456,
+  "results_cera_rows": 73684,
+  "turnout_rows": 832,
+  "population_rows": 1080,
+  "population_years": [
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "granularity": {
+    "elections": "1 fila por comicio (fecha)",
+    "territories": "1 fila por circunscripción (52)",
+    "candidacies": "1 fila por (elección, etiqueta original); sin fusiones entre elecciones",
+    "election_results": "1 fila por (elección, provincia, candidatura); votos totales + escaños; CERA excluido",
+    "election_results_cera": "desglose exterior, subconjunto de totales; NO sumar con election_results",
+    "election_turnout": "1 fila por (elección, provincia); tasas en % 0-100",
+    "population": "1 fila por (año, nivel geo, sexo); cobertura INE 67988: 2021-2025"
+  }
+}

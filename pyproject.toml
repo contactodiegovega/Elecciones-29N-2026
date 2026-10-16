@@ -1,0 +1,22 @@
+[project]
+name = "observatorio-electoral-2026"
+version = "0.1.0"
+description = "Observatorio Electoral España 2026 — FASE 1: datos oficiales, calidad y EDA"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "pandas>=2.2",
+  "pyarrow>=16",
+  "duckdb>=1.0",
+  "matplotlib>=3.8",
+  "openpyxl>=3.1",
+  "xlrd>=2.0",
+  "requests>=2.31",
+  "pytest>=8.0",
+  "beautifulsoup4>=4.12",
+  "lxml>=5.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

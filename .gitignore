@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# Datos crudos grandes (se conservan localmente, no en git si superan 50 MB)
+data/raw/*
+!data/raw/.gitkeep
+
+# Cachés y temporales
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+*.log
+
+# Secretos
+.env
+*.key
+secrets*.json
+
+# VS Code (opcional, se permite settings locales)
+.vscode/*
+!.vscode/extensions.json
