@@ -30,3 +30,4 @@ secrets*.json
 # VS Code (opcional, se permite settings locales)
 .vscode/*
 !.vscode/extensions.json
+web/next-env.d.ts
