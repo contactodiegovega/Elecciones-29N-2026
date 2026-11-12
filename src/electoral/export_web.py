@@ -121,8 +121,7 @@ def main() -> None:
         "sources": [
             {"name": "Ministerio del Interior (resultados Congreso)", "license": "Uso público oficial"},
             {"name": "INE (tablas 67988/36780/2852/72989/53687/67217)", "license": "CC BY 4.0, citar INE"},
-            {"name": "Wikipedia (compilación de encuestas)", "license": "CC BY-SA 4.0, atribución",
-             "revisions": ["1385097401", "1384685846"]},
+            {"name": "Wikipedia (compilación de encuestas)", "license": "CC BY-SA 4.0, atribución"},
             {"name": "Eurostat GISCO NUTS 2021 (geometría)", "license": "©EuroGeographics, atribución"}],
         "notes": [
             "Sin resultados 29N-2026 (no celebradas).",

@@ -106,12 +106,13 @@ def parse_fieldwork(text: str, default_year: int | None = None):
         d1, mo1, d2, mo2, y = m.groups()
         m1 = MONTHS[mo1[:3].lower()]
         m2 = MONTHS[mo2[:3].lower()]
+        y1 = int(y)
         y2 = int(y)
         cross_year = m2 < m1
         if cross_year:
-            y2 += 1
+            y1 -= 1
             flag = (flag + ";cross_year").strip(";")
-        return (f"{y}-{m1:02d}-{int(d1):02d}",
+        return (f"{y1}-{m1:02d}-{int(d1):02d}",
                 f"{y2}-{m2:02d}-{int(d2):02d}", "day", flag)
     m = re.match(r"^(\d{1,2})\s+([A-Za-z]{3,9})\s+(\d{4})$", t)
     if m:

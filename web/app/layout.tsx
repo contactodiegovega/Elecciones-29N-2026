@@ -3,7 +3,7 @@ import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Observatorio Electoral España — 1977–2023",
+  title: "Observatorio Electoral 29N — España",
   description: "Resultados históricos del Congreso, demografía, encuestas y evaluación retrospectiva de modelos. Sin pronósticos.",
   openGraph: {
     title: "España en las urnas — Observatorio Electoral 1977–2023",
@@ -20,6 +20,7 @@ const NAV = [
   { href: "/territorio", label: "Territorio" },
   { href: "/partidos", label: "Partidos" },
   { href: "/encuestas", label: "Encuestas" },
+  { href: "/campana", label: "Campaña" },
   { href: "/demografia", label: "Demografía" },
   { href: "/laboratorio-ml", label: "Laboratorio ML" },
   { href: "/metodologia", label: "Metodología" },

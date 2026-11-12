@@ -23,7 +23,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]
 PROC = ROOT / "data" / "processed"
 OUT = PROC / "campaign"
-SNAPS = OUT / "snapshots"
+SNAPS = OUT / "snapshots_verified_publication"
 CONFIG = ROOT / "config"
 PRIMARY_TYPE = "estimated_vote"
 NATIONAL_PARTIES = ["PP", "PSOE", "VOX", "SUMAR", "PODEMOS", "ERC", "JUNTS", "PNV",
@@ -82,7 +82,7 @@ def _eligible(polls: pd.DataFrame, as_of: date, poll_type: str = PRIMARY_TYPE) -
     p = polls[(polls["estimate_type"] == poll_type) & polls["fw_end_d"].notna()]
     p = p[p["fw_end_d"] <= as_of]
     # Nunca incluir una publicación conocida posterior al corte.
-    p = p[p["pub_d"].isna() | (p["pub_d"] <= as_of)]
+    p = p[p["pub_d"].notna() & (p["pub_d"] <= as_of)]
     return p
 
 
@@ -115,7 +115,7 @@ def _snapshot(polls: pd.DataFrame, est: pd.DataFrame, as_of: date) -> dict:
         "n_polls": int(len(p)),
         "n_houses": int(latest["pollster"].nunique()),
         "parties": dict(sorted(parties.items(), key=lambda kv: -kv[1]["median"])),
-        "inclusion_basis": "fieldwork_end<=as_of; published_at<=as_of si se conoce; fecha_publicacion_desconocida si falta",
+        "inclusion_basis": "fieldwork_end<=as_of y published_at conocido y <=as_of",
     }
 
 
@@ -188,7 +188,8 @@ def build_campaign(as_of: date, snapshot_start: date) -> dict:
     polls, est = load_measurements()
     dates = [d for d in pd.date_range(snapshot_start, as_of, freq="D").date]
     # Incluye el día de cada nuevo campo dentro del rango, aunque snapshot_start sea posterior.
-    change_dates = sorted({d for d in polls["fw_end_d"].tolist()
+    eligible = _eligible(polls, as_of)
+    change_dates = sorted({d for d in eligible["pub_d"].tolist()
                            if d is not None and snapshot_start <= d <= as_of})
     dates = sorted(set(dates) | set(change_dates) | {as_of})
     snapshots = []
@@ -205,7 +206,7 @@ def build_campaign(as_of: date, snapshot_start: date) -> dict:
 
     change_days = []
     for d in change_dates:
-        g = polls[(polls["estimate_type"] == PRIMARY_TYPE) & (polls["fw_end_d"] == d)]
+        g = eligible[eligible["pub_d"] == d]
         if len(g):
             change_days.append({
                 "date": d.isoformat(),
@@ -213,7 +214,7 @@ def build_campaign(as_of: date, snapshot_start: date) -> dict:
                 "houses": sorted(g["pollster"].dropna().unique().tolist()),
             })
 
-    _cutoffs = [d for d in polls[polls["estimate_type"] == PRIMARY_TYPE]["fw_end_d"].tolist()
+    _cutoffs = [d for d in _eligible(polls, as_of)["fw_end_d"].tolist()
                 if d is not None]
     cutoff = max(_cutoffs) if _cutoffs else None
     known_pub = polls["pub_d"].notna().sum()
@@ -226,8 +227,7 @@ def build_campaign(as_of: date, snapshot_start: date) -> dict:
             f"Última fecha de campo disponible: {cutoff.isoformat()}. "
             "Si no hay nuevas olas, el agregado no se mueve.")
     if known_pub == 0:
-        warnings.append("Todas las publicaciones de la compilación tienen fecha de publicación desconocida; "
-                        "se usa fin de campo como corte y se marca en cada fila.")
+        warnings.append("Las fechas de publicación son desconocidas; estas encuestas se excluyen de los snapshots históricos.")
     warnings.append("Las bandas entre encuestadoras no son intervalos de probabilidad del resultado electoral.")
     warnings.append("Estimación de voto e intención directa se mantienen separadas; este panel usa solo estimated_vote.")
 
@@ -269,6 +269,8 @@ def write_outputs(payload: dict) -> None:
         dest = SNAPS / f"{snap['date']}.json"
         if not dest.exists():
             dest.write_bytes(blob)
+        elif dest.read_bytes() != blob:
+            raise ValueError(f"Snapshot inmutable distinto: {dest}; conservar y revisar")
         manifest.append({"date": snap["date"], "sha256": digest,
                          "file": str(dest.relative_to(ROOT)), "immutable": True})
     (OUT / "snapshot_manifest.json").write_text(

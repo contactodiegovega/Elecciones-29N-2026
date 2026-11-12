@@ -43,10 +43,10 @@ def madrid_now(now: datetime | None = None) -> datetime:
 def _phase(d: date) -> str:
     if d < CAMPAIGN_START:
         return "pre_campaign"
-    if CAMPAIGN_START <= d <= CAMPAIGN_END:
-        return "campaign"
     if MORATORIUM_START <= d <= MORATORIUM_END:
         return "moratorium"
+    if CAMPAIGN_START <= d <= CAMPAIGN_END:
+        return "campaign"
     if d == ELECTION_DATE:
         return "election_day"
     return "post_election"
