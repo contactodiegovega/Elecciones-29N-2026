@@ -1,0 +1,102 @@
+{
+  "version": "2026-11-12.v1",
+  "policy": "No se activa ningún conector sin revisar robots.txt, términos, licencia y formato. Las fuentes no verificadas quedan en revisión manual. No se hace bypass de paywalls, CAPTCHA ni autenticación.",
+  "active_connectors": [],
+  "official": [
+    {
+      "source_id": "boe_convocatoria_29n",
+      "name": "BOE — convocatoria elecciones generales 2026",
+      "url": "https://boe.es/buscar/doc.php?id=BOE-A-2026-20742",
+      "type": "official_calendar",
+      "access": "public_web",
+      "status": "documented",
+      "license": "Reutilización de información pública del sector público (verificar condiciones BOE)",
+      "notes": "Solo para calendario y referencia normativa; no contiene sondeos."
+    },
+    {
+      "source_id": "interior_datos_abiertos",
+      "name": "Ministerio del Interior — datos abiertos electorales",
+      "url": "https://infoelectoral.interior.gob.es/en/elecciones-celebradas/datos-abiertos/",
+      "type": "official_results",
+      "access": "public_download",
+      "status": "documented",
+      "license": "Uso público oficial",
+      "notes": "Resultados oficiales para contraste y validación del simulador; no es fuente de encuestas."
+    },
+    {
+      "source_id": "loreg_69",
+      "name": "LOREG art. 69 — BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1985-11672",
+      "type": "legal",
+      "access": "public_web",
+      "status": "documented",
+      "license": "Texto legal de dominio público",
+      "notes": "Base de la guardia de veda del 24–28 de noviembre."
+    },
+    {
+      "source_id": "cis",
+      "name": "Centro de Investigaciones Sociológicas (CIS)",
+      "url": null,
+      "type": "pollster_primary",
+      "access": "to_verify",
+      "status": "manual_review_required",
+      "license": "Verificar condiciones del repositorio de estudios y microdatos",
+      "notes": "Localizar estudios originales con ficha y microdatos antes de automatizar."
+    }
+  ],
+  "secondary_aggregators": [
+    {
+      "source_id": "ondacero_encuestas",
+      "name": "Onda Cero — encuestas",
+      "url": "https://www.ondacero.es/elecciones/generales/encuestas/",
+      "type": "aggregator",
+      "access": "public_web",
+      "status": "contrast_only",
+      "license": "No sustituye la publicación original; verificar términos",
+      "notes": "Solo búsqueda y contraste; no se copian artículos enteros."
+    },
+    {
+      "source_id": "mapaelectoral_encuestas",
+      "name": "Mapa Electoral — encuestas",
+      "url": "https://mapaelectoral.es/encuestas/",
+      "type": "aggregator",
+      "access": "public_web",
+      "status": "contrast_only",
+      "license": "No sustituye la publicación original; verificar términos",
+      "notes": "Solo búsqueda y contraste."
+    },
+    {
+      "source_id": "politicheck_29n",
+      "name": "PolitiCheck — 29N encuestas",
+      "url": "https://politicheck.es/29n-encuestas",
+      "type": "aggregator",
+      "access": "public_web",
+      "status": "contrast_only",
+      "license": "No sustituye la publicación original; verificar términos",
+      "notes": "Solo búsqueda y contraste."
+    }
+  ],
+  "houses_pending_verification": [
+    {"house": "40dB", "media_hint": "El País / SER", "connector": false},
+    {"house": "Sigma Dos", "media_hint": "El Mundo", "connector": false},
+    {"house": "GAD3", "media_hint": "ABC", "connector": false},
+    {"house": "Sociométrica", "media_hint": "El Español", "connector": false},
+    {"house": "NC Report", "media_hint": "La Razón", "connector": false},
+    {"house": "DYM", "media_hint": "20minutos / Henneo", "connector": false},
+    {"house": "IMOP Insights", "media_hint": "El Confidencial", "connector": false},
+    {"house": "GESOP", "media_hint": "Prensa Ibérica", "connector": false},
+    {"house": "Target Point", "media_hint": "El Debate", "connector": false},
+    {"house": "Celeste-Tel", "media_hint": "El Diario", "connector": false},
+    {"house": "Sondaxe", "media_hint": "La Voz de Galicia", "connector": false},
+    {"house": "Ateneo del Dato", "media_hint": null, "connector": false}
+  ],
+  "ingested_source": {
+    "source_id": "wikipedia_poll_compilation",
+    "name": "Compilación de encuestas de Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2026_Spanish_general_election",
+    "type": "secondary_compilation",
+    "license": "CC BY-SA 4.0 (atribución; no transfiere permisos de fuentes primarias)",
+    "status": "active_read_only",
+    "notes": "Compilación secundaria con revisión y hash. Cada fila conserva URL original de la página y fecha de recuperación; las fichas primarias deben verificarse antes de considerarse definitivas."
+  }
+}

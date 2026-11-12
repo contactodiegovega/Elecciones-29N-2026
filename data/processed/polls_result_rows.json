@@ -15,6 +15,7 @@
       "BNG":1.0,
       "CC":0.4,
       "UPN":null,
+      "Adelante Andalucía":null,
       "Podemos":3.3,
       "SALF":4.6
     },
@@ -36,6 +37,7 @@
       "BNG":0.6,
       "CC":0.5,
       "UPN":0.2,
+      "Adelante Andalucía":0.0,
       "Podemos":null
     },
     "page_id":"wiki2026"
@@ -114,7 +116,7 @@
   {
     "__result_row__":true,
     "firm_raw":"2023 local elections",
-    "section":"Electoral polling \/ Nationwide polling \/ Voting intention estimates \/ 2023 (after Sumar)",
+    "section":"Electoral polling \/ Nationwide polling \/ Voting intention estimates \/ 2023 (with Sumar)",
     "values":{
       "PSOE":28.1,
       "PP":31.5,

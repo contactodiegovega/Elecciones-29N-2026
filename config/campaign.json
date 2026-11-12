@@ -1,0 +1,20 @@
+{
+  "version": "2026-11-12.v1",
+  "timezone": "Europe/Madrid",
+  "election_date": "2026-11-29",
+  "as_of": "2026-11-12",
+  "snapshot_start": "2026-06-01",
+  "primary_poll_type": "estimated_vote",
+  "campaign_start": "2026-11-13",
+  "campaign_end": "2026-11-27",
+  "moratorium_start": "2026-11-24",
+  "moratorium_end": "2026-11-28",
+  "rules": {
+    "aggregate": "mediana y media no ponderadas de la última ola independiente por casa",
+    "one_wave_per_house": true,
+    "exclude_replicas": true,
+    "exclude_tracking_updates_as_independent": true,
+    "exclude_direct_intention_from_estimated_vote": true,
+    "unknown_publication_policy": "incluir solo con fieldwork_end <= as_of y marcar fecha_publicacion_desconocida"
+  }
+}

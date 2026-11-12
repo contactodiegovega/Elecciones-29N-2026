@@ -104,8 +104,15 @@ def parse_fieldwork(text: str, default_year: int | None = None):
     m = re.match(r"^(\d{1,2})\s+([A-Za-z]{3,9})\s*[\u2013\-–]\s*(\d{1,2})\s+([A-Za-z]{3,9})\s+(\d{4})$", t)
     if m:
         d1, mo1, d2, mo2, y = m.groups()
-        return (f"{y}-{MONTHS[mo1[:3].lower()]:02d}-{int(d1):02d}",
-                f"{y}-{MONTHS[mo2[:3].lower()]:02d}-{int(d2):02d}", "day", flag)
+        m1 = MONTHS[mo1[:3].lower()]
+        m2 = MONTHS[mo2[:3].lower()]
+        y2 = int(y)
+        cross_year = m2 < m1
+        if cross_year:
+            y2 += 1
+            flag = (flag + ";cross_year").strip(";")
+        return (f"{y}-{m1:02d}-{int(d1):02d}",
+                f"{y2}-{m2:02d}-{int(d2):02d}", "day", flag)
     m = re.match(r"^(\d{1,2})\s+([A-Za-z]{3,9})\s+(\d{4})$", t)
     if m:
         d, mon, y = m.groups()
@@ -329,13 +336,26 @@ def main() -> None:
         bad_ids = set(polls_df.loc[bad, "poll_id"])
         polls_df = polls_df.loc[~bad].reset_index(drop=True)
         est = [x for x in est if x.get("poll_id") not in bad_ids]
-    # dedup: misma (encuestadora, fin de campo, muestra) -> canonica
-    polls_df["_canon_key"] = (polls_df["pollster"].str.lower().str.strip().fillna("") + "|" +
+    # Exclusión de filas con campo posterior a la fecha de recuperación: no pueden
+    # justificarse como mediciones publicadas y romperían el corte temporal.
+    _retrieved_day = pd.Timestamp(retrieved_at[:10])
+    _fw = pd.to_datetime(polls_df["fieldwork_end"], errors="coerce")
+    future = _fw > _retrieved_day
+    n_future = int(future.sum())
+    if n_future:
+        print(f"[polls] excluidas {n_future} filas con fin de campo posterior a retrieved_at={retrieved_at[:10]}")
+        future_ids = set(polls_df.loc[future, "poll_id"])
+        polls_df = polls_df.loc[~future].reset_index(drop=True)
+        est = [x for x in est if x.get("poll_id") not in future_ids]
+    # dedup: mismo tipo de medición + (encuestadora, fin de campo, muestra) -> canonica.
+    # Estimación de voto e intención directa NUNCA se deduplican entre sí.
+    polls_df["_canon_key"] = (polls_df["estimate_type"].fillna("") + "|" +
+                              polls_df["pollster"].str.lower().str.strip().fillna("") + "|" +
                               polls_df["fieldwork_end"].fillna("") + "|" +
                               polls_df["sample_size"].fillna(-1).astype(str))
     polls_df["canonical_poll_id"] = polls_df["poll_id"]
     for _key, g in polls_df.groupby("_canon_key"):
-        if len(g) > 1 and _key != "||-1":
+        if len(g) > 1 and _key != "|||-1":
             first = g["poll_id"].iloc[0]
             polls_df.loc[g.index, "canonical_poll_id"] = first
             polls_df.loc[g.index[1:], "quality_flag"] = (
