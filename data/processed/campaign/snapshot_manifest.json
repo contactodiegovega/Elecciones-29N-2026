@@ -1,0 +1,995 @@
+{
+  "as_of": "2026-11-12",
+  "snapshots": [
+    {
+      "date": "2026-06-01",
+      "sha256": "07355743c57fd581f293d9f9ddadf7671eedb3fc36c26c4645dfc6b9f1a028be",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-01.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-02",
+      "sha256": "77c75f82ded4b379c6c046239f80aa6f5953c6fb8c3a2bb9914f773143bc556a",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-02.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-03",
+      "sha256": "038a5760db09a80cb9c372aa0870bdce115fe00c2c1dbafafc8c7bdc94fc860e",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-03.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-04",
+      "sha256": "685e5c99fe0c0d637a559552d087337dc89c365c31b715330502f8fa9140f1a2",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-04.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-05",
+      "sha256": "6a162db5b45f4291eac1097cb5e534e379097fed51da223521309093e523deda",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-05.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-06",
+      "sha256": "4a722104ad533d1c8a666a4f36da9980a8b4219e801cff4d1526e123a0fcad27",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-06.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-07",
+      "sha256": "fa470d65ee0989e2d39bd845b9a5df362a90f11f6a109fd63fce350741d7c1a3",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-07.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-08",
+      "sha256": "45a306a7df80121b6dbb432d063fd0fa3148f4a4b21d84ced93524a9e2637f5c",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-08.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-09",
+      "sha256": "5391598ff69c18e9d74d7de580bfde9bc7210bf06a3a439ab9e68fd8758414a5",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-09.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-10",
+      "sha256": "05637168336e685b1a8eec688ca53afcc5b18f1d03e4b05944cabbd06209a0c8",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-10.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-11",
+      "sha256": "afd792c562f28c6ca1a9dc401e817aefc48d5827f18f9059a2fa19d08032e053",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-11.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-12",
+      "sha256": "4d9d3cb8c4d8b5c593c18678bd380325a08113a8b5426b5bbb1af6d00ebda847",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-12.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-13",
+      "sha256": "26437fd3d33011d69a3273f3f14b9a5a66c6680bd9e4326875ed0a2f05c09446",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-13.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-14",
+      "sha256": "cc186db156f0996011116b9b10de2e48158041576ba59d9f46103f534189a85f",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-14.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-15",
+      "sha256": "d82977b9df308b3fef1f7db014e8998b4d1d7e1ade81513e00ff068ac0f8a0d0",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-15.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-16",
+      "sha256": "49c40b1e2403efbdad9931e96ec69bfa87b01d0cc9c5888fa2a25d9efb627053",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-16.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-17",
+      "sha256": "e2af5c3ab5c46c10ae865ecc233e020583b54d45f9311814718458859ecb557b",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-17.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-18",
+      "sha256": "1b3b6ff86679fe327bfdceee9d0844c518bb74534e1a9e05b936c1dfb988216b",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-18.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-19",
+      "sha256": "6b9c5b497fc5fd756e04ffd45565cbdd43b0f5c6f4407b52fcef5d6f99e934d5",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-19.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-20",
+      "sha256": "97bfb09e8b8b6dd1c30a58c4a62c2a169ff20fd0d013e7a86fbe2b299e7679af",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-20.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-21",
+      "sha256": "03e145be29c83883039e8aeb68997c76ab92a5f780bd03626bd9ae6b41ac7c15",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-21.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-22",
+      "sha256": "abe18e320202d71228a6a26b89ca506eb5558d9122ac6f73ef0c5c14aad1205a",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-22.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-23",
+      "sha256": "a6fc3c490a9531a38188364b7f87c7f6dfdd879f0957864bb541c59b2596bc90",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-23.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-24",
+      "sha256": "60bdaf674e4bd1eda675d1d6c6f49ec2b5c6032db33fd6cefec0b8e4528cb2fe",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-24.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-25",
+      "sha256": "aab898e8eac47e318b57eab53d0edefc2000d7f6e915b284cd4bb201208a1651",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-25.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-26",
+      "sha256": "5221d360e7f91ebaef1aabb7507530f471d1ef217b5d84cac7b9adc4ca24820e",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-26.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-27",
+      "sha256": "c4ee76ec33998659d5461031e056070e129aedd52c962dfb64eaf32d11272e17",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-27.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-28",
+      "sha256": "9317546dc8ddbab9a3697e51769594b719256eaef950c6941f2e204f795fc782",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-28.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-29",
+      "sha256": "4b73015f7810677601431cf03c1a3a700228df93e90b132f5ffa7836b4b9d851",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-29.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-06-30",
+      "sha256": "3706c30d09a0e709e37f41b0399b18dd7f710d7ae260b2054d5c57e91bfc0041",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-06-30.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-01",
+      "sha256": "808551efa21eb159cd6750f514157d6af24c8f990254c14c7ded10bfcef46b8d",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-01.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-02",
+      "sha256": "ece5895b850e1e5ec19be06305e55cdd355c607440af7357d818b7ef2dcfe774",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-02.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-03",
+      "sha256": "03490d8ddd97109c5ca2529f420fa32a45c52c800e93a9b955595ce2cce23518",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-03.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-04",
+      "sha256": "e6d833f27a66c0b250170e47f0982f6bedcef5833dd332886a1a8eedbdee9bcb",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-04.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-05",
+      "sha256": "a4d65b36e9d9294e9c6e294b73d2a18c9bfaba0fc5393fb5886563f0ae0d1729",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-05.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-06",
+      "sha256": "73be073af08a3117b4029c27fc209bbf93f78f63427914bb0a504f1caa5c8af2",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-06.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-07",
+      "sha256": "23cde48fb92bb2d2b0203b0f1ab41f6b4063c598ba84130a5e8719b61b2c5381",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-07.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-08",
+      "sha256": "7204311ba1eb4007bc85b55d706bbf3b4a3412403a67817bc906a4602576a147",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-08.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-09",
+      "sha256": "f4e1c1804501a5cd18118b398647092a4c6ef0ba04c1398aa92f4a1ed1ff3b86",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-09.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-10",
+      "sha256": "6ff611ce35f93e9d57cdb7135a009fbb4115bf99d70b32dfab3364d1b3f4623b",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-10.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-11",
+      "sha256": "1c90938181fd0b8fb85cb0161752cbb8dac0a8478608bd894ffcfe5bc598e685",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-11.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-12",
+      "sha256": "f6d3ceefea5febfd2641b9ccbbeddba248b81d2d3f9b116be497f9094452c165",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-12.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-13",
+      "sha256": "f51f0c4ee10df6a9d1b02fc03c304218d723afda189b06e19bc38edddf63308d",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-13.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-14",
+      "sha256": "dacc5807c727098e692a56e26e9db2994d598a16793413b756a2dd8ec8e8b878",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-14.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-15",
+      "sha256": "f12bdbc666bbf9113f0063f14f5d885db2163aa9e7553a96645076f3c89fcb4f",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-15.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-16",
+      "sha256": "41d20f19df02f46bf5e40ad393a0de503bec561d073e8fc6599ae97d8945e225",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-16.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-17",
+      "sha256": "f8838e1cdf888606b66baeace454335c61c6fa8cbf7261e9671dfca3138a8bfa",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-17.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-18",
+      "sha256": "436c5945989ddb71b35bf5cd50c1fa53b6390a0b05cf49f25d716082fed5e922",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-18.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-19",
+      "sha256": "26acd99171110e6b73901a508d1dda2db5082f36cf42b1ebbb88d5d24a39a80c",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-19.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-20",
+      "sha256": "ad1240f6f2b87501e9db4b1045c4a0c7c2e0d4fd6c96e0598c61f839afba6b82",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-20.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-21",
+      "sha256": "77ebbaa0de46b22aed1615eb32128c3c9050f4e374114727558fa710ce59a22b",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-21.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-22",
+      "sha256": "8cc950287c46da822de90f19b54a00128bc626880c280b0165d590f6937ea8d6",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-22.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-23",
+      "sha256": "20c8a875cfadd66a07fd12702fd5ce90aecde059e5bd47ff397b76026fe29344",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-23.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-24",
+      "sha256": "e20048c0961c4b846544d5579e121990d123c6742f2e6c75ee57f6fc3d3d8dc2",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-24.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-25",
+      "sha256": "35318642db56db8df30cbc97be8530ad1f96bac27a1d063674cc70572bfd2a60",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-25.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-26",
+      "sha256": "b119623b01e754b8f9e3574b2abaafabd38061d29f1b48d792112d98651b0870",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-26.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-27",
+      "sha256": "22f98f685e8705de9129e78e53077ae395c2eaa49ee5e294a38b2c999c22894b",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-27.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-28",
+      "sha256": "42ec6b5f6133e3cf97689b140a4dc3d96b72e5cfd06279ab7ec37ad10c6088c2",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-28.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-29",
+      "sha256": "b9342eeb41fef01f702aca94bcbeaa5d675deb6bd6a6a0f3e84f6b8c7a8f9a82",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-29.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-30",
+      "sha256": "d03cafe97d9945caf534502e89de0815cae0d8b24fa4499e0dc4757ada3b624f",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-30.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-07-31",
+      "sha256": "05efd33d7b11648be434b132facb7cb9da70c9e29cd3db7886daa566c87a094d",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-07-31.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-01",
+      "sha256": "afea9a2971dd2407d1a3652b91d15335590f8bc894d4949f45306aa49a20a955",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-01.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-02",
+      "sha256": "d02bd24bfd1d5d0a326a8c0801f711bcd2809746c7a5d5cab06a9fab199ef8a6",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-02.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-03",
+      "sha256": "043aa640f9ae3afd674c2073b9e085d1d020709948a7694de09e040ca39cb085",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-03.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-04",
+      "sha256": "1827e8df8e27e35b6b746d8e574ac319ee1b4820fd42d2317804bb9bd96f86bf",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-04.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-05",
+      "sha256": "e22212dfb448362ae057ffbfc019a7830221cf96b63790d6fc9035f176eaf528",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-05.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-06",
+      "sha256": "b9d33f7ae4f1d506606503f68a710c6da55b6d8c19113a7f9d01dcf20baffdef",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-06.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-07",
+      "sha256": "afac322540684d390b489ae96bd192b59d39b9947ada5ca07619974501758d4f",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-07.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-08",
+      "sha256": "e96a98a7d78b55ed480c9925fdfcaf89169707f35ca207ed85cdca5031842492",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-08.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-09",
+      "sha256": "bb82198889add9916878f40b0778565c347e6885d2f99d7a18193e9d226d4740",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-09.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-10",
+      "sha256": "726411f8ee08522e3e642a7301c12b7f57bb621cf2b50e612917c9c45e21ec94",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-10.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-11",
+      "sha256": "6c8d361b4b6b350e1f73c6117cf93359c799a1ae69f4c1061613729d5784eebc",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-11.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-12",
+      "sha256": "c9639f8b60f46aaf88080bc9bc37357a4c7da44adc26c70b6a807ccb51f0854a",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-12.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-13",
+      "sha256": "56d778e1101b5f8f447a4cc66599196b69db1c14637fc20c9de2ffdba30b75f8",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-13.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-14",
+      "sha256": "6f557b3967bdfb7287ba09de8f9ba68972fa3fb35cd660f42a093ec16b740adc",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-14.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-15",
+      "sha256": "c43a2e2cb0d4811e4a722cc23263ee87b6d8dc3ca5dc11b0925b05de5ea8a1cd",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-15.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-16",
+      "sha256": "766d4175bfe8ee16c6704ee15eb7fd51cf0eeb52fe990ed868459382a5396ebc",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-16.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-17",
+      "sha256": "924f3d8f25db7a8ce25f69fbc10fc7933c7c477e9ab612bb7314a436faeb0f10",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-17.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-18",
+      "sha256": "dc702f863c17af6fb8a0fa4f40360e88d2734ab002ee7f99cfc04b94822d793f",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-18.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-19",
+      "sha256": "5aa99f28a84666053256cb9517e5de94ec2e78d42a756cd2dcec4be746994a49",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-19.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-20",
+      "sha256": "102b18ce9dd2b51b287970562693b177c0c418d927cbeeb71dc7b1fbdab9c2c9",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-20.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-21",
+      "sha256": "0d39a774f98a9ed354c338fc7eba997f93faa6e5de14c06661943b143648bbad",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-21.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-22",
+      "sha256": "62bb2cfbb4e18eb048edf7a94f6aa1992f682333e1567c25df4039d6b2d3c733",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-22.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-23",
+      "sha256": "76adbb70a4f6d37c3317a3a16be110d34af58bdf734902d41a0d33de16afddd0",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-23.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-24",
+      "sha256": "9e7c18fc58f9775fa1db5c2269fcd543968f7ea3267faa62afea1a5587778555",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-24.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-25",
+      "sha256": "9cc12260cbfa669a13a80deb51fa48ec4126bc905fd631a43fc52d0be59d2236",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-25.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-26",
+      "sha256": "c5f03f8d8c16d7f089c31da12650d35423828f8634efa8171a04a99e0c96999a",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-26.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-27",
+      "sha256": "e1ca6c57c946a8bc9d54119d51974ed308ce1a936a2f3290330dbf1ba0931ccd",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-27.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-28",
+      "sha256": "420d12953d955890e13054e44365f50f2eb2c7221ddbce91841a3e354a1da8d2",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-28.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-29",
+      "sha256": "12b317e016edfc70498f856110f55be5a21f9b7ccc309edc32e393564fcf787b",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-29.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-30",
+      "sha256": "f0f919b7668a27e47445494251688a9ffe321a182b897be874e675a28d201088",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-30.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-08-31",
+      "sha256": "bacae01ee6b0a9b32565e5982dae087432d97c31ec65dc99f04418132fc7889e",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-08-31.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-01",
+      "sha256": "e3c55dd39a6cc042bdbee7ca69fa4e83e03c2f62d96f902782af11c9a409e8a9",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-01.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-02",
+      "sha256": "3c392dd2bff22cc53ebfad8ae084b5dcabf1c211097b1db554090b1b4374cca5",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-02.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-03",
+      "sha256": "2d0d98931b378cfef2ad9e83e1451a46c35b32eb2077247c8833fee804feacf6",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-03.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-04",
+      "sha256": "f5f857004a37b4c40820223fb95002927e79e9147531715cee0d725317ef347f",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-04.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-05",
+      "sha256": "b7b85792a73e3e6fdb2cfb45dd1efc05dbd3a3d62ba295c789dbac9e61d0eacd",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-05.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-06",
+      "sha256": "24cb6f3c2b8e97d3033b1e41b0932e6a419e51a332bfd844e961efd5773e0807",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-06.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-07",
+      "sha256": "60b2d2414b786a6fea9b7afed8b2a662f37dca62430fb3c2adcd4dac5ad8fee8",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-07.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-08",
+      "sha256": "d637a9f2a5f0fb4b3a6b697125ba7420086a77320108cde245990c0419008a6c",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-08.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-09",
+      "sha256": "f8a78bdda085cf6717c1681ea2438002f2f01dc29eabab52f14cfd820d10d432",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-09.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-10",
+      "sha256": "ed818095409a427ad5dc694b403778ab76a8721543aa1f1d6497d270bd8ffb0c",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-10.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-11",
+      "sha256": "9f64e4208c4d19c7353475c12126a7428efdd7b59fe3c953859a8b596d321444",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-11.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-12",
+      "sha256": "b4f9ca5c68bc6b3b0bfb6b615e527359fa5debb3b900b2fc1182da963c288566",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-12.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-13",
+      "sha256": "cdab932c4efe136f70bf3f83ad4d6267af03aa1abf70507aad3d665e4e045f1c",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-13.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-14",
+      "sha256": "d4e8d0f504c6f3d805b5edb50f764ae4e44d0f3020455dc4440741e33f6adf60",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-14.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-15",
+      "sha256": "c3e78cb07320340d4a466c55cbfd01f816cadf946e10e20c16d01961dbd9a179",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-15.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-16",
+      "sha256": "9a7ab3555619597a843c7c7f5b8c85580efb138cb17c9407f319b8f2124937fb",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-16.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-17",
+      "sha256": "15622c63e1b92f45ce73b5e59c05f9f2a1b8ccfe8f3862a0df4c3004a0bc9558",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-17.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-18",
+      "sha256": "646c75687eb63d031374dd21d6beb9d285517caa8edde70d444dcf5f076d6879",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-18.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-19",
+      "sha256": "3b481857d7eea56239389e413241fc9742217af06e08526c1a5f9696f5c8900d",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-19.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-20",
+      "sha256": "02ec7281ed12e3a2322f47cc5abb1be0ef8d05e6efd70ca7f4592198db2c971a",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-20.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-21",
+      "sha256": "88eb868fca36738f2ee8a9b911241edb5c80ecad1e6ff24eeaa6dfa7c09237a5",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-21.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-22",
+      "sha256": "13b0f365b4f766edaa7737c45173f293926c2bfafeee92e9f031f9c2c09f3e2e",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-22.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-23",
+      "sha256": "b40c1fe4f85a51fddd616d9aa6b3c1903867a1a15be6043a66e03c8fa2fde8da",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-23.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-24",
+      "sha256": "262b97b59bedcd02df2804050fdc7d9fcab18d3c3546747d551ee0995932006d",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-24.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-25",
+      "sha256": "9a25390969ce54c35ba050c2e0c40647ed5e156157acd8bdf2f261e76ab090ab",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-25.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-26",
+      "sha256": "4e3ce1ef06e22aabaf6d97d29ea9ea9c4f2c37b714e879822b1681b2438e2be7",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-26.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-27",
+      "sha256": "dfb638ba1cc1b0730f7417683e1ac90b2bef7e50315a90b7eeb59665f139ee97",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-27.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-28",
+      "sha256": "e79c92dc5efdf83c88aab3d68cedc6e3adb7010f5475614c5352ba75ebb20183",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-28.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-29",
+      "sha256": "4126f1b35d6fc9216f052f9c7d31125413dd8855ffd0560258d11894aa15c9ec",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-29.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-09-30",
+      "sha256": "abad63e16a45a750f19d33f115da1be210c03ce758159a1fde7b279988fac2ab",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-09-30.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-01",
+      "sha256": "08f4ac9b89e4faaae929e1735b7e70c1cf61293bf30d0ade245835d085af055b",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-01.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-02",
+      "sha256": "001682b7e75ec37a2d06edca7fae82e8958548aa7fd3cd2462363358eb082d8c",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-02.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-03",
+      "sha256": "c71f82b9f50dcd824740a17d7e4db55e25f3c05db6e0bd61aae7d161b4339bb1",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-03.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-04",
+      "sha256": "72251ac5e01d127a771108ab260fbb5506f75e97bbcce1e68e76316214c05db0",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-04.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-05",
+      "sha256": "c5e55a755955292081752bac8a3e2e3d5ea9fa4f2ab3761494f607f55013dbf7",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-05.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-06",
+      "sha256": "e91e0cae43a4a0550aeb5e44157763e78857800a623271111e8e9d72c0ea27e0",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-06.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-07",
+      "sha256": "7ce2b8830493f12db752e6405c25ede1ea427f897a12b577592daf1e5610c593",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-07.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-08",
+      "sha256": "3c5ec6c7d7143847821eed96c45753083216051b99963929ffa91b20ed44a389",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-08.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-09",
+      "sha256": "0e3d63bc27278c3697554ea07010127e8dd40ca26a8f1544ca10989da910b41f",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-09.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-10",
+      "sha256": "e0884b60b3fe540b15b1a6169809f763b9dfac31e6ad49dad47a52352aa6623b",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-10.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-11",
+      "sha256": "9a5ad446d662812cf188e8f49b5fad00729afd879f785336bf5f4e7a83fc795a",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-11.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-12",
+      "sha256": "78cf30088c1f47e2f39331203facf5aaa2091c5daa210f1b932c7884113695b2",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-12.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-13",
+      "sha256": "b83a890f9d5ca17483fa6a9d0448212ffe56b562d11bf4e1da57817f9b04c387",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-13.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-14",
+      "sha256": "cfa771d07c6d862c36c3fa219c90d54657e9598609003cf67494fca1f45ffd8d",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-14.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-15",
+      "sha256": "383b42014adf346f480a4a7383d24b7f23675831cfec94b930bd8f0c281ef6b9",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-15.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-16",
+      "sha256": "5e8c34ca34f00ed406548c419d4cdce9f9b2de25c62469b63703785199743af3",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-16.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-17",
+      "sha256": "25917e7b5fb786eb63cecb922bc2525c84cfc3e5c48fea2f6d9944ab39fe83d6",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-17.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-18",
+      "sha256": "d80d688b526d748b473f6ddd502c8d38b67d933e0c148ef45e725648c4ff1793",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-18.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-19",
+      "sha256": "7e44d4a6d75e816318730e74450e6c9f1e947159abfd69883541fd4716cc16b8",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-19.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-20",
+      "sha256": "553478f2d8bbcbbcffa363266608082f0a4f09b3ad66a9dee4a72237f0c9440a",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-20.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-21",
+      "sha256": "a3b03d298560eadc5e1ea9313f66e513e9bbdf80e2324c002490a1cabbefb3ed",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-21.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-22",
+      "sha256": "d42cb22916fadaa464621952c2c3586f4e353b3f9f181060dc780087fc8e9507",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-22.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-23",
+      "sha256": "4f8a9474c24533bb994fc32c9b92ea218b2ce5ee23aaa5e60a260b33d34205d7",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-23.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-24",
+      "sha256": "c42a9d8164acc50cda42b53a7032a360add7d395fa8be26556c56973368c08c8",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-24.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-25",
+      "sha256": "ba36b5ae6e8e6a1b9225795458f8d60c7da08cf6e7754b604d1d97c6a4392e24",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-25.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-26",
+      "sha256": "3d90d1ce9127e2ece79669e5a917cd127ee87ec31111444825fe7a06413cfa66",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-26.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-27",
+      "sha256": "a47a6fc369024360132c8461a651bb6950612c1f183fe0502787dbb0584dd169",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-27.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-28",
+      "sha256": "c7cd29c890cd5b74ea13ce6de1bcb6c10c56ca0b0b236f94ae818e00c3b7662f",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-28.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-29",
+      "sha256": "1d68e4b91c9d1abe4216121ff0414651c7998849323f2c1a95b3eed1d35eaebf",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-29.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-30",
+      "sha256": "71f8954188d21e5e2c16f86faea1ce14a36ef33e5cc499bdff61f01fdcf369c1",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-30.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-10-31",
+      "sha256": "a35425a1260dde73290225ad6e78b2fb61779cd426b44a62db21e1ff2273b52f",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-10-31.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-11-01",
+      "sha256": "8a7770e3382e79698a80e4ef8b7292a09876f3700018d113ee1bb5dfaf215a01",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-11-01.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-11-02",
+      "sha256": "3fe5cd2e84765ec67594e64dbc68e134fbd6280f89bbe659c5438d2833c56832",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-11-02.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-11-03",
+      "sha256": "8e8803ad7de241fde62568ba67e1a077f8b25d793864a8d9f0ca5b60de78a09f",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-11-03.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-11-04",
+      "sha256": "3e1dcb2da1adfdb62c419e2c163b040d72de7fefa1328b8ae8169c5c82ee8708",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-11-04.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-11-05",
+      "sha256": "c6145deb3412bc0b949cdcc9e822d60ca0c246cc9f19361280ad761403fb523d",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-11-05.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-11-06",
+      "sha256": "16e240e1e879dc869eaa46b1dbaba067a41e6ca337c38f516d25d8fb1be29758",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-11-06.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-11-07",
+      "sha256": "0d1b231c7ae191c27b55311a5b9fe96a042d78b8e6433c584a5ec36bd95f023d",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-11-07.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-11-08",
+      "sha256": "765c5942a833acc80d82f366ab3ad0a2b2c1a29fa4cdb35468549113c334e36c",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-11-08.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-11-09",
+      "sha256": "8f60bbbe4e6184516fcd47e3980d331e07e53ce3857c7952f01fa26acab85ce1",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-11-09.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-11-10",
+      "sha256": "6d22ead8b22ab9f9d825b99b8a7a71748f89c322dacadd7cdb49665b0726d76f",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-11-10.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-11-11",
+      "sha256": "8b0b9f0bacfce33e571d3fe273b1fde17d67f7a27b4ef9e787ff228f0f261ee3",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-11-11.json",
+      "immutable": true
+    },
+    {
+      "date": "2026-11-12",
+      "sha256": "4d10de190c3ca0c0d496cf70b714f135b27904e4dcbdce647ac15c5af6e2341b",
+      "file": "data\\processed\\campaign\\snapshots_verified_publication\\2026-11-12.json",
+      "immutable": true
+    }
+  ]
+}

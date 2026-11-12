@@ -1,0 +1,8 @@
+{
+  "date": "2026-06-22",
+  "n_polls": 0,
+  "n_houses": 0,
+  "parties": {},
+  "inclusion_basis": "fieldwork_end<=as_of y published_at conocido y <=as_of",
+  "deltas": {}
+}

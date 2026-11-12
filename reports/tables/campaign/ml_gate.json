@@ -1,0 +1,35 @@
+{
+  "generated_at": "2026-11-12T11:19:42.077868+00:00",
+  "poll_correction": {
+    "labeled_elections": 1,
+    "labeled_rows": 1346,
+    "minimum_elections_required": 3,
+    "verdict": "NO-GO",
+    "reason": "Solo hay una elección general con encuestas etiquetadas (2023). No es posible una validación totalmente fuera de muestra de un corrector."
+  },
+  "turnout_projection": {
+    "baseline_best": "mean3",
+    "baseline_best_macro_mae_pp": 3.563,
+    "mean3_macro_mae_pp": 3.563,
+    "phase4_best": "hgbr_full",
+    "phase4_best_macro_mae_pp": 3.682,
+    "verdict": "NO-GO",
+    "reason": "El baseline simple sigue ganando; ningún modelo complejo demuestra superioridad consistente fuera de muestra."
+  },
+  "party_projection_2026": {
+    "verdict": "NO-GO",
+    "reason": "No existen resultados de 2026 para validar; el histórico por partido no permite una proyección provincial calibrada. Se mantiene el agregado descriptivo y el simulador hipotético."
+  },
+  "public_projection_allowed": false,
+  "allowed_products": [
+    "agregado descriptivo de encuestas",
+    "simulador hipotético de escenarios",
+    "backtesting retrospectivo",
+    "metodología y límites"
+  ],
+  "forbidden_products": [
+    "pronóstico de ganador",
+    "probabilidad calibrada de victoria",
+    "proyección provincial presentada como resultado esperado"
+  ]
+}

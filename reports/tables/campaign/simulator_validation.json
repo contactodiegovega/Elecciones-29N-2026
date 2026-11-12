@@ -1,0 +1,8 @@
+{
+  "election": "2023-07-23",
+  "method": "D'Hondt por provincia con candidaturas originales; umbral 3 % de votos válidos",
+  "seats_allocated": 350,
+  "seats_expected": 350,
+  "mismatches": [],
+  "ok": true
+}

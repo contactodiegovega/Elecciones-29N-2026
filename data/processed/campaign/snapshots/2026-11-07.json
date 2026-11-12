@@ -1,0 +1,122 @@
+{
+  "date": "2026-11-07",
+  "n_polls": 1051,
+  "n_houses": 36,
+  "parties": {
+    "PP": {
+      "n_houses": 36,
+      "median": 31.85,
+      "mean": 31.503,
+      "min": 28.0,
+      "max": 35.3
+    },
+    "PSOE": {
+      "n_houses": 36,
+      "median": 27.15,
+      "mean": 27.256,
+      "min": 23.8,
+      "max": 31.0
+    },
+    "VOX": {
+      "n_houses": 36,
+      "median": 18.6,
+      "mean": 17.4,
+      "min": 10.5,
+      "max": 20.8
+    },
+    "SUMAR": {
+      "n_houses": 16,
+      "median": 7.5,
+      "mean": 9.569,
+      "min": 6.1,
+      "max": 16.1
+    },
+    "ERC": {
+      "n_houses": 25,
+      "median": 2.0,
+      "mean": 2.068,
+      "min": 1.2,
+      "max": 3.7
+    },
+    "PODEMOS": {
+      "n_houses": 24,
+      "median": 2.0,
+      "mean": 2.388,
+      "min": 0.4,
+      "max": 5.1
+    },
+    "JUNTS": {
+      "n_houses": 25,
+      "median": 1.5,
+      "mean": 1.504,
+      "min": 0.9,
+      "max": 2.3
+    },
+    "BILDU": {
+      "n_houses": 23,
+      "median": 1.3,
+      "mean": 1.243,
+      "min": 0.7,
+      "max": 1.9
+    },
+    "PNV": {
+      "n_houses": 23,
+      "median": 1.0,
+      "mean": 1.052,
+      "min": 0.7,
+      "max": 1.7
+    },
+    "CS": {
+      "n_houses": 2,
+      "median": 0.9,
+      "mean": 0.9,
+      "min": 0.7,
+      "max": 1.1
+    },
+    "BNG": {
+      "n_houses": 19,
+      "median": 0.7,
+      "mean": 0.663,
+      "min": 0.4,
+      "max": 1.0
+    },
+    "CUP": {
+      "n_houses": 5,
+      "median": 0.7,
+      "mean": 0.7,
+      "min": 0.3,
+      "max": 1.0
+    },
+    "CC": {
+      "n_houses": 16,
+      "median": 0.5,
+      "mean": 0.85,
+      "min": 0.3,
+      "max": 2.3
+    },
+    "UPN": {
+      "n_houses": 4,
+      "median": 0.2,
+      "mean": 0.2,
+      "min": 0.0,
+      "max": 0.4
+    }
+  },
+  "inclusion_basis": "fieldwork_end<=as_of; published_at<=as_of si se conoce; fecha_publicacion_desconocida si falta",
+  "deltas": {
+    "PP": 0.0,
+    "PSOE": 0.0,
+    "VOX": 0.0,
+    "SUMAR": 0.0,
+    "ERC": 0.0,
+    "PODEMOS": 0.0,
+    "JUNTS": 0.0,
+    "BILDU": 0.0,
+    "PNV": 0.0,
+    "CS": 0.0,
+    "BNG": 0.0,
+    "CUP": 0.0,
+    "CC": 0.0,
+    "UPN": 0.0
+  }
+}
