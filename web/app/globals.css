@@ -2,7 +2,68 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 :focus-visible {
   outline: 2px solid #0f766e;
   outline-offset: 2px;
+}
+
+body {
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+
+.font-serif {
+  font-variant-numeric: lining-nums;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+thead th {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #57534e;
+}
+
+tbody tr:hover {
+  background-color: #faf9f6;
+}
+
+input[type="range"] {
+  accent-color: #0f766e;
+}
+
+input[type="checkbox"] {
+  accent-color: #0f766e;
+}
+
+/* Marco de gráficos: evita saltos de altura mientras ECharts monta */
+.chart-frame {
+  min-height: 200px;
+}
+
+@media print {
+  header,
+  footer,
+  button,
+  nav {
+    display: none !important;
+  }
+  main {
+    max-width: none !important;
+  }
 }

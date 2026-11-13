@@ -321,6 +321,27 @@ def norm_name(s: str) -> str:
     return " ".join(t.replace("/", " ").replace(",", " ").split())
 
 
+def _multipolygon(geoms):
+    """Aplana Polygon/MultiPolygon (incl. GeometryCollection) a un MultiPolygon.
+
+    ECharts no admite GeometryCollection: las islas de Baleares y Canarias se
+    exportaban así y rompían registerMap. Un MultiPolygon es equivalente y válido.
+    """
+    polygons = []
+    for geo in geoms:
+        if not geo:
+            continue
+        kind = geo.get("type")
+        coords = geo.get("coordinates") or []
+        if kind == "Polygon":
+            polygons.append(coords)
+        elif kind == "MultiPolygon":
+            polygons.extend(coords)
+        elif kind == "GeometryCollection":
+            polygons.extend(_multipolygon(geo.get("geometries") or [])["coordinates"])
+    return {"type": "MultiPolygon", "coordinates": polygons}
+
+
 def fetch_geo():
     import json as js
     import pandas as pd
@@ -372,8 +393,7 @@ def fetch_geo():
                           "verificado 59 NUTS3 -> 52 provincias"),
            "features": [{"type": "Feature",
                          "properties": {"province_code": c},
-                         "geometry": g[0] if len(g) == 1 else {"type": "GeometryCollection",
-                                                               "geometries": g}}
+                         "geometry": _multipolygon(g)}
                         for c, g in sorted(by_prov.items())]}
     dest.write_text(js.dumps(out, ensure_ascii=False, separators=(",", ":")),
                     encoding="utf-8")

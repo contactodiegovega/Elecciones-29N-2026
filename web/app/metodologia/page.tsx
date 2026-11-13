@@ -1,53 +1,156 @@
-import { Provenance, SectionTitle } from "@/components/ui";
+import Link from "next/link";
+import { Card, Provenance, SectionTitle, Tag } from "@/components/ui";
 
 export default function Metodologia() {
   return (
-    <div>
-      <SectionTitle kicker="Transparencia" title="Metodología y reproducibilidad"
-        desc="Cómo se construyó este observatorio, qué mide cada cifra y qué no afirma." />
-      <div className="space-y-4 text-sm leading-relaxed text-stone-700">
-        <section className="rounded-lg border border-line bg-white p-4">
-          <h2 className="font-serif text-xl text-ink">Fuentes</h2>
-          <ul className="mt-2 list-disc space-y-1 pl-5">
-            <li><strong>Ministerio del Interior</strong> (resultados Congreso 1977–2023, uso público oficial).</li>
-            <li><strong>INE</strong>, tablas 67988/36780/2852/72989/53687/67217 — <strong>CC BY 4.0, citando al INE</strong>.</li>
-            <li><strong>Compilación de encuestas (Wikipedia)</strong> — <strong>CC BY-SA 4.0 con atribución</strong> (revs 1380368158/1375363334); no transfiere permisos de las fuentes primarias.</li>
-            <li><strong>Eurostat GISCO NUTS 2021</strong> (geometría, ©EuroGeographics, con atribución; islas agregadas a provincia).</li>
+    <div className="space-y-6">
+      <SectionTitle
+        kicker="Transparencia"
+        title="Metodología y reproducibilidad"
+        desc="Cómo se construyó el observatorio, qué mide cada cifra, qué no afirma y cómo se reproduce. Todo dato publicado procede de un artefacto versionado; ningún hueco se rellena a ojo."
+        sources={["Datos abiertos", "Pipeline por fases", "Tests automáticos"]}
+      />
+
+      <div className="grid gap-4 lg:grid-cols-3">
+        <Card title="Fuentes y licencias">
+          <ul className="space-y-3 text-sm leading-relaxed text-stone-700">
+            <li>
+              <strong>Ministerio del Interior.</strong> Resultados de elecciones al Congreso 1977–2023,
+              uso público oficial. Base de votos, escaños, censo y participación.
+            </li>
+            <li>
+              <strong>INE.</strong> Padrón, EPA, proyecciones y ADRH. Licencia <strong>CC BY 4.0</strong>,
+              citando al INE. Tablas 36780, 67988, 2852, 72989, 53687 y 67217.
+            </li>
+            <li>
+              <strong>Compilación de encuestas (Wikipedia).</strong> <strong>CC BY-SA 4.0</strong> con atribución
+              (revisiones 1380368158 y 1375363334). No transfiere permisos de las fuentes primarias.
+            </li>
+            <li>
+              <strong>Eurostat GISCO NUTS 2021.</strong> Geometría provincial, © EuroGeographics.
+              Las islas se agregan a su provincia.
+            </li>
+            <li>
+              <strong>BOE y LOREG.</strong> Calendario electoral y artículo 69.7 sobre la veda de sondeos.
+            </li>
           </ul>
-        </section>
-        <section className="rounded-lg border border-line bg-white p-4">
-          <h2 className="font-serif text-xl text-ink">Definiciones (unidades separadas)</h2>
-          <ul className="mt-2 list-disc space-y-1 pl-5">
-            <li><strong>Cuota de voto (%):</strong> votos / votos a candidaturas del mismo ámbito.</li>
-            <li><strong>Cambios</strong> en <strong>puntos porcentuales (pp)</strong>, nunca en %.</li>
-            <li><strong>Participación:</strong> votantes / electores. <strong>Censo ≠ padrón ≠ votantes ≠ habitantes.</strong></li>
-            <li><strong>Renta ADRH:</strong> % por fuente de ingreso (no per cápita). <strong>EPA:</strong> encuesta (no paro registrado).</li>
-            <li><strong>Estimación de voto ≠ intención directa</strong>: universos distintos, jamás promediados.</li>
-            <li><strong>Vintage:</strong> referencia utilizable porque se publicó antes del corte; nulos justificados, sin forward-fill.</li>
+        </Card>
+
+        <Card title="Definiciones">
+          <dl className="space-y-3 text-sm leading-relaxed text-stone-700">
+            <div><dt className="font-semibold text-ink">Cuota de voto (%)</dt><dd>Votos de la formación / votos a candidaturas del mismo ámbito. No incluye nulos ni blancos salvo que se indique.</dd></div>
+            <div><dt className="font-semibold text-ink">Cambios</dt><dd>Siempre en puntos porcentuales (pp), nunca en porcentaje relativo.</dd></div>
+            <div><dt className="font-semibold text-ink">Participación</dt><dd>Votantes / electores. Censo, padrón, votantes y habitantes son universos distintos.</dd></div>
+            <div><dt className="font-semibold text-ink">Renta ADRH</dt><dd>Peso de cada fuente de ingreso sobre la renta de los hogares, no renta per cápita.</dd></div>
+            <div><dt className="font-semibold text-ink">EPA</dt><dd>Encuesta de población activa: no es paro registrado ni una medición censal.</dd></div>
+            <div><dt className="font-semibold text-ink">Vintage</dt><dd>Versión de la fuente utilizable en la fecha de corte. Los nulos se justifican; no se hace forward-fill.</dd></div>
+            <div><dt className="font-semibold text-ink">Estimación vs intención</dt><dd>Universos distintos. Jamás se promedian ni se dibujan en la misma serie.</dd></div>
+          </dl>
+        </Card>
+
+        <Card title="Normalización y color">
+          <ul className="space-y-2 text-sm leading-relaxed text-stone-700">
+            <li>1.778 etiquetas originales se conservan intactas; 479 se mapean a 36 partidos mediante reglas versionadas.</li>
+            <li>Las confluencias no se fuerzan: Podemos/IU, UCD/AP/PP y las coaliciones territoriales mantienen identidad propia cuando la fuente no permite separarlas.</li>
+            <li>El color sale del registro central (PP azul, PSOE rojo, VOX verde). El fallback determinista se identifica en la tabla de verificación.</li>
+            <li>Los colores distinguen series; no son una valoración política.</li>
           </ul>
-        </section>
-        <section className="rounded-lg border border-line bg-white p-4">
-          <h2 className="font-serif text-xl text-ink">Normalización y colores</h2>
-          <p className="mt-2">1.778 etiquetas originales intactas; 479 mapeadas a 36 partidos con reglas
-            explícitas versionadas (confluencias Podemos/IU y UCD/AP/PP nunca fusionadas).
-            Colores del registro central (PP azul, PSOE rojo, VOX verde); provisionales y
-            fallback identificados. Fecha de corte de datos: 2026-10-16.</p>
-        </section>
-        <section className="rounded-lg border border-line bg-white p-4">
-          <h2 className="font-serif text-xl text-ink">Por qué no hay pronósticos</h2>
-          <p className="mt-2">El ML es evaluación <strong>retrospectiva</strong> (n=6 elecciones de test;
-            52 provincias correlacionadas por ciclo). El baseline <code>mean3</code> (3,56 pp macro)
-            sigue ganando: no hay superioridad demostrada. Con una sola elección etiquetada con
-            encuestas (2023) no se valida ningún corrector prospectivo. Las encuestas son
-            fotografías fechadas, no recomendaciones.</p>
-        </section>
-        <section className="rounded-lg border border-line bg-white p-4">
-          <h2 className="font-serif text-xl text-ink">Reproducibilidad</h2>
-          <p className="mt-2">Pipeline Python por fases + exportador a JSON versionados; 53 tests;
-            semillas fijas. Comandos en el README del repositorio (PowerShell).</p>
-        </section>
+          <Provenance items={["taxonomy.json 2026-10-16.v1", "colors.json", "Sin fusiones silenciosas"]} />
+        </Card>
       </div>
-      <Provenance items={["Documentación verificable: docs/ del repositorio", "Sin cifras no comprobadas"]} />
+
+      <Card title="Simulador D'Hondt: qué hace exactamente" subtitle="Aritmética condicional, no pronóstico">
+        <ol className="list-decimal space-y-2 pl-5 text-sm leading-relaxed text-stone-700">
+          <li>Parte de los porcentajes nacionales de 2023 y del patrón provincial del Ministerio del Interior.</li>
+          <li>Aplica un <strong>swing aditivo uniforme</strong> a cada partido: cuota provincial nueva = cuota provincial 2023 + (cuota nacional nueva − cuota nacional 2023), truncada en cero y renormalizada.</li>
+          <li>Convierte cuotas en votos con los votos válidos provinciales y el cambio de participación elegido.</li>
+          <li>Aplica el <strong>umbral del 3 %</strong> por circunscripción y reparte con <strong>D&apos;Hondt</strong> los escaños de cada provincia (1 en Ceuta y Melilla).</li>
+          <li>La sensibilidad diferencial es un supuesto explícito y desactivado por defecto: con 0, un cambio uniforme de participación no altera el reparto.</li>
+          <li>El motor se valida reproduciendo los 350 escaños oficiales de 2023 con la base sin tocar.</li>
+        </ol>
+        <div className="mt-4 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950">
+          <strong>No modela</strong> pactos postelectorales, investidura, coaliciones de gobierno, voto útil
+          estratégico, campaña ni incertidumbre muestral. Los escaños son hipotéticos.
+        </div>
+        <Provenance items={["simulator.json", "Validación 350/350 y 0 discrepancias", "Umbral legal por circunscripción"]} />
+      </Card>
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <Card title="Encuestas: límites de la fuente">
+          <ul className="space-y-2 text-sm leading-relaxed text-stone-700">
+            <li>La compilación no trae <strong>fecha de publicación verificada</strong> (<code>published_at</code> es nulo). Por eso el eje temporal usa el <strong>fin de trabajo de campo</strong> y se dice explícitamente.</li>
+            <li>El panel de snapshots diarios de campaña está desactivado: construir «qué se sabía cada día» con fechas de campo mezclaría medición y difusión.</li>
+            <li>Las réplicas y actualizaciones de tracking se marcan; no cuentan como observaciones independientes.</li>
+            <li>La mediana móvil describe el centro de las mediciones, no anticipa el resultado.</li>
+            <li>Ningún agregado se presenta como intervalo de probabilidad del resultado electoral.</li>
+          </ul>
+          <Provenance items={["publication_status.json", "poll_sources.json", "1.533 sondeos, 37 casas, 0 fechas de publicación verificadas"]} />
+        </Card>
+
+        <Card title="Compuerta de calidad y ML">
+          <div className="flex flex-wrap gap-2">
+            <Tag tone="warn">Corrector de encuestas: NO-GO</Tag>
+            <Tag tone="warn">Proyección de participación: NO-GO</Tag>
+            <Tag tone="warn">Proyección por partido 2026: NO-GO</Tag>
+            <Tag tone="warn">Proyección pública: no permitida</Tag>
+          </div>
+          <p className="mt-3 text-sm leading-relaxed text-stone-700">
+            El baseline <code>mean3</code> sigue ganando con 3,563 pp de MAE macro. Los modelos enriquecidos
+            de fase 4 no demuestran superioridad con solo seis elecciones retenidas. La fuga temporal de
+            tres columnas se corrigió desplazándolas a pasado estricto. Un corrector de encuestas requeriría
+            al menos tres elecciones etiquetadas; solo hay una.
+          </p>
+          <p className="mt-2 text-sm leading-relaxed text-stone-700">
+            Productos permitidos: agregado descriptivo de encuestas, simulador hipotético, backtesting
+            retrospectivo y metodología. Prohibidos: pronóstico de ganador, probabilidad calibrada de
+            victoria y proyección provincial presentada como resultado esperado.
+          </p>
+          <Provenance items={["ml_gate.json", "ml.json", "n = 6 elecciones de test, no 52 provincias independientes"]} />
+        </Card>
+      </div>
+
+      <Card title="Reproducibilidad" subtitle="Pipeline Python + exportador JSON + tests">
+        <p className="text-sm leading-relaxed text-stone-700">
+          El repositorio contiene el pipeline por fases en <code>src/electoral/</code>, los tests en
+          <code> tests/</code>, los contratos de datos en <code>web/lib/types.ts</code> y los artefactos
+          servidos en <code>web/public/data/</code>. Las cifras de la web se leen de esos artefactos; no
+          se teclean a mano en los componentes.
+        </p>
+        <pre className="mt-3 overflow-auto rounded-lg bg-ink p-4 text-xs leading-relaxed text-paper">
+{`# Desde la raíz del repositorio (PowerShell)
+python -m pytest tests -q          # tests del pipeline
+python -m src.electoral.export_web # regenera web/public/data
+
+cd web
+npm run typecheck
+npm run lint
+npm run test
+npm run build`}
+        </pre>
+        <p className="mt-3 text-sm text-stone-600">
+          La app se exporta como sitio estático (<code>next build</code> con <code>output: &quot;export&quot;</code>),
+          así que todas las páginas funcionan sin servidor de datos. Los gráficos se montan en cliente y
+          los fallos de carga se muestran explícitamente en lugar de dejar un lienzo vacío.
+        </p>
+        <Provenance items={["pytest", "vitest", "TypeScript estricto", "Build estático"]} />
+      </Card>
+
+      <Card title="Accesibilidad y lectura" subtitle="Decisiones de presentación">
+        <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed text-stone-700">
+          <li>Cada gráfico tiene descripción textual (<code>aria-label</code>) y los datos se pueden exportar a CSV.</li>
+          <li>Las tablas conservan encabezados, leyendas y unidades; nunca se depende solo del color.</li>
+          <li>Los mensajes de error y de carga usan <code>role=&quot;status&quot;</code> o <code>role=&quot;alert&quot;</code>.</li>
+          <li>Los cambios se expresan en puntos porcentuales y se indica cuándo dos perímetros no son comparables.</li>
+          <li>El diseño respeta <code>prefers-reduced-motion</code> mediante transiciones discretas y sin animaciones de fondo.</li>
+        </ul>
+        <Provenance items={["Contraste revisado sobre paper/ink", "Navegación por teclado", "Exportación CSV con BOM para Excel"]} />
+      </Card>
+
+      <p className="text-sm text-stone-600">
+        Volver a la <Link href="/" className="underline hover:text-accent">portada</Link> o revisar el
+        <Link href="/laboratorio-ml" className="underline hover:text-accent"> laboratorio ML</Link>.
+      </p>
     </div>
   );
 }
+
