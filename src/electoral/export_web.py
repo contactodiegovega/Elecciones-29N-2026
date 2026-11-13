@@ -17,6 +17,7 @@ import requests
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 from electoral.electoral_calendar import editorial_status  # noqa: E402
+from electoral.model_registry import main as export_model_registry  # noqa: E402
 
 PROC = ROOT / "data" / "processed"
 WEBDATA = ROOT / "web" / "public" / "data"
@@ -291,6 +292,7 @@ def main() -> None:
         sim["poll_baseline_available"] = status["simulator_poll_baseline_visible"]
         sim["publication_status"] = status
         wjson(WEBDATA / "simulator.json", sim)
+    export_model_registry()
     catalog = ROOT / "reports" / "tables" / "campaign" / "poll_source_catalog.json"
     if catalog.exists():
         wjson(WEBDATA / "poll_sources.json", json.loads(catalog.read_text(encoding="utf-8")))

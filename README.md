@@ -2,7 +2,7 @@
 
 Qué resuelve: explorar 16 elecciones generales al Congreso (1977–2023, 52
 circunscripciones, 1.778 candidaturas), demografía/paro/renta provinciales con vintage,
-1.232 sondeos fechados y la evaluación retrospectiva honesta de modelos de
+1.533 sondeos registrados (1.123 primarios) y la evaluación retrospectiva honesta de modelos de
 participación (el baseline `mean3`, 3,56 pp macro, sigue ganando). Sin pronósticos del 29N.
 
 ## Web local (Next.js estático, desde `web/`)
@@ -12,6 +12,11 @@ Set-Location web
 npm install
 npm run dev      # http://localhost:3000
 ```
+
+Secciones principales: Inicio, Mi predicción (registro de modelos, sin proyección pública),
+Encuestas, Diputados por provincia (RD 806/2026) y Más análisis (histórico, participación,
+demografía, laboratorio de modelos, simulador y metodología). Las páginas antiguas de
+territorio, campaña y partidos siguen accesibles desde «Más análisis».
 
 ## Pipeline completo (PowerShell, desde la raíz)
 
@@ -52,7 +57,7 @@ python src/electoral/ml/party_pilot.py
 # 11) FASE 3: figuras (4 PNG en reports/figures/phase3/)
 python src/electoral/ml/figures.py
 
-# 12) Tests (45: 15 fase 1 + 18 fase 2 + 12 fase 3)
+# 12) Tests (60: fase 1, 2, 3, 4 y web de datos)
 python -m pytest tests/ -q
 
 # 13) FASE 4: enriquecimiento INE (padrón/EPA/renta/censo) + EDA + revalidación ML
@@ -60,11 +65,12 @@ python src/electoral/enrichment.py
 python src/electoral/eda_phase4.py
 python src/electoral/ml/revalidate.py
 
-# 14) Tests finales fase 4 (53 en total)
+# 14) Tests finales (60 en total)
 python -m pytest tests/ -q
 
-# 15) FASE 5: exportar datos web + validar + compilar
-python src/electoral/export_web.py
+# 15) FASE 5: simulador con escaños oficiales 2026 + exportar datos web + validar + compilar
+python src/electoral/simulator.py
+python src/electoral/export_web.py   # también regenera model_registry.json
 Set-Location web
 npm run lint; npm run typecheck; npm test; npm run build
 
@@ -80,7 +86,7 @@ python src/electoral/query.py --search "BILDU" --top 0
 src/electoral/        # download, build_tables, taxonomy, colors, polls, eda,
                       # eda_phase2, features, query (+ __init__.py)
                       # ml/: backtest, poll_diagnostics, party_pilot, figures, leakage
-config/               # party_colors.json (colores) + ml_phase3.json (semilla, folds, modelos)
+config/               # party_colors.json, ml_phase3/4.json, official_seats_2026.json (RD 806/2026)
 data/raw/             # brutos sin modificar (Excel Interior, CSV INE, HTML encuestas)
 data/processed/       # 20 parquet + audits, coverage, CSV resumen
 data/reference/       # party_registry.csv
@@ -101,8 +107,7 @@ docs/                 # SOURCES, DATA_QUALITY, EDA, ML_FEASIBILITY (fase 1) +
                       # PHASE4_BASELINE_AUDIT, PHASE4_SOURCE_CATALOG,
                       # PHASE4_TEMPORAL_INTEGRITY, EDA_PHASE4, PHASE4_ML_REVALIDATION,
                       # PHASE4_SUMMARY
-tests/                # test_quality.py (15) + test_phase2.py (18) + test_phase3.py (12)
-                      # + test_phase4.py (8) = 53
+tests/                # test_quality.py, test_phase2/3/4, test_campaign_refocus = 60
 ```
 
 ## Resultados ML — FASE 3 (retrospectivo; detalle en `docs/PHASE3_BACKTEST_REPORT.md`)
@@ -131,8 +136,8 @@ ganando. Detalle en `docs/PHASE4_ML_REVALIDATION.md`.
 | `party_registry` | 36 | catálogo curado de partidos/coaliciones |
 | `candidacy_party_mapping` | 1 778 | (elección, etiqueta) → partido/familia opcional + confianza |
 | `party_coverage` | 848 | candidaturas/votos/% cubierto por elección y provincia |
-| `polls` | 1 232 | 36 casas, campo 2019→2026, con licencia y flags |
-| `poll_estimates` | 12 945 | % por partido + indecisos/abstención; huecos sin fila |
+| `polls` | 1 533 | 37 casas, campo 2019→2026, con licencia y flags |
+| `poll_estimates` | 16 743 | % por partido + indecisos/abstención; huecos sin fila |
 | `turnout_features` / `turnout_targets` | 780 | features solo pasado + targets separados |
 | `party_evolution_features` / `party_targets` | 10 764 | idem por (provincia, partido) |
 | `poll_features` / `poll_targets` | 10 316 / 1 346 | idem por sondeo (targets solo pre-2023) |

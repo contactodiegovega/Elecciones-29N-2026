@@ -1,8 +1,10 @@
 {
   "election": "2023-07-23",
   "method": "D'Hondt por provincia con candidaturas originales; umbral 3 % de votos válidos",
+  "seat_distribution": "oficial de 2023 (37 Madrid, 9 Cádiz)",
   "seats_allocated": 350,
   "seats_expected": 350,
   "mismatches": [],
+  "seat_mismatches": [],
   "ok": true
 }

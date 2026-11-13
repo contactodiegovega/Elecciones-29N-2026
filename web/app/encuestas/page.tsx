@@ -5,7 +5,7 @@ import {
   Card, CsvButton, Empty, ErrorBox, Loading, Notice, Provenance, SectionTitle,
   StatCard, Tag, selectClass,
 } from "@/components/ui";
-import { loadColors, loadPolls, type ColorEntry, type Poll } from "@/lib/data";
+import { loadColors, loadPolls, loadPublicationStatus, type ColorEntry, type Poll, type PublicationStatus } from "@/lib/data";
 import { axisX, axisY, gridBase, legendBase, tooltipBase } from "@/lib/chart";
 import { fmtDate, fmtInt, fmtPct, median, partyColor } from "@/lib/utils";
 
@@ -27,6 +27,7 @@ export default function Encuestas() {
   const [polls, setPolls] = useState<Poll[] | null>(null);
   const [loadedCycle, setLoadedCycle] = useState<Cycle | null>(null);
   const [colors, setColors] = useState<ColorEntry[]>([]);
+  const [status, setStatus] = useState<PublicationStatus | null>(null);
   const [house, setHouse] = useState("TODAS");
   const [ptype, setPtype] = useState<PType>("estimated_vote");
   const [party, setParty] = useState("PP");
@@ -36,8 +37,8 @@ export default function Encuestas() {
 
   useEffect(() => {
     let alive = true;
-    Promise.all([loadPolls(cycle), loadColors()])
-      .then(([p, c]) => { if (alive) { setPolls(p); setLoadedCycle(cycle); setColors(c); } })
+    Promise.all([loadPolls(cycle), loadColors(), loadPublicationStatus()])
+      .then(([p, c, s]) => { if (alive) { setPolls(p); setLoadedCycle(cycle); setColors(c); setStatus(s); } })
       .catch((e) => { if (alive) setErr(String(e)); });
     return () => { alive = false; };
   }, [cycle]);
@@ -224,11 +225,24 @@ export default function Encuestas() {
   return (
     <div className="space-y-6">
       <SectionTitle
-        kicker="Sondeos"
-        title="Observatorio de encuestas"
-        desc="Mediciones publicadas por encuestadora, fechadas por trabajo de campo y con el tipo separado. Estimación de voto e intención directa no se mezclan. Las réplicas y actualizaciones de tracking se marcan y no se tratan como observaciones independientes."
-        sources={[`Ciclo ${cycle}`, "Wikipedia CC BY-SA 4.0", "Verificación de fuentes primarias pendiente"]}
+        kicker="Encuestas"
+        title="Encuestas: qué se ha publicado y qué mide cada una"
+        desc="Sondeos por casa, tipo y fecha de trabajo de campo. Puedes seguir una formación o comparar casas, pero no leer la serie como un pronóstico. Estimación de voto e intención directa se mantienen separadas."
+        sources={[`Ciclo ${cycle}`, "Wikipedia CC BY-SA 4.0", "Publicación primaria pendiente en parte de la muestra"]}
       />
+
+      <div className="grid gap-3 md:grid-cols-3">
+        <div className="rounded-lg border border-line bg-white p-3 text-sm text-stone-600"><strong className="text-ink">Cada punto es una encuesta.</strong> La fecha es el fin del trabajo de campo, no la publicación.</div>
+        <div className="rounded-lg border border-line bg-white p-3 text-sm text-stone-600"><strong className="text-ink">No se mezclan tipos.</strong> Estimación de voto e intención directa tienen bases distintas.</div>
+        <div className="rounded-lg border border-line bg-white p-3 text-sm text-stone-600"><strong className="text-ink">La mediana no predice.</strong> Resume lo publicado; no estima el resultado del 29N.</div>
+      </div>
+
+      {status?.restricted && (
+        <Notice title="Veda de publicación activa">
+          {status.reason} Ventana: {fmtDate(status.restriction_start)} → {fmtDate(status.restriction_end)}.{" "}
+          {status.legal_note}
+        </Notice>
+      )}
 
       <div className="flex flex-wrap items-center gap-3 rounded-xl border border-line bg-white p-3">
         <label className="text-sm">Ciclo:

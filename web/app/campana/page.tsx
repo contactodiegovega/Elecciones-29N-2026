@@ -143,7 +143,7 @@ export default function Campana() {
   return (
     <div className="space-y-6">
       <SectionTitle
-        kicker="Monitor de campaña"
+        kicker="Archivo · Campaña"
         title="Campaña y calendario electoral"
         desc="Cobertura real de sondeos y calendario documentado. El panel automático de snapshots diarios está desactivado porque ninguna fuente tiene fecha de publicación verificada: no se inventan series ni eventos."
         updated={campaign.as_of}

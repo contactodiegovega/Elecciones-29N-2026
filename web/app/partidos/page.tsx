@@ -88,7 +88,7 @@ export default function Partidos() {
   return (
     <div className="space-y-6">
       <SectionTitle
-        kicker="Catálogo"
+        kicker="Archivo · Catálogo"
         title="Partidos y candidaturas"
         desc={`${meta.length} partidos normalizados y ${fmtInt(mapping.length)} etiquetas originales. Las etiquetas no mapeadas no desaparecen: se conservan y se excluyen de las series por partido para no inventar equivalencias.`}
         sources={["Ministerio del Interior", "Taxonomía versionada 2026-10-16.v1", "Registro de colores"]}

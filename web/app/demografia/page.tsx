@@ -189,8 +189,8 @@ export default function Demografia() {
   return (
     <div className="space-y-6">
       <SectionTitle
-        kicker="Contexto socioeconómico"
-        title="Demografía y economía provincial"
+        kicker="Contexto provincial"
+        title="Población, edad y voto"
         desc="Edad, población, mercado laboral y rentas por provincia, con el vintage de cada fuente visible. Residir no implica poder votar; la renta ADRH es un peso sobre la renta de los hogares, no una renta per cápita; la EPA es una encuesta, no el paro registrado."
         updated={meta.generated_at?.slice(0, 10)}
         sources={["INE (CC BY 4.0): padrón, EPA", "ADRH", "Ministerio del Interior"]}

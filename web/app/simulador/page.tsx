@@ -114,17 +114,22 @@ export default function Simulador() {
 
   const validates = useMemo(() => {
     if (!result || !sim) return false;
-    const sameShares = sim.parties.every((p) => Math.abs((shares[p.party_id] ?? 0) - p.national_share) < 0.001);
-    const sameSeats = sim.parties.every((p) => result.allocation.national[p.party_id] === p.seats_2023_official);
-    return sameShares && turnoutDelta === 0 && sameSeats && result.totalSeats === sim.total_seats;
-  }, [result, sim, shares, turnoutDelta]);
+    return result.totalSeats === sim.total_seats && sim.validation.ok;
+  }, [result, sim]);
+
+  const atBase = useMemo(() => {
+    if (!sim) return false;
+    return sim.parties.every((p) => Math.abs((shares[p.party_id] ?? 0) - p.national_share) < 0.001) && turnoutDelta === 0;
+  }, [sim, shares, turnoutDelta]);
+
+  const pollsAllowed = status ? !status.restricted && status.poll_derived_visible : true;
 
   const applyPreset = (preset: "base" | "polls") => {
     if (!sim) return;
     if (preset === "base") {
       setShares(baseShares); setTurnoutDelta(0); setSensitivity(0); setScenario("Base 2023"); return;
     }
-    if (!pollMedian) return;
+    if (!pollMedian || !pollsAllowed) return;
     const next = Object.fromEntries(sim.parties.map((p) => [p.party_id, pollMedian.values[p.party_id] ?? 0]));
     setShares(next); setScenario(`Mediana de encuestas recientes (${pollMedian.houses} casas)`);
   };
@@ -229,12 +234,13 @@ export default function Simulador() {
         title="Simulador D'Hondt"
         desc="Reparte los 350 escaños con las reglas reales: D'Hondt por circunscripción y umbral del 3 % de votos válidos. Cambia los porcentajes y la participación para explorar escenarios. No es un pronóstico ni una probabilidad."
         updated={sim.generated_at?.slice(0, 10)}
-        sources={["Interior 2023 (base provincial)", "Reglas D'Hondt y umbral legal", "Encuestas 2026 (solo como preset descriptivo)"]}
+        sources={["RD 806/2026 (escaños por provincia)", "Interior 2023 (base provincial)", "Reglas D'Hondt y umbral legal"]}
       />
 
       <Notice title="Esto no predice el 29N">
         El escenario es una aritmética condicional: «si estos porcentajes fueran los votos, el reparto sería este».
         No incorpora pactos, investidura, coaliciones, voto útil estratégico ni incertidumbre muestral.
+        Los escaños por provincia son los oficiales de 2026: Madrid 38 y Cádiz 8.
         {status?.restricted ? " Veda de sondeos activa: no se publican escenarios derivados de encuestas." : ""}
       </Notice>
 
@@ -250,9 +256,10 @@ export default function Simulador() {
           <button type="button" onClick={() => applyPreset("base")} className="rounded-md border border-line px-3 py-1.5 text-sm hover:border-accent">
             Base 2023
           </button>
-          <button type="button" onClick={() => applyPreset("polls")} disabled={!pollMedian}
+          <button type="button" onClick={() => applyPreset("polls")} disabled={!pollMedian || !pollsAllowed}
+            title={!pollsAllowed ? "Veda de publicación activa" : undefined}
             className="rounded-md border border-line px-3 py-1.5 text-sm hover:border-accent disabled:opacity-40">
-            Media de encuestas recientes{pollMedian ? ` (${pollMedian.houses} casas)` : ""}
+            Media de encuestas recientes{pollMedian && pollsAllowed ? ` (${pollMedian.houses} casas)` : ""}
           </button>
           <button type="button" onClick={() => setAll(0)} className="rounded-md border border-line px-3 py-1.5 text-sm hover:border-accent">
             Poner a cero
@@ -306,21 +313,28 @@ export default function Simulador() {
 
         <Provenance items={[
           "Base: porcentajes nacionales de 2023 y patrón provincial de Interior",
+          "Escaños por provincia: RD 806/2026 (Madrid 38, Cádiz 8; total 350)",
           "Swing aditivo uniforme por partido; formaciones sin base se reparten con el swing",
           "La suma de entrada no llega a 100 porque excluye etiquetas sin mapear y voto nulo/blanco",
-          validates ? "Validación: candidaturas originales de 2023 → 350/350 y 0 discrepancias; la base agregada suma 350 pero puede diferir en 1 escaño" : "Validación disponible al restablecer «Base 2023»",
+          validates ? "Motor validado con candidaturas originales de 2023: 350/350 escaños y 0 discrepancias" : "Validación del motor: revisar simulator.json",
         ]} />
       </Card>
 
       <div className="grid gap-5 lg:grid-cols-2">
         <Card title="Reparto de escaños" subtitle={`Umbral legal del ${sim.threshold_pct} % por circunscripción`}>
           <EChart option={seatOption} height={380} ariaLabel="Escaños por partido en el escenario" testId="sim-escanos" />
-          {validates && <p className="mt-2 text-xs font-medium text-emerald-700">✓ El motor reparte los 350 escaños. En Las Palmas la agregación NC-bc + CCa → CC da PP 136 / CC 2; con candidaturas originales el oficial es PP 137 / CC 1.</p>}
+          {atBase && (
+            <p className="mt-2 text-xs font-medium text-stone-600">
+              Base 2023 aplicada con los escaños de 2026: PP 135, CC 2. La diferencia con el resultado oficial de 2023
+              (PP 137, CC 1) se explica por el escaño que pierde Cádiz y por agregar NC-bc + CCa como CC en Las Palmas;
+              el motor validado con candidaturas originales reparte 350/350 sin discrepancias.
+            </p>
+          )}
           <Provenance items={["Cálculo propio con reglas D'Hondt", "Los escaños son hipotéticos"]} />
         </Card>
-        <Card title="Diferencia vs 2023" subtitle="Escaños ganados o perdidos respecto al resultado oficial">
+        <Card title="Diferencia vs 2023" subtitle="Escaños ganados o perdidos. Incluye el cambio estructural de escaños (Madrid +1, Cádiz −1), no solo el escenario.">
           <EChart option={diffOption} height={380} ariaLabel="Diferencia de escaños respecto a 2023" testId="sim-diferencia" />
-          <Provenance items={["Interior 2023", "Verde gana, rojo pierde"]} />
+          <Provenance items={["Interior 2023 y RD 806/2026", "Verde gana, rojo pierde"]} />
         </Card>
       </div>
 
@@ -400,7 +414,7 @@ export default function Simulador() {
           <ol className="list-decimal space-y-2 pl-5 text-sm leading-relaxed text-stone-700">
             {sim.assumptions.map((a) => <li key={a}>{a}</li>)}
           </ol>
-          <Provenance items={["simulator.json", "Umbral y circunscripciones verificados contra 2023"]} />
+          <Provenance items={["simulator.json", "Escaños por provincia: RD 806/2026", "Umbral y D'Hondt verificados contra 2023 con candidaturas originales"]} />
         </Card>
         <Card title="Límites y advertencias" subtitle="Lo que el simulador no puede decir">
           <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed text-stone-700">
@@ -410,8 +424,9 @@ export default function Simulador() {
               <li>{thresholdLosers.map((p) => p.party_id).join(", ")} quedan por debajo del {sim.threshold_pct} % en el escenario.</li>
             )}
           </ul>
-          <Provenance items={["Validación: " + (sim.validation.ok ? "OK" : "revisar") + ` (${sim.validation.seats_allocated}/${sim.validation.seats_expected} escaños con candidaturas originales)`,
-            `${sim.validation.mismatches.length} discrepancias en la validación 2023 con siglas originales`]} />
+          <Provenance items={["Validación: " + (sim.validation.ok ? "OK" : "revisar") + ` (${sim.validation.seats_allocated}/${sim.validation.seats_expected} escaños con candidaturas originales de 2023)`,
+            `${sim.validation.seat_mismatches?.length ?? 0} discrepancias de escaños por provincia en la validación 2023`,
+            "La distribución de 2026 se aplica solo a escenarios, no a la validación histórica"]} />
         </Card>
       </div>
     </div>

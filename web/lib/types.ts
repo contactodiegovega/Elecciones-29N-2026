@@ -67,6 +67,15 @@ export const PollSchema = z.object({
   publication_status: z.string().optional(),
   quality_flags: z.string().nullable().optional(),
   is_tracking_update: z.boolean().optional(),
+  original_url: z.string().nullable().optional(),
+  source_license: z.string().nullable().optional(),
+  retrieved_at: z.string().nullable().optional(),
+  source_hash: z.string().nullable().optional(),
+  population: z.string().nullable().optional(),
+  mode: z.string().nullable().optional(),
+  geography: z.string().nullable().optional(),
+  sponsor_type: z.string().nullable().optional(),
+  n_raw: z.string().nullable().optional(),
   est: z.array(PollEstSchema),
 }).passthrough();
 export type Poll = z.infer<typeof PollSchema>;
@@ -116,6 +125,9 @@ export const SimulatorProvinceSchema = z.object({
   province_code: z.string(),
   province_name: z.string(),
   seats: z.number(),
+  seats_2026: z.number().optional(),
+  seats_2023: z.number().optional(),
+  seats_change: z.number().optional(),
   valid_votes: z.number(),
   turnout_rate: z.number().nullable(),
   baseline_votes: z.record(z.number()),
@@ -124,17 +136,30 @@ export const SimulatorProvinceSchema = z.object({
 });
 export type SimulatorProvince = z.infer<typeof SimulatorProvinceSchema>;
 
+export const SeatDistributionSchema = z.object({
+  source: z.string(),
+  source_id: z.string().optional(),
+  source_url: z.string().optional(),
+  published_at: z.string().optional(),
+  verified_at: z.string().optional(),
+  notes: z.string().optional(),
+}).passthrough();
+export type SeatDistribution = z.infer<typeof SeatDistributionSchema>;
+
 export const SimulatorSchema = z.object({
   election_date: z.string(),
   baseline_election: z.string(),
   total_seats: z.number(),
   threshold_pct: z.number(),
+  seat_distribution: SeatDistributionSchema.optional(),
   provinces: z.array(SimulatorProvinceSchema),
   parties: z.array(SimulatorPartySchema),
   national_valid_votes: z.number(),
   validation: z.object({
     election: z.string(), method: z.string(), seats_allocated: z.number(),
     seats_expected: z.number(), mismatches: z.array(z.unknown()), ok: z.boolean(),
+    seat_mismatches: z.array(z.unknown()).optional(),
+    seat_distribution: z.string().optional(),
   }).passthrough(),
   assumptions: z.array(z.string()),
   caveats: z.array(z.string()),
@@ -230,3 +255,43 @@ export type OOSPoint = z.infer<typeof OOSPointSchema>;
 
 export const PollsResponseSchema = z.object({ polls: z.array(PollSchema) }).passthrough();
 export type PollsResponse = z.infer<typeof PollsResponseSchema>;
+
+export const ModelVersionSchema = z.object({
+  version_id: z.string(),
+  label: z.string(),
+  phase: z.string(),
+  created_at: z.string(),
+  target: z.string(),
+  data_cutoff: z.string(),
+  inputs: z.array(z.string()),
+  config: z.record(z.unknown()),
+  metrics: z.object({
+    mae_macro_pp: z.number(),
+    by_election: z.array(z.object({
+      test_election: z.string(), MAE_pp: z.number(), RMSE_pp: z.number(), bias_pp: z.number(),
+    }).passthrough()),
+    n_folds: z.number(),
+  }),
+  status: z.string(),
+  note: z.string(),
+}).passthrough();
+export type ModelVersion = z.infer<typeof ModelVersionSchema>;
+
+export const ModelRegistrySchema = z.object({
+  generated_at: z.string(),
+  as_of: z.string(),
+  target_election: z.string(),
+  question: z.string(),
+  status: z.string(),
+  public_projection_allowed: z.boolean(),
+  headline: z.string(),
+  reason: z.string(),
+  scope_note: z.string(),
+  best_baseline: z.object({ version_id: z.string(), mae_macro_pp: z.number() }),
+  best_experimental: z.object({ version_id: z.string(), mae_macro_pp: z.number() }),
+  versions: z.array(ModelVersionSchema),
+  projection_2026: z.unknown().nullable(),
+  required_to_reopen: z.array(z.string()),
+  sources: z.array(z.object({ name: z.string(), license: z.string() })),
+}).passthrough();
+export type ModelRegistry = z.infer<typeof ModelRegistrySchema>;

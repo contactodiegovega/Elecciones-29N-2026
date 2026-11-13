@@ -186,8 +186,8 @@ export default function Historico() {
   return (
     <div className="space-y-6">
       <SectionTitle
-        kicker="Serie temporal · 1977–2023"
-        title="Histórico electoral"
+        kicker="Resultados · 1977–2023"
+        title="Resultados elección a elección"
         desc="Voto absoluto, cuota, escaños y participación por elección. Las series por partido usan el mapeo versionado; la tabla conserva todas las etiquetas originales. Alianza Popular no se cuenta como PP."
         updated={meta.generated_at?.slice(0, 10)}
         sources={["Ministerio del Interior", "INE (censo)", "Mapeo versionado de etiquetas"]}

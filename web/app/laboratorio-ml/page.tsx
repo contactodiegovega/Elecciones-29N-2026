@@ -154,8 +154,8 @@ export default function Laboratorio() {
   return (
     <div className="space-y-6">
       <SectionTitle
-        kicker="Ciencia · evaluación retrospectiva"
-        title="Laboratorio ML: backtesting honesto"
+        kicker="Análisis retrospectivo"
+        title="Laboratorio de modelos: qué funcionó y qué no"
         desc="¿Qué error habría tenido cada método antes de cada elección ya celebrada? Ventana expansiva, preproceso ajustado solo en entrenamiento y ninguna predicción del 29N. Las 52 provincias de un mismo ciclo no son 52 experimentos independientes: el n real es de 6 elecciones retenidas."
         updated={gate?.generated_at.slice(0, 10)}
         sources={["Interior", "INE", "ADRH", "Resultados propios del pipeline"]}

@@ -6,7 +6,7 @@ export default function Metodologia() {
     <div className="space-y-6">
       <SectionTitle
         kicker="Transparencia"
-        title="Metodología y reproducibilidad"
+        title="Metodología: cómo se hacen los datos"
         desc="Cómo se construyó el observatorio, qué mide cada cifra, qué no afirma y cómo se reproduce. Todo dato publicado procede de un artefacto versionado; ningún hueco se rellena a ojo."
         sources={["Datos abiertos", "Pipeline por fases", "Tests automáticos"]}
       />

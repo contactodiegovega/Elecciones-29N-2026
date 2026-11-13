@@ -25,6 +25,21 @@ REPORTS = ROOT / "reports" / "tables" / "campaign"
 TOTAL_SEATS = 350
 THRESHOLD = 0.03
 BASELINE_ELECTION = "2023-07-23"
+OFFICIAL_SEATS = CONFIG / "official_seats_2026.json"
+
+
+def load_official_seats() -> dict:
+    """Distribución oficial del Congreso para el 29N (RD 806/2026)."""
+    data = json.loads(OFFICIAL_SEATS.read_text(encoding="utf-8"))
+    seats_2026 = {str(k).zfill(2): int(v) for k, v in data["seats_2026"].items()}
+    seats_2023 = {str(k).zfill(2): int(v) for k, v in data["seats_2023"].items()}
+    if len(seats_2026) != 52 or sum(seats_2026.values()) != TOTAL_SEATS:
+        raise SystemExit("[simulator] la distribución 2026 no suma 350 o no tiene 52 provincias")
+    if len(seats_2023) != 52 or sum(seats_2023.values()) != TOTAL_SEATS:
+        raise SystemExit("[simulator] la distribución 2023 no suma 350 o no tiene 52 provincias")
+    if set(seats_2026) != set(seats_2023):
+        raise SystemExit("[simulator] las distribuciones 2023 y 2026 no cubren las mismas provincias")
+    return {**data, "seats_2026": seats_2026, "seats_2023": seats_2023}
 
 
 def load_province_names() -> dict[str, str]:
@@ -71,11 +86,16 @@ def _load_election(election: str = BASELINE_ELECTION) -> tuple[pd.DataFrame, pd.
 def validate_historical(election: str = BASELINE_ELECTION) -> dict:
     """Valida D'Hondt con las candidaturas originales (sin agregación por partido)."""
     res, to = _load_election(election)
+    official = load_official_seats()
     valid_by_prov = to.set_index("province_code")["votos_validos"].astype(float).to_dict()
     mismatches = []
+    seat_mismatches = []
     allocated_total = 0
     for province, g in res.groupby("province_code"):
+        expected_seats = int(official["seats_2023"].get(str(province), -1))
         seats = int(g["seats"].sum())
+        if seats != expected_seats:
+            seat_mismatches.append({"province": province, "official": expected_seats, "results": seats})
         votes = {str(r.candidacy_raw): float(r.votes) for r in g.itertuples()}
         got = d_hondt(votes, seats, THRESHOLD, valid_by_prov.get(province))
         allocated_total += sum(got.values())
@@ -88,15 +108,18 @@ def validate_historical(election: str = BASELINE_ELECTION) -> dict:
     return {
         "election": election,
         "method": "D'Hondt por provincia con candidaturas originales; umbral 3 % de votos válidos",
+        "seat_distribution": "oficial de 2023 (37 Madrid, 9 Cádiz)",
         "seats_allocated": int(allocated_total),
         "seats_expected": TOTAL_SEATS,
         "mismatches": mismatches,
-        "ok": allocated_total == TOTAL_SEATS and not mismatches,
+        "seat_mismatches": seat_mismatches,
+        "ok": allocated_total == TOTAL_SEATS and not mismatches and not seat_mismatches,
     }
 
 
 def build_baseline(election: str = BASELINE_ELECTION) -> dict:
     res, to = _load_election(election)
+    official = load_official_seats()
     names = load_province_names()
     reg = pd.read_parquet(PROC / "party_registry.parquet")
     display = dict(zip(reg["party_id"], reg["display_name"]))
@@ -123,12 +146,16 @@ def build_baseline(election: str = BASELINE_ELECTION) -> dict:
         valid = float(t["votos_validos"].iloc[0]) if len(t) else None
         turnout = float(t["turnout_rate"].iloc[0]) if len(t) and pd.notna(t["turnout_rate"].iloc[0]) else None
         votes = {k: float(v) for k, v in g.groupby("party_key")["votes"].sum().items()}
-        seats = int(g["seats"].sum())
+        seats_2026 = int(official["seats_2026"][str(province)])
+        seats_2023 = int(official["seats_2023"][str(province)])
         share = {k: round(v / valid * 100, 4) if valid else None for k, v in votes.items()}
         provinces.append({
             "province_code": province,
             "province_name": names.get(province, province),
-            "seats": seats,
+            "seats": seats_2026,
+            "seats_2026": seats_2026,
+            "seats_2023": seats_2023,
+            "seats_change": seats_2026 - seats_2023,
             "valid_votes": int(valid) if valid is not None else None,
             "turnout_rate": round(turnout, 2) if turnout is not None else None,
             "baseline_votes": {k: int(v) for k, v in votes.items()},
@@ -141,12 +168,21 @@ def build_baseline(election: str = BASELINE_ELECTION) -> dict:
         "baseline_election": election,
         "total_seats": TOTAL_SEATS,
         "threshold_pct": THRESHOLD * 100,
+        "seat_distribution": {
+            "source": official["source"],
+            "source_id": official["source_id"],
+            "source_url": official["source_url"],
+            "published_at": official["published_at"],
+            "verified_at": official["verified_at"],
+            "notes": official["notes"],
+        },
         "provinces": provinces,
         "parties": parties,
         "national_valid_votes": int(total_valid),
         "validation": validate_historical(election),
         "assumptions": [
             "Reparto D'Hondt por circunscripción con umbral legal del 3 % de votos válidos.",
+            "Escaños por provincia: distribución oficial del RD 806/2026 (Madrid 38, Cádiz 8; total 350).",
             "Ceuta y Melilla reparten 1 escaño cada una; el umbral no altera el resultado.",
             "El escenario parte de los porcentajes nacionales introducidos por el usuario.",
             "La distribución territorial usa el patrón de voto de 2023 y un swing proporcional por partido.",

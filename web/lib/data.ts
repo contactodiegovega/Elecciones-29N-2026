@@ -1,10 +1,10 @@
 import {
   CampaignSchema, ColorEntrySchema, DemographySchema, ElectionNatSchema,
-  LabelRowSchema, MappingRowSchema, MetaSchema, MLSchema, OOSPointSchema,
+  LabelRowSchema, MappingRowSchema, MetaSchema, MLSchema, ModelRegistrySchema, OOSPointSchema,
   PollSourcesSchema, PollsResponseSchema, PublicationStatusSchema,
   SimulatorSchema, TerritorySchema, TurnoutRowSchema,
   type Campaign, type ColorEntry, type Demography, type ElectionNat,
-  type LabelRow, type MappingRow, type Meta, type ML, type OOSPoint,
+  type LabelRow, type MappingRow, type Meta, type ML, type ModelRegistry, type ModelVersion, type OOSPoint,
   type Poll, type PollSourceCoverage, type PollSources, type PublicationStatus,
   type Simulator, type Territory, type TurnoutRow,
 } from "./types";
@@ -50,6 +50,7 @@ export const loadTaxonomy = () =>
   });
 export const loadDemography = () => getJSON("/data/demography.json", DemographySchema);
 export const loadML = () => getJSON("/data/ml.json", MLSchema);
+export const loadModelRegistry = () => getJSON("/data/model_registry.json", ModelRegistrySchema);
 export const loadOOS = () => getJSON("/data/oos_map.json", { parse: (x: unknown) => (x as unknown[]).map((i) => OOSPointSchema.parse(i)) });
 export const loadGeo = () =>
   getJSON("/maps/spain_provinces.geojson", { parse: (x: unknown) => x as GeoJSON.FeatureCollection });
@@ -71,5 +72,6 @@ export const loadMLGate = () => getJSON("/data/ml_gate.json", {
 
 export type {
   Meta, Territory, ElectionNat, LabelRow, TurnoutRow, Poll, ColorEntry, MappingRow,
-  Demography, Simulator, Campaign, PollSources, PollSourceCoverage, PublicationStatus, ML, OOSPoint,
+  Demography, Simulator, Campaign, PollSources, PollSourceCoverage, PublicationStatus, ML,
+  ModelRegistry, ModelVersion, OOSPoint,
 };

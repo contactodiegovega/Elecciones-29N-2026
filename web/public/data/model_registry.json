@@ -1,0 +1,633 @@
+{
+  "generated_at": "2026-11-13T15:31:17.773943+00:00",
+  "as_of": "2026-11-12",
+  "target_election": "2026-11-29",
+  "question": "Â¿Podemos estimar el voto y los escaÃ±os del 29N con datos disponibles antes de la votaciÃ³n?",
+  "status": "no_go",
+  "public_projection_allowed": false,
+  "headline": "Sin estimaciÃ³n experimental publicable",
+  "reason": "No existen resultados de 2026 para validar; el histórico por partido no permite una proyección provincial calibrada. Se mantiene el agregado descriptivo y el simulador hipotético.",
+  "scope_note": "Las versiones registradas estiman participaciÃ³n provincial, no escaÃ±os por partido. No se presenta ninguna como predicciÃ³n del 29N.",
+  "best_baseline": {
+    "version_id": "f3-mean3",
+    "mae_macro_pp": 3.563
+  },
+  "best_experimental": {
+    "version_id": "f3-elasticnet",
+    "mae_macro_pp": 3.644
+  },
+  "gate": {
+    "generated_at": "2026-11-12T11:19:42.077868+00:00",
+    "poll_correction": {
+      "labeled_elections": 1,
+      "labeled_rows": 1346,
+      "minimum_elections_required": 3,
+      "verdict": "NO-GO",
+      "reason": "Solo hay una elección general con encuestas etiquetadas (2023). No es posible una validación totalmente fuera de muestra de un corrector."
+    },
+    "turnout_projection": {
+      "baseline_best": "mean3",
+      "baseline_best_macro_mae_pp": 3.563,
+      "mean3_macro_mae_pp": 3.563,
+      "phase4_best": "hgbr_full",
+      "phase4_best_macro_mae_pp": 3.682,
+      "verdict": "NO-GO",
+      "reason": "El baseline simple sigue ganando; ningún modelo complejo demuestra superioridad consistente fuera de muestra."
+    },
+    "party_projection_2026": {
+      "verdict": "NO-GO",
+      "reason": "No existen resultados de 2026 para validar; el histórico por partido no permite una proyección provincial calibrada. Se mantiene el agregado descriptivo y el simulador hipotético."
+    },
+    "public_projection_allowed": false,
+    "allowed_products": [
+      "agregado descriptivo de encuestas",
+      "simulador hipotético de escenarios",
+      "backtesting retrospectivo",
+      "metodología y límites"
+    ],
+    "forbidden_products": [
+      "pronóstico de ganador",
+      "probabilidad calibrada de victoria",
+      "proyección provincial presentada como resultado esperado"
+    ]
+  },
+  "versions": [
+    {
+      "version_id": "f3-mean3",
+      "label": "Media de las 3 Ãºltimas elecciones",
+      "phase": "Fase 3",
+      "created_at": "2026-10-16",
+      "target": "turnout_pct",
+      "data_cutoff": "rolling-origin: entrena hasta la elecciÃ³n anterior y evalÃºa 2011â†’2023",
+      "inputs": [
+        "prev_turnout",
+        "delta_prev",
+        "mean_last3",
+        "electores_growth_prev",
+        "cera_share_prev",
+        "n_prev_elections"
+      ],
+      "config": {
+        "seed": 42,
+        "recent_k": 3
+      },
+      "metrics": {
+        "mae_macro_pp": 3.563,
+        "by_election": [
+          {
+            "test_election": "2011-11-20",
+            "MAE_pp": 4.359,
+            "RMSE_pp": 4.715,
+            "bias_pp": 4.219
+          },
+          {
+            "test_election": "2015-12-20",
+            "MAE_pp": 3.882,
+            "RMSE_pp": 4.391,
+            "bias_pp": 3.796
+          },
+          {
+            "test_election": "2016-06-26",
+            "MAE_pp": 4.564,
+            "RMSE_pp": 4.779,
+            "bias_pp": 4.564
+          },
+          {
+            "test_election": "2019-04-28",
+            "MAE_pp": 3.183,
+            "RMSE_pp": 4.067,
+            "bias_pp": -3.161
+          },
+          {
+            "test_election": "2019-11-10",
+            "MAE_pp": 3.659,
+            "RMSE_pp": 3.943,
+            "bias_pp": 3.485
+          },
+          {
+            "test_election": "2023-07-23",
+            "MAE_pp": 1.733,
+            "RMSE_pp": 2.505,
+            "bias_pp": 0.759
+          }
+        ],
+        "n_folds": 6
+      },
+      "status": "baseline",
+      "note": "Referencia simple y mejor resultado macro. No usa ML."
+    },
+    {
+      "version_id": "f3-elasticnet",
+      "label": "ElasticNet (6 variables base)",
+      "phase": "Fase 3",
+      "created_at": "2026-10-16",
+      "target": "turnout_pct",
+      "data_cutoff": "rolling-origin: entrena hasta la elecciÃ³n anterior y evalÃºa 2011â†’2023",
+      "inputs": [
+        "prev_turnout",
+        "delta_prev",
+        "mean_last3",
+        "electores_growth_prev",
+        "cera_share_prev",
+        "n_prev_elections"
+      ],
+      "config": {
+        "seed": 42,
+        "recent_k": 3,
+        "alpha": 1.0,
+        "l1_ratio": 0.5
+      },
+      "metrics": {
+        "mae_macro_pp": 3.644,
+        "by_election": [
+          {
+            "test_election": "2011-11-20",
+            "MAE_pp": 5.122,
+            "RMSE_pp": 6.532,
+            "bias_pp": 5.092
+          },
+          {
+            "test_election": "2015-12-20",
+            "MAE_pp": 3.211,
+            "RMSE_pp": 4.604,
+            "bias_pp": 2.85
+          },
+          {
+            "test_election": "2016-06-26",
+            "MAE_pp": 3.812,
+            "RMSE_pp": 4.792,
+            "bias_pp": 3.793
+          },
+          {
+            "test_election": "2019-04-28",
+            "MAE_pp": 3.368,
+            "RMSE_pp": 3.97,
+            "bias_pp": -3.277
+          },
+          {
+            "test_election": "2019-11-10",
+            "MAE_pp": 3.763,
+            "RMSE_pp": 4.543,
+            "bias_pp": 3.758
+          },
+          {
+            "test_election": "2023-07-23",
+            "MAE_pp": 2.585,
+            "RMSE_pp": 3.776,
+            "bias_pp": 1.121
+          }
+        ],
+        "n_folds": 6
+      },
+      "status": "experimental",
+      "note": "SelecciÃ³n L1/L2 con las 6 variables de fase 3."
+    },
+    {
+      "version_id": "f3-last_election",
+      "label": "Repetir la elecciÃ³n anterior",
+      "phase": "Fase 3",
+      "created_at": "2026-10-16",
+      "target": "turnout_pct",
+      "data_cutoff": "rolling-origin: entrena hasta la elecciÃ³n anterior y evalÃºa 2011â†’2023",
+      "inputs": [
+        "prev_turnout",
+        "delta_prev",
+        "mean_last3",
+        "electores_growth_prev",
+        "cera_share_prev",
+        "n_prev_elections"
+      ],
+      "config": {
+        "seed": 42,
+        "recent_k": 3
+      },
+      "metrics": {
+        "mae_macro_pp": 3.998,
+        "by_election": [
+          {
+            "test_election": "2011-11-20",
+            "MAE_pp": 5.653,
+            "RMSE_pp": 6.114,
+            "bias_pp": 5.281
+          },
+          {
+            "test_election": "2015-12-20",
+            "MAE_pp": 1.438,
+            "RMSE_pp": 1.759,
+            "bias_pp": -0.191
+          },
+          {
+            "test_election": "2016-06-26",
+            "MAE_pp": 2.931,
+            "RMSE_pp": 3.099,
+            "bias_pp": 2.931
+          },
+          {
+            "test_election": "2019-04-28",
+            "MAE_pp": 5.052,
+            "RMSE_pp": 5.716,
+            "bias_pp": -5.052
+          },
+          {
+            "test_election": "2019-11-10",
+            "MAE_pp": 5.876,
+            "RMSE_pp": 5.976,
+            "bias_pp": 5.876
+          },
+          {
+            "test_election": "2023-07-23",
+            "MAE_pp": 3.035,
+            "RMSE_pp": 3.66,
+            "bias_pp": -1.474
+          }
+        ],
+        "n_folds": 6
+      },
+      "status": "baseline",
+      "note": "Baseline ingenuo: repite la participaciÃ³n previa."
+    },
+    {
+      "version_id": "f3-hgbr",
+      "label": "Gradient boosting (6 variables base)",
+      "phase": "Fase 3",
+      "created_at": "2026-10-16",
+      "target": "turnout_pct",
+      "data_cutoff": "rolling-origin: entrena hasta la elecciÃ³n anterior y evalÃºa 2011â†’2023",
+      "inputs": [
+        "prev_turnout",
+        "delta_prev",
+        "mean_last3",
+        "electores_growth_prev",
+        "cera_share_prev",
+        "n_prev_elections"
+      ],
+      "config": {
+        "seed": 42,
+        "recent_k": 3,
+        "max_iter": 200,
+        "max_leaf_nodes": 15,
+        "min_samples_leaf": 20,
+        "learning_rate": 0.05
+      },
+      "metrics": {
+        "mae_macro_pp": 4.106,
+        "by_election": [
+          {
+            "test_election": "2011-11-20",
+            "MAE_pp": 4.433,
+            "RMSE_pp": 5.248,
+            "bias_pp": 4.433
+          },
+          {
+            "test_election": "2015-12-20",
+            "MAE_pp": 2.872,
+            "RMSE_pp": 3.794,
+            "bias_pp": 2.344
+          },
+          {
+            "test_election": "2016-06-26",
+            "MAE_pp": 1.679,
+            "RMSE_pp": 2.201,
+            "bias_pp": 0.569
+          },
+          {
+            "test_election": "2019-04-28",
+            "MAE_pp": 7.269,
+            "RMSE_pp": 7.586,
+            "bias_pp": -7.269
+          },
+          {
+            "test_election": "2019-11-10",
+            "MAE_pp": 5.309,
+            "RMSE_pp": 5.696,
+            "bias_pp": 5.309
+          },
+          {
+            "test_election": "2023-07-23",
+            "MAE_pp": 3.075,
+            "RMSE_pp": 4.021,
+            "bias_pp": 2.456
+          }
+        ],
+        "n_folds": 6
+      },
+      "status": "experimental",
+      "note": "Ãrboles de boosting con las 6 variables de fase 3."
+    },
+    {
+      "version_id": "f3-ridge",
+      "label": "Ridge (6 variables base)",
+      "phase": "Fase 3",
+      "created_at": "2026-10-16",
+      "target": "turnout_pct",
+      "data_cutoff": "rolling-origin: entrena hasta la elecciÃ³n anterior y evalÃºa 2011â†’2023",
+      "inputs": [
+        "prev_turnout",
+        "delta_prev",
+        "mean_last3",
+        "electores_growth_prev",
+        "cera_share_prev",
+        "n_prev_elections"
+      ],
+      "config": {
+        "seed": 42,
+        "recent_k": 3,
+        "alpha": 1.0
+      },
+      "metrics": {
+        "mae_macro_pp": 4.308,
+        "by_election": [
+          {
+            "test_election": "2011-11-20",
+            "MAE_pp": 5.248,
+            "RMSE_pp": 5.806,
+            "bias_pp": 5.248
+          },
+          {
+            "test_election": "2015-12-20",
+            "MAE_pp": 5.802,
+            "RMSE_pp": 6.297,
+            "bias_pp": 5.802
+          },
+          {
+            "test_election": "2016-06-26",
+            "MAE_pp": 4.426,
+            "RMSE_pp": 4.986,
+            "bias_pp": 4.386
+          },
+          {
+            "test_election": "2019-04-28",
+            "MAE_pp": 5.189,
+            "RMSE_pp": 5.589,
+            "bias_pp": -5.189
+          },
+          {
+            "test_election": "2019-11-10",
+            "MAE_pp": 2.871,
+            "RMSE_pp": 3.283,
+            "bias_pp": 2.657
+          },
+          {
+            "test_election": "2023-07-23",
+            "MAE_pp": 2.309,
+            "RMSE_pp": 3.039,
+            "bias_pp": -0.269
+          }
+        ],
+        "n_folds": 6
+      },
+      "status": "experimental",
+      "note": "Modelo regularizado con las 6 variables de fase 3."
+    },
+    {
+      "version_id": "f3-trend1",
+      "label": "Tendencia lineal de una elecciÃ³n",
+      "phase": "Fase 3",
+      "created_at": "2026-10-16",
+      "target": "turnout_pct",
+      "data_cutoff": "rolling-origin: entrena hasta la elecciÃ³n anterior y evalÃºa 2011â†’2023",
+      "inputs": [
+        "prev_turnout",
+        "delta_prev",
+        "mean_last3",
+        "electores_growth_prev",
+        "cera_share_prev",
+        "n_prev_elections"
+      ],
+      "config": {
+        "seed": 42,
+        "recent_k": 3
+      },
+      "metrics": {
+        "mae_macro_pp": 6.885,
+        "by_election": [
+          {
+            "test_election": "2011-11-20",
+            "MAE_pp": 5.63,
+            "RMSE_pp": 7.095,
+            "bias_pp": 3.885
+          },
+          {
+            "test_election": "2015-12-20",
+            "MAE_pp": 5.722,
+            "RMSE_pp": 6.341,
+            "bias_pp": -5.472
+          },
+          {
+            "test_election": "2016-06-26",
+            "MAE_pp": 3.379,
+            "RMSE_pp": 3.958,
+            "bias_pp": 3.122
+          },
+          {
+            "test_election": "2019-04-28",
+            "MAE_pp": 7.983,
+            "RMSE_pp": 8.694,
+            "bias_pp": -7.983
+          },
+          {
+            "test_election": "2019-11-10",
+            "MAE_pp": 10.928,
+            "RMSE_pp": 11.313,
+            "bias_pp": 10.928
+          },
+          {
+            "test_election": "2023-07-23",
+            "MAE_pp": 7.668,
+            "RMSE_pp": 8.319,
+            "bias_pp": -7.35
+          }
+        ],
+        "n_folds": 6
+      },
+      "status": "baseline",
+      "note": "Baseline de tendencia; falla en ciclos atÃ­picos."
+    },
+    {
+      "version_id": "f4-hgbr_full",
+      "label": "Gradient boosting + demografÃ­a, EPA y rentas",
+      "phase": "Fase 4",
+      "created_at": "2026-10-16",
+      "target": "turnout_pct",
+      "data_cutoff": "mismos 6 folds; covariables con vintage publicado antes del corte",
+      "inputs": [
+        "prev_turnout",
+        "delta_prev",
+        "mean_last3",
+        "electores_growth_prev",
+        "cera_share_prev",
+        "n_prev_elections",
+        "share_18_29",
+        "share_30_44",
+        "share_45_64",
+        "share_65plus",
+        "share_foreign",
+        "pop_growth_yoy",
+        "pop_total_2852",
+        "unemployment_rate",
+        "activity_rate",
+        "employment_rate",
+        "adrh_wages",
+        "adrh_pensions",
+        "adrh_unemp_benefits",
+        "adrh_other_benefits",
+        "adrh_other_income"
+      ],
+      "config": {
+        "seed": 42,
+        "max_iter": 200,
+        "max_leaf_nodes": 15,
+        "min_samples_leaf": 20,
+        "learning_rate": 0.05
+      },
+      "metrics": {
+        "mae_macro_pp": 3.682,
+        "by_election": [
+          {
+            "test_election": "2011-11-20",
+            "MAE_pp": 4.307,
+            "RMSE_pp": 5.085,
+            "bias_pp": 4.285
+          },
+          {
+            "test_election": "2015-12-20",
+            "MAE_pp": 2.186,
+            "RMSE_pp": 3.216,
+            "bias_pp": 1.078
+          },
+          {
+            "test_election": "2016-06-26",
+            "MAE_pp": 1.446,
+            "RMSE_pp": 1.949,
+            "bias_pp": 0.69
+          },
+          {
+            "test_election": "2019-04-28",
+            "MAE_pp": 5.942,
+            "RMSE_pp": 6.34,
+            "bias_pp": -5.9
+          },
+          {
+            "test_election": "2019-11-10",
+            "MAE_pp": 5.528,
+            "RMSE_pp": 5.898,
+            "bias_pp": 5.528
+          },
+          {
+            "test_election": "2023-07-23",
+            "MAE_pp": 2.683,
+            "RMSE_pp": 3.587,
+            "bias_pp": 1.516
+          }
+        ],
+        "n_folds": 6
+      },
+      "status": "experimental",
+      "note": "Mejor ML de fase 4, pero no supera a mean3."
+    },
+    {
+      "version_id": "f4-ridge_full",
+      "label": "Ridge + demografÃ­a, EPA y rentas",
+      "phase": "Fase 4",
+      "created_at": "2026-10-16",
+      "target": "turnout_pct",
+      "data_cutoff": "mismos 6 folds; covariables con vintage publicado antes del corte",
+      "inputs": [
+        "prev_turnout",
+        "delta_prev",
+        "mean_last3",
+        "electores_growth_prev",
+        "cera_share_prev",
+        "n_prev_elections",
+        "share_18_29",
+        "share_30_44",
+        "share_45_64",
+        "share_65plus",
+        "share_foreign",
+        "pop_growth_yoy",
+        "pop_total_2852",
+        "unemployment_rate",
+        "activity_rate",
+        "employment_rate",
+        "adrh_wages",
+        "adrh_pensions",
+        "adrh_unemp_benefits",
+        "adrh_other_benefits",
+        "adrh_other_income"
+      ],
+      "config": {
+        "seed": 42,
+        "alpha": 1.0
+      },
+      "metrics": {
+        "mae_macro_pp": 3.8,
+        "by_election": [
+          {
+            "test_election": "2011-11-20",
+            "MAE_pp": 3.307,
+            "RMSE_pp": 3.946,
+            "bias_pp": 2.751
+          },
+          {
+            "test_election": "2015-12-20",
+            "MAE_pp": 3.43,
+            "RMSE_pp": 4.019,
+            "bias_pp": 3.259
+          },
+          {
+            "test_election": "2016-06-26",
+            "MAE_pp": 2.14,
+            "RMSE_pp": 2.615,
+            "bias_pp": 1.971
+          },
+          {
+            "test_election": "2019-04-28",
+            "MAE_pp": 6.345,
+            "RMSE_pp": 6.925,
+            "bias_pp": -6.345
+          },
+          {
+            "test_election": "2019-11-10",
+            "MAE_pp": 4.765,
+            "RMSE_pp": 5.242,
+            "bias_pp": 4.646
+          },
+          {
+            "test_election": "2023-07-23",
+            "MAE_pp": 2.813,
+            "RMSE_pp": 3.525,
+            "bias_pp": 2.029
+          }
+        ],
+        "n_folds": 6
+      },
+      "status": "experimental",
+      "note": "AÃ±ade 15 covariables socioeconÃ³micas con vintage verificado."
+    }
+  ],
+  "projection_2026": null,
+  "required_to_reopen": [
+    "Resultados oficiales de 2026 para validar (no existen antes del 29N).",
+    "MÃ¡s elecciones con sondeos etiquetados y comparables (mÃ­nimo 3 para un corrector).",
+    "Un modelo que supere al baseline en evaluaciones independientes, no solo en un fold.",
+    "RevisiÃ³n jurÃ­dica y editorial antes de publicar cualquier proyecciÃ³n."
+  ],
+  "sources": [
+    {
+      "name": "Ministerio del Interior (resultados y participaciÃ³n)",
+      "license": "Uso pÃºblico oficial"
+    },
+    {
+      "name": "INE (padrÃ³n, EPA, ADRH)",
+      "license": "CC BY 4.0, citar INE"
+    },
+    {
+      "name": "CompilaciÃ³n de encuestas (Wikipedia)",
+      "license": "CC BY-SA 4.0, atribuciÃ³n"
+    },
+    {
+      "name": "ConfiguraciÃ³n y artefactos del repositorio",
+      "license": "Ver docs/PHASE3_MODEL_CARD.md y docs/PHASE4_ML_REVALIDATION.md"
+    }
+  ]
+}

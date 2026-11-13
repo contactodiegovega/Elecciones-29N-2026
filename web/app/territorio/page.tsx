@@ -222,8 +222,8 @@ function PageInner() {
   return (
     <div className="space-y-6">
       <SectionTitle
-        kicker="Atlas provincial"
-        title="Territorio: 52 circunscripciones"
+        kicker="Archivo · Mapa provincial"
+        title="Territorio: explora una provincia"
         desc="Mapa navegable por elección y métrica. Haz clic en una provincia para abrir su ficha completa, incluidas las candidaturas minoritarias. Las islas se representan agregadas en su provincia."
         updated={meta.generated_at?.slice(0, 10)}
         sources={["Interior", "Eurostat GISCO (geometría)", "INE"]}

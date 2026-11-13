@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
   CampaignSchema, DemographySchema, ElectionNatSchema, LabelRowSchema, MetaSchema,
-  MLSchema, OOSPointSchema, PollSchema, PollSourcesSchema, PublicationStatusSchema,
+  MLSchema, ModelRegistrySchema, OOSPointSchema, PollSchema, PollSourcesSchema, PublicationStatusSchema,
   SimulatorSchema, TerritorySchema, TurnoutRowSchema,
 } from "./types";
 import { allocateDHondt, hashIndex, mean, median, partyColor, pearson } from "./utils";
@@ -123,11 +123,31 @@ describe("contrato de datos web", () => {
   });
 });
 
+describe("registro de versiones del modelo", () => {
+  const reg = ModelRegistrySchema.parse(json("data/model_registry.json"));
+
+  it("congela 8 versiones auditadas y no permite proyección pública", () => {
+    expect(reg.versions).toHaveLength(8);
+    expect(reg.public_projection_allowed).toBe(false);
+    expect(reg.projection_2026).toBeNull();
+    expect(reg.status).toBe("no_go");
+    expect(reg.versions.every((v) => v.target === "turnout_pct")).toBe(true);
+    expect(reg.versions.every((v) => v.metrics.by_election.length === v.metrics.n_folds)).toBe(true);
+  });
+
+  it("el baseline mean3 supera al mejor modelo de fase 4", () => {
+    expect(reg.best_baseline.mae_macro_pp).toBeCloseTo(3.563, 3);
+    expect(reg.best_experimental.version_id).toBe("f3-elasticnet");
+    expect(reg.best_experimental.mae_macro_pp).toBeGreaterThan(reg.best_baseline.mae_macro_pp);
+    expect(reg.reason.toLowerCase()).toContain("no existen");
+  });
+});
+
 describe("motor D'Hondt", () => {
   const sim = SimulatorSchema.parse(json("data/simulator.json"));
   const parties = sim.parties.map((p) => p.party_id);
 
-  it("reparte 350 escaños con la base agregada y documenta la única desviación", () => {
+  it("reparte 350 escaños con la base agregada y la distribución oficial de 2026", () => {
     const result = allocateDHondt({
       thresholdPct: sim.threshold_pct,
       parties,
@@ -139,15 +159,22 @@ describe("motor D'Hondt", () => {
       })),
     });
     expect(Object.values(result.national).reduce((a, b) => a + b, 0)).toBe(350);
+    expect(sim.provinces.reduce((a, p) => a + p.seats, 0)).toBe(350);
+    expect(sim.provinces.find((p) => p.province_code === "28")?.seats).toBe(38);
+    expect(sim.provinces.find((p) => p.province_code === "11")?.seats).toBe(8);
     // Las Palmas: NC-bc (42.430) + CCa (33.558) se agregan como CC y le quitan
-    // un escaño a PP. Con candidaturas originales el reparto es exacto (137/1).
-    expect(result.national.PP).toBe(136);
+    // un escaño a PP. Además, Cádiz pierde un escaño con el RD 806/2026: con el
+    // patrón de voto de 2023, PP baja de 136 a 135 y no hay otras diferencias.
+    expect(result.national.PP).toBe(135);
     expect(result.national.CC).toBe(2);
     const lasPalmas = result.byProvince.find((p) => p.code === "35");
     expect(lasPalmas?.allocation.PP).toBe(2);
     expect(lasPalmas?.allocation.CC).toBe(1);
+    const cadiz = result.byProvince.find((p) => p.code === "11");
+    expect(cadiz?.allocation.PP).toBe(3);
     expect(sim.validation.ok).toBe(true);
     expect(sim.validation.mismatches).toHaveLength(0);
+    expect(sim.validation.seat_mismatches).toHaveLength(0);
   });
 
   it("asigna todos los escaños de cada circunscripción", () => {
