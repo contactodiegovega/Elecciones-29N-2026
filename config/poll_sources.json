@@ -1,7 +1,7 @@
 {
   "version": "2026-11-12.v1",
   "policy": "No se activa ningún conector sin revisar robots.txt, términos, licencia y formato. Las fuentes no verificadas quedan en revisión manual. No se hace bypass de paywalls, CAPTCHA ni autenticación.",
-  "active_connectors": [],
+  "active_connectors": [{"source_id": "cis_primary", "config": "config/poll_updates.json", "numeric_extraction": true, "reviewed_at": "2026-11-14"}],
   "official": [
     {
       "source_id": "boe_convocatoria_29n",
@@ -36,12 +36,12 @@
     {
       "source_id": "cis",
       "name": "Centro de Investigaciones Sociológicas (CIS)",
-      "url": null,
+      "url": "https://www.cis.es/es/",
       "type": "pollster_primary",
-      "access": "to_verify",
-      "status": "manual_review_required",
-      "license": "Verificar condiciones del repositorio de estudios y microdatos",
-      "notes": "Localizar estudios originales con ficha y microdatos antes de automatizar."
+      "access": "public_web_and_documents",
+      "status": "active_primary",
+      "license": "Reutilización de información pública con atribución al CIS, sin alterar el sentido ni atribuir respaldo institucional",
+      "notes": "Conector de fichas, estimaciones PDF y notas fechadas en poll_updates.py. Condiciones y robots verificados el 2026-11-14 y conservados como snapshots."
     }
   ],
   "secondary_aggregators": [

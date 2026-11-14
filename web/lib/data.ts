@@ -1,6 +1,6 @@
 import {
   CampaignSchema, ColorEntrySchema, DemographySchema, ElectionNatSchema,
-  LabelRowSchema, MappingRowSchema, MetaSchema, MLSchema, ModelRegistrySchema, OOSPointSchema,
+  LabelRowSchema, LatestPollsSchema, MappingRowSchema, MetaSchema, MLSchema, ModelRegistrySchema, OOSPointSchema,
   PollSourcesSchema, PollsResponseSchema, PublicationStatusSchema,
   SimulatorSchema, TerritorySchema, TurnoutRowSchema,
   type Campaign, type ColorEntry, type Demography, type ElectionNat,
@@ -58,6 +58,7 @@ export const loadSimulator = () => getJSON("/data/simulator.json", SimulatorSche
 export const loadCampaign = () => getJSON("/data/campaign.json", CampaignSchema);
 export const loadPollSources = () => getJSON("/data/poll_sources.json", PollSourcesSchema);
 export const loadPublicationStatus = () => getJSON("/data/publication_status.json", PublicationStatusSchema);
+export const loadLatestPolls = () => getJSON("/data/latest_polls.json", LatestPollsSchema);
 export const loadMLGate = () => getJSON("/data/ml_gate.json", {
   parse: (x: unknown) => x as {
     generated_at: string;

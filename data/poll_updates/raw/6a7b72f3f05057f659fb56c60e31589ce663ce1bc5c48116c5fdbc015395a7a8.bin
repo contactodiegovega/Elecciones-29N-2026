@@ -1,0 +1,72 @@
+User-Agent: *
+Disallow: /*/group/*
+Disallow: /*/user/*
+Disallow: /*/c/portal/login*
+Disallow: /*/login*
+Disallow: /*/-/asset_
+Disallow: /ws/*
+Disallow: *com_liferay_login_web_portlet_LoginPortlet*
+Disallow: *es_cis_jds_viewer_JdsNavigatorViewerPortlet*
+Disallow: *control_panel*
+Disallow: *p=*
+Disallow: *c=*
+# /en
+Disallow: /en/*.html$
+Disallow: /en/*.pdf$
+Disallow: /en/*.xlsx$
+Disallow: /en/*.zip$
+
+# /es
+Disallow: /es/*.html$
+Disallow: /es/*.pdf$
+Disallow: /es/*.xlsx$
+Disallow: /es/*.zip$
+
+# /gl
+Disallow: /gl/*.html$
+Disallow: /gl/*.pdf$
+Disallow: /gl/*.xlsx$
+Disallow: /gl/*.zip$
+
+# /eu
+Disallow: /eu/*.html$
+Disallow: /eu/*.pdf$
+Disallow: /eu/*.xlsx$
+Disallow: /eu/*.zip$
+
+# /fr
+Disallow: /fr/*.html$
+Disallow: /fr/*.pdf$
+Disallow: /fr/*.xlsx$
+Disallow: /fr/*.zip$
+
+# /ca
+Disallow: /ca/*.html$
+Disallow: /ca/*.pdf$
+Disallow: /ca/*.xlsx$
+Disallow: /ca/*.zip$
+
+Disallow: /es/buscar*
+Disallow: /eu/bilatu*
+Disallow: /ca/cerca*
+Disallow: /gl/buscar*
+Disallow: /en/search*
+Disallow: /fr/rechercher*
+
+   Disallow: *fromDate=*
+   Disallow: *toDate=*
+   Disallow: *ss=*
+   Disallow: *sa1=*
+   Disallow: *sa2=*
+   Disallow: *c0=*
+   Disallow: *c1=*
+   Disallow: *c2=*
+   Disallow: *c3=*
+   Disallow: *c4=*
+   Disallow: *c5=*
+   Disallow: *c6=*
+   Disallow: *c7=*
+   Disallow: *c8=*
+   Disallow: *c9=*
+
+Sitemap: https://www.cis.es/sitemap.xml

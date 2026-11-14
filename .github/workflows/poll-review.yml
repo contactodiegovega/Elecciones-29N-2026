@@ -1,0 +1,52 @@
+name: Poll updates (private review only)
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 7,13,19 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: poll-review
+  cancel-in-progress: false
+
+jobs:
+  update:
+    # Disabled by default. No public snapshots/artifacts, no deployments or pushes.
+    if: github.event.repository.private == true && (vars.POLL_UPDATES_ENABLED == 'true' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install pandas pyarrow requests beautifulsoup4 lxml 'pypdf>=5,<7' pytest
+      - name: Current editorial clock
+        id: clock
+        run: python -c "from src.electoral.electoral_calendar import poll_publication_allowed; print('allowed=' + str(poll_publication_allowed()).lower())" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache/restore@v4
+        if: steps.clock.outputs.allowed == 'true'
+        with:
+          path: data/poll_updates
+          key: poll-review-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: poll-review-
+      - name: Update sources and regenerate review JSON
+        run: python -m src.electoral.poll_updates
+      - name: Validate update and static-file restrictions
+        run: python -m pytest tests/test_poll_updates.py -q
+      - uses: actions/cache/save@v4
+        if: success() && steps.clock.outputs.allowed == 'true'
+        with:
+          path: data/poll_updates
+          key: poll-review-${{ github.run_id }}-${{ github.run_attempt }}
+      - uses: actions/upload-artifact@v4
+        if: success() && steps.clock.outputs.allowed == 'true'
+        with:
+          name: private-poll-review-${{ github.run_id }}
+          path: |
+            data/poll_updates
+            web/public/data/latest_polls.json
+          retention-days: 7

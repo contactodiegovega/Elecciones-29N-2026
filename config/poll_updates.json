@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "max_studies_per_run": 6,
+  "sources": [
+    {
+      "id": "cis_primary",
+      "kind": "cis",
+      "url": "https://www.cis.es/es/",
+      "allowed_hosts": ["www.cis.es"],
+      "extraction_permitted": true,
+      "license": "CIS: reutilización de información pública con atribución, fecha y sin respaldo institucional",
+      "terms_url": "https://www.cis.es/es/condiciones-reutilizaci%C3%B3n-datos-del-cis",
+      "reviewed_at": "2026-11-14",
+      "seed_urls": [
+        "https://www.cis.es/es/estudios/barometro-de-octubre-2026",
+        "https://www.cis.es/es/estudios/barometro-de-septiembre-2026",
+        "https://www.cis.es/es/w/el-psoe-lograr%C3%ADa-el-33-3-de-los-votos-en-las-elecciones-generales-del-29n"
+      ]
+    },
+    {
+      "id": "rtve_discovery",
+      "kind": "rss_discovery",
+      "url": "https://www.rtve.es/rss/temas/elecciones-generales.xml",
+      "allowed_hosts": ["www.rtve.es"],
+      "extraction_permitted": false,
+      "license": "Solo metadatos del feed público para descubrir publicaciones; no se extraen porcentajes ni artículos",
+      "terms_url": "https://www.rtve.es/comunes/aviso_legal.html"
+    },
+    {
+      "id": "gad3_discovery",
+      "kind": "rss_discovery",
+      "url": "https://www.gad3.com/feed/",
+      "allowed_hosts": ["www.gad3.com", "gad3.com"],
+      "extraction_permitted": false,
+      "license": "Solo metadatos del feed público; la extracción de estimaciones requiere revisión de permisos",
+      "terms_url": "https://www.gad3.com/aviso-legal/"
+    }
+  ]
+}

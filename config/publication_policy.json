@@ -1,0 +1,6 @@
+{
+  "public_release_authorized": false,
+  "cache_withdrawal_verified": false,
+  "legacy_urls_withdrawal_verified": false,
+  "policy": "Solo revisión local. No desplegar hasta autorización y retirada verificable de versiones previas, JSON, cachés CDN y artefactos. El flujo de actualización no publica ni despliega."
+}

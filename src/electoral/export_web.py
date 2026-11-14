@@ -108,7 +108,7 @@ def main() -> None:
 
     # --- meta ---
     wjson(WEBDATA / "meta.json", {
-        "title": "Observatorio Electoral España 2026 — análisis de campaña y 1977–2023",
+        "title": "El Último Escaño — reparto provincial, historia y encuestas",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "as_of": as_of,
         "elections": sorted(m["ed"].unique().tolist()),
@@ -308,6 +308,10 @@ def main() -> None:
 
     # --- geometría GISCO (ES NUTS3 -> 52 provincias) ---
     fetch_geo()
+    from electoral.province_data import export_provinces
+    from electoral.web_publication import prepare_web
+    export_provinces()
+    prepare_web()
     print("[export] COMPLETO sin pérdidas")
 
 

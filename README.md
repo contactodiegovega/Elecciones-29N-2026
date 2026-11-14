@@ -1,6 +1,12 @@
-# Observatorio Electoral España 2026 — FASES 1–5 (web incluida; fase 6 lista para desplegar)
+# El Último Escaño
 
-Qué resuelve: explorar 16 elecciones generales al Congreso (1977–2023, 52
+¿Cómo se decidió el último diputado de tu provincia y qué pasaría si cambiaran los votos?
+
+La portada abre directamente **León, 2023**, con su reparto oficial y la calculadora integrada.
+Permite añadir votos, transferirlos conservando el total y consultar el mínimo entero
+para otro diputado bajo supuestos explícitos. El buscador y el mapa dan acceso a las **52 circunscripciones**.
+
+El archivo técnico conserva 16 elecciones generales al Congreso (1977–2023, 52
 circunscripciones, 1.778 candidaturas), demografía/paro/renta provinciales con vintage,
 1.533 sondeos registrados (1.123 primarios) y la evaluación retrospectiva honesta de modelos de
 participación (el baseline `mean3`, 3,56 pp macro, sigue ganando). Sin pronósticos del 29N.
@@ -13,10 +19,21 @@ npm install
 npm run dev      # http://localhost:3000
 ```
 
-Secciones principales: Inicio, Mi predicción (registro de modelos, sin proyección pública),
-Encuestas, Diputados por provincia (RD 806/2026) y Más análisis (histórico, participación,
-demografía, laboratorio de modelos, simulador y metodología). Las páginas antiguas de
-territorio, campaña y partidos siguen accesibles desde «Más análisis».
+Cuatro secciones principales: **Inicio**, **Provincias**, **Encuestas** y **Aprende**.
+La calculadora está directamente en `/`, sin pasos intermedios. Para compartir León:
+`http://localhost:3000/?province=24`. La asignación oficial de 2026 (RD 806/2026)
+se distingue del reparto histórico de 2023. El nuevo motor provincial reproduce las
+52 circunscripciones y los 350 escaños oficiales con candidaturas originales.
+
+El histórico, la participación, la demografía, los modelos, el simulador avanzado y
+la metodología se agrupan como recursos secundarios en «Aprende». El registro de experimentos se
+encuentra en `/metodologia/modelos`. Los datasets y el pipeline científico se conservan.
+Detalles de las rutas, fuentes y comprobaciones: [web/README.md](web/README.md).
+
+**Estado: revisión local, publicación bloqueada.** No se ha desplegado ni enviado a remoto.
+La actualización de encuestas se prepara con snapshots reales, registro de fallos,
+reproducción offline y una acción de GitHub exclusivamente para repositorios privados
+y habilitación explícita. Véase [actualización y difusión](docs/POLL_UPDATES.md).
 
 ## Pipeline completo (PowerShell, desde la raíz)
 

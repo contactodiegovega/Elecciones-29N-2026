@@ -7,7 +7,7 @@ export default function Metodologia() {
       <SectionTitle
         kicker="Transparencia"
         title="Metodología: cómo se hacen los datos"
-        desc="Cómo se construyó el observatorio, qué mide cada cifra, qué no afirma y cómo se reproduce. Todo dato publicado procede de un artefacto versionado; ningún hueco se rellena a ojo."
+        desc="Cómo se construyó El Último Escaño, qué mide cada cifra y cómo se reproduce. Todo dato procede de un artefacto versionado; ningún hueco se rellena a ojo."
         sources={["Datos abiertos", "Pipeline por fases", "Tests automáticos"]}
       />
 
@@ -39,7 +39,7 @@ export default function Metodologia() {
         <Card title="Definiciones">
           <dl className="space-y-3 text-sm leading-relaxed text-stone-700">
             <div><dt className="font-semibold text-ink">Cuota de voto (%)</dt><dd>Votos de la formación / votos a candidaturas del mismo ámbito. No incluye nulos ni blancos salvo que se indique.</dd></div>
-            <div><dt className="font-semibold text-ink">Cambios</dt><dd>Siempre en puntos porcentuales (pp), nunca en porcentaje relativo.</dd></div>
+            <div><dt className="font-semibold text-ink">Cambios</dt><dd>Los cambios de cuota o participación se expresan en puntos porcentuales (pp). Los controles «Todas ±5 %» del escenario son cambios relativos de votos, redondeados a enteros.</dd></div>
             <div><dt className="font-semibold text-ink">Participación</dt><dd>Votantes / electores. Censo, padrón, votantes y habitantes son universos distintos.</dd></div>
             <div><dt className="font-semibold text-ink">Renta ADRH</dt><dd>Peso de cada fuente de ingreso sobre la renta de los hogares, no renta per cápita.</dd></div>
             <div><dt className="font-semibold text-ink">EPA</dt><dd>Encuesta de población activa: no es paro registrado ni una medición censal.</dd></div>
@@ -59,14 +59,26 @@ export default function Metodologia() {
         </Card>
       </div>
 
-      <Card title="Simulador D'Hondt: qué hace exactamente" subtitle="Aritmética condicional, no pronóstico">
+      <Card title="El último escaño: reconstrucción y escenarios" subtitle="Candidaturas originales, sin agregación por familia política">
+        <ol className="list-decimal space-y-2 pl-5 text-sm leading-relaxed text-stone-700">
+          <li>Lee todas las candidaturas de 2023, sus votos y sus escaños oficiales de <code>labels_by_election/2023-07-23.json</code>. El censo, la participación y el voto en blanco proceden de <code>turnout.json</code>.</li>
+          <li>Conserva listas distintas por separado. El umbral provincial del 3 % se calcula sobre votos a candidaturas más votos en blanco; excluye los nulos.</li>
+          <li>Ordena cocientes mediante productos cruzados, sin usar el redondeo mostrado en pantalla para decidir el escaño. A igualdad de cociente prima el total de votos. El empate exacto de votos en el corte se marca como pendiente de sorteo.</li>
+          <li>Recalcula con los escaños de 2023 y compara cada candidatura con los escaños oficiales almacenados en las 52 circunscripciones. Ceuta y Melilla se resuelven por mayoría.</li>
+          <li>El último cociente adjudicado y el primero no adjudicado explican el corte. Su diferencia no es un número de votos necesarios: depende de los divisores y del escenario.</li>
+          <li>Los escenarios editan votos enteros de cualquier candidatura y el blanco. La asignación de 2026 es una opción explícita: los resultados de 2023 mantienen su asignación histórica. Reutilizar candidaturas históricas no presupone su participación futura.</li>
+        </ol>
+        <div className="mt-4 flex flex-wrap gap-4 text-sm text-accent"><Link className="underline" href="/ultimo-escano">Abrir herramienta y auditoría</Link><a className="underline" href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2023-18907">Resultados JEC 2023</a><a className="underline" href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-20742">Asignación oficial 2026</a></div>
+      </Card>
+
+      <Card title="Laboratorio: simulador nacional avanzado" subtitle="Swing territorial y agrupaciones explícitas; herramienta distinta de la reconstrucción histórica">
         <ol className="list-decimal space-y-2 pl-5 text-sm leading-relaxed text-stone-700">
           <li>Parte de los porcentajes nacionales de 2023 y del patrón provincial del Ministerio del Interior.</li>
           <li>Aplica un <strong>swing aditivo uniforme</strong> a cada partido: cuota provincial nueva = cuota provincial 2023 + (cuota nacional nueva − cuota nacional 2023), truncada en cero y renormalizada.</li>
           <li>Convierte cuotas en votos con los votos válidos provinciales y el cambio de participación elegido.</li>
           <li>Aplica el <strong>umbral del 3 %</strong> por circunscripción y reparte con <strong>D&apos;Hondt</strong> los escaños de cada provincia (1 en Ceuta y Melilla).</li>
           <li>La sensibilidad diferencial es un supuesto explícito y desactivado por defecto: con 0, un cambio uniforme de participación no altera el reparto.</li>
-          <li>El motor se valida reproduciendo los 350 escaños oficiales de 2023 con la base sin tocar.</li>
+          <li>La validación histórica usa las candidaturas originales, no la base nacional agregada. La base agregada puede alterar repartos (por ejemplo, al reunir NC-bc y CCa). Consulta la nueva herramienta provincial para reconstruir el resultado real.</li>
         </ol>
         <div className="mt-4 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950">
           <strong>No modela</strong> pactos postelectorales, investidura, coaliciones de gobierno, voto útil
@@ -88,6 +100,7 @@ export default function Metodologia() {
         </Card>
 
         <Card title="Compuerta de calidad y ML">
+          <Link href="/metodologia/modelos" className="mb-4 inline-block text-sm font-medium text-accent underline">Consultar el registro de experimentos y versiones →</Link>
           <div className="flex flex-wrap gap-2">
             <Tag tone="warn">Corrector de encuestas: NO-GO</Tag>
             <Tag tone="warn">Proyección de participación: NO-GO</Tag>
@@ -153,4 +166,3 @@ npm run build`}
     </div>
   );
 }
-

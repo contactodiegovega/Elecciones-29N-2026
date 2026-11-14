@@ -19,6 +19,38 @@ body {
   font-feature-settings: "kern" 1, "liga" 1;
 }
 
+@layer components {
+  .eyebrow { @apply text-xs font-semibold uppercase tracking-[0.17em] text-accent; }
+  .editorial-panel { @apply rounded-2xl border border-line bg-white; }
+  .button-primary { @apply rounded-lg bg-ink px-4 py-2.5 text-sm font-medium text-white transition hover:bg-accent; }
+  .button-secondary { @apply rounded-lg border border-line bg-white px-3 py-2 text-sm font-medium transition hover:border-accent; }
+  .hero-editorial { @apply border-b border-line pb-8 md:pb-10; }
+  .home-masthead { @apply flex flex-wrap items-center justify-between gap-4 border-b border-line pb-5; }
+  .secondary-pillar { @apply whitespace-nowrap text-sm font-semibold text-accent underline underline-offset-4; }
+  .province-picker { @apply relative min-w-0; }
+  .province-story { @apply border-b border-line pb-6; }
+  .cutoff-cell { @apply rounded-xl bg-stone-100/80 p-3 md:p-4; }
+  .cutoff-winner { @apply border-l-[3px] border-accent bg-teal-50; }
+  .calculator-workbench { @apply rounded-2xl border border-ink/15 bg-[#f1f4f1] p-4 md:p-6; }
+  .scenario-tabs { @apply inline-flex rounded-lg border border-line bg-white p-1; }
+  .scenario-tabs button { @apply rounded-md px-3 py-2 text-sm font-medium text-stone-600; }
+  .scenario-tabs button[aria-pressed="true"] { @apply bg-ink text-white; }
+  .scenario-result { @apply rounded-xl border border-line bg-white p-4 md:p-5; }
+  .seat-symbol { @apply inline-block h-9 w-9 rounded-t-xl rounded-b-sm border-b-4 border-black/15 md:h-10 md:w-10; }
+  .sensitivity-section { @apply border-b border-line pb-6; }
+  .advanced-fold { @apply rounded-xl border border-line bg-white p-4 md:p-5; }
+  .advanced-fold > summary { @apply cursor-pointer text-sm font-semibold; }
+  .brand-mark { @apply flex items-end gap-[3px]; }
+  .brand-mark i { @apply inline-block h-4 w-2 rounded-t bg-ink; }
+  .brand-mark i:last-child { @apply h-6 bg-accent; }
+  .poll-publication { @apply border-t-[3px] border-ink bg-white p-4 md:p-5; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
 .font-serif {
   font-variant-numeric: lining-nums;
 }

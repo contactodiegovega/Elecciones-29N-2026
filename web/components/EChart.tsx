@@ -62,7 +62,8 @@ export default function EChart({ option, height = 420, ariaLabel, onEvents, test
     if (!el) return;
     const chart = echarts.getInstanceByDom(el);
     if (!chart) return;
-    chart.setOption(option, { notMerge: true, lazyUpdate: false });
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    chart.setOption(reducedMotion ? { ...option, animation: false } : option, { notMerge: true, lazyUpdate: false });
     chart.resize();
   }, [option]);
 

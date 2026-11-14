@@ -64,6 +64,9 @@ export const PollSchema = z.object({
   fw_start: z.string().nullable(), fw_end: z.string().nullable(), n: z.number().nullable(),
   type: z.enum(["estimated_vote", "direct_intention"]), canonical: z.string(),
   published_at: z.string().nullable().optional(),
+  estimate_url: z.string().nullable().optional(),
+  technical_url: z.string().nullable().optional(),
+  fieldwork_text: z.string().nullable().optional(),
   publication_status: z.string().optional(),
   quality_flags: z.string().nullable().optional(),
   is_tracking_update: z.boolean().optional(),
@@ -79,6 +82,12 @@ export const PollSchema = z.object({
   est: z.array(PollEstSchema),
 }).passthrough();
 export type Poll = z.infer<typeof PollSchema>;
+
+export const LatestPollsSchema = z.object({
+  generated_at: z.string(), restricted: z.boolean(), polls: z.array(PollSchema), total_verified: z.number(),
+  last_update: z.string().nullable(), note: z.string(), sources: z.array(z.object({ id: z.string(), status: z.string() })),
+});
+export type LatestPolls = z.infer<typeof LatestPollsSchema>;
 
 export const ColorEntrySchema = z.object({
   party_id: z.string(), display_name: z.string(), hex_color: z.string(),

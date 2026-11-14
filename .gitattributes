@@ -1,2 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+# Source snapshots must survive checkout byte-for-byte for SHA-256 verification.
+data/poll_updates/raw/*.bin binary

@@ -4,10 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "npm run prepare:data",
+    "prepare:data": "node scripts/prepare-data.cjs",
     "build": "next build",
+    "build:public": "npm run check:release && npm run build",
+    "check:release": "node scripts/prepare-data.cjs --release",
     "start": "next start",
+    "preview": "python scripts/preview.py",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "test:e2e": "playwright test",
     "lint": "eslint app components lib"
   },
   "dependencies": {
@@ -19,6 +25,7 @@
     "zod": "^3.24.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.1",
     "@types/geojson": "^7946.0.16",
     "@types/node": "^22.10.0",
     "@types/react": "^19.1.0",

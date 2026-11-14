@@ -1,0 +1,113 @@
+{
+  "retrieved_at": "2026-11-14T18:45:35.375922+00:00",
+  "restricted": false,
+  "sources": [
+    {
+      "id": "cis_primary",
+      "status": "ok",
+      "verified": 1
+    },
+    {
+      "id": "rtve_discovery",
+      "status": "failed",
+      "error": "robots.txt no permite esta consulta"
+    },
+    {
+      "id": "gad3_discovery",
+      "status": "failed",
+      "error": "403 Client Error: Forbidden for url: https://www.gad3.com/robots.txt"
+    }
+  ],
+  "events": [
+    {
+      "status": "needs_review",
+      "url": "https://www.cis.es/es/estudios/barometro-de-octubre-2026",
+      "error": "No se reconoce una tabla de estimación CIS con PP, PSOE y VOX"
+    },
+    {
+      "status": "needs_review",
+      "url": "https://www.cis.es/es/estudios/barometro-de-septiembre-2026",
+      "error": "No se reconoce una tabla de estimación CIS con PP, PSOE y VOX"
+    },
+    {
+      "status": "new",
+      "id": "primary-84b0429f1ea59242ed40",
+      "url": "https://www.cis.es/es/w/el-psoe-lograr%C3%ADa-el-33-3-de-los-votos-en-las-elecciones-generales-del-29n"
+    }
+  ],
+  "requests": [
+    {
+      "url": "https://www.cis.es/robots.txt",
+      "source": "cis_primary",
+      "sha256": "6a7b72f3f05057f659fb56c60e31589ce663ce1bc5c48116c5fdbc015395a7a8",
+      "bytes": 1340,
+      "retrieved_at": "2026-11-14T18:45:35.375922+00:00",
+      "snapshot": "raw/6a7b72f3f05057f659fb56c60e31589ce663ce1bc5c48116c5fdbc015395a7a8.bin"
+    },
+    {
+      "url": "https://www.cis.es/es/",
+      "source": "cis_primary",
+      "sha256": "deb57da8e2f3d25e9216d9078ae787f22e13a9608bdbe676f7212363195912b7",
+      "bytes": 379649,
+      "retrieved_at": "2026-11-14T18:45:35.375922+00:00",
+      "snapshot": "raw/deb57da8e2f3d25e9216d9078ae787f22e13a9608bdbe676f7212363195912b7.bin"
+    },
+    {
+      "url": "https://www.cis.es/es/condiciones-reutilizaci%C3%B3n-datos-del-cis",
+      "source": "cis_primary",
+      "sha256": "6e3f611be569bce57228a781f6e5e21ffc15e1c5b543a30a6b5a79c334e949d4",
+      "bytes": 347216,
+      "retrieved_at": "2026-11-14T18:45:35.375922+00:00",
+      "snapshot": "raw/6e3f611be569bce57228a781f6e5e21ffc15e1c5b543a30a6b5a79c334e949d4.bin"
+    },
+    {
+      "url": "https://www.cis.es/es/estudios/barometro-de-octubre-2026",
+      "source": "cis_primary",
+      "sha256": "f0061274914e7f6008c6eb136727d76503b2bb206ce2c1492faba013a5035323",
+      "bytes": 586856,
+      "retrieved_at": "2026-11-14T18:45:35.375922+00:00",
+      "snapshot": "raw/f0061274914e7f6008c6eb136727d76503b2bb206ce2c1492faba013a5035323.bin"
+    },
+    {
+      "url": "https://www.cis.es/documents/20117/14396821/3582_Estimacion.pdf/2bcc5f28-7a97-d5be-6b29-fd3fa778c60a?version=1.0&t=1791970151290",
+      "source": "cis_primary",
+      "sha256": "6a39448b2de29644f4dc0c330e39d3d4ba9f8998f03d021ecbbdadc6d5f90bda",
+      "bytes": 57035,
+      "retrieved_at": "2026-11-14T18:45:35.375922+00:00",
+      "snapshot": "raw/6a39448b2de29644f4dc0c330e39d3d4ba9f8998f03d021ecbbdadc6d5f90bda.bin"
+    },
+    {
+      "url": "https://www.cis.es/es/estudios/barometro-de-septiembre-2026",
+      "source": "cis_primary",
+      "sha256": "e338c200f0c764dab6c1cc422228b0fb3cc68ea29db3be813266fd1bde31d5be",
+      "bytes": 573572,
+      "retrieved_at": "2026-11-14T18:45:35.375922+00:00",
+      "snapshot": "raw/e338c200f0c764dab6c1cc422228b0fb3cc68ea29db3be813266fd1bde31d5be.bin"
+    },
+    {
+      "url": "https://www.cis.es/documents/20117/14250083/3577_Estimacion.pdf/02190cd6-3dc7-57ef-0b80-7fefdf365677?version=1.0&t=1789376167045",
+      "source": "cis_primary",
+      "sha256": "61746e83796a83b388e7433bf15ac75461b18bb8e16712a68b164d8fcb676317",
+      "bytes": 66454,
+      "retrieved_at": "2026-11-14T18:45:35.375922+00:00",
+      "snapshot": "raw/61746e83796a83b388e7433bf15ac75461b18bb8e16712a68b164d8fcb676317.bin"
+    },
+    {
+      "url": "https://www.cis.es/es/w/el-psoe-lograr%C3%ADa-el-33-3-de-los-votos-en-las-elecciones-generales-del-29n",
+      "source": "cis_primary",
+      "sha256": "e66e34ae426c6ef6b643030de496436a9de4d3f5b6d17eda482899f6221fa380",
+      "bytes": 268557,
+      "retrieved_at": "2026-11-14T18:45:35.375922+00:00",
+      "snapshot": "raw/e66e34ae426c6ef6b643030de496436a9de4d3f5b6d17eda482899f6221fa380.bin"
+    },
+    {
+      "url": "https://www.rtve.es/akamai/robots.txt",
+      "source": "rtve_discovery",
+      "sha256": "012fe60f6e2f03d3961ab3c468d739842d37befd5ef1c84c5a46f70f4d90d82a",
+      "bytes": 10319,
+      "retrieved_at": "2026-11-14T18:45:35.375922+00:00",
+      "snapshot": "raw/012fe60f6e2f03d3961ab3c468d739842d37befd5ef1c84c5a46f70f4d90d82a.bin"
+    }
+  ],
+  "verified_total": 1
+}

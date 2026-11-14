@@ -19,8 +19,12 @@ data/raw/*
 # Frontend
 web/node_modules/
 web/.next/
+web/.next-*/
 web/out/
+web/out-before-redesign/
 web/*.tsbuildinfo
+web/test-results/
+web/playwright-report/
 
 # Secretos
 .env
