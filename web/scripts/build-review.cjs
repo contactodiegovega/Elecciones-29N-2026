@@ -105,16 +105,18 @@ function main() {
     cwd: STAGE, env: childEnv, stdio: 'inherit',
   });
   const manifest = auditReview(path.join(STAGE, 'out'), path.join(STAGE, 'public'));
+  // Next's export-detail.json retains the isolated outDirectory. Put the
+  // manifest there too so the Vercel adapter packages the audited manifest.
+  fs.writeFileSync(path.join(STAGE, 'out/review-manifest.json'), JSON.stringify({
+    mode: 'review', generated_at: new Date().toISOString(), protection_verified: false,
+    public_release_authorized: false, withheld_routes: WITHHELD_ROUTES, files: manifest,
+  }, null, 2));
   for (const dir of ['out', '.next']) fs.cpSync(path.join(STAGE, dir), path.join(WEB, dir), {
     recursive: true,
     // Webpack cache entries contain paths relative to the isolated build root.
     // They must not be reused when compiling the original application later.
     filter: file => dir !== '.next' || !file.startsWith(path.join(STAGE, '.next/cache')),
   });
-  fs.writeFileSync(path.join(WEB, 'out/review-manifest.json'), JSON.stringify({
-    mode: 'review', generated_at: new Date().toISOString(), protection_verified: false,
-    public_release_authorized: false, withheld_routes: WITHHELD_ROUTES, files: manifest,
-  }, null, 2));
   console.log(`[review] ${manifest.length} recursos históricos auditados; sin encuestas ni derivados. Protección Vercel pendiente de verificación externa.`);
 }
 

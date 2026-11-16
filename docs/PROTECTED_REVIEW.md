@@ -94,6 +94,22 @@ Pasos exactos para comprobar/mantener manualmente:
 Documentación oficial consultada: [Deployment Protection](https://vercel.com/docs/deployment-protection)
 y [Vercel Authentication](https://vercel.com/docs/deployment-protection/methods-to-protect-deployments/vercel-authentication).
 
+### Verificación automatizada del despliegue
+
+`node web/scripts/verify-review.cjs <hostname.vercel.app>` comprueba el acceso
+anónimo y, con un bypass de auditoría en la variable de proceso
+`REVIEW_PROTECTION_BYPASS`, los hashes de los 78 recursos, `no-store`, los diez
+JSON excluidos (404), los seis avisos de rutas, noindex y la protección de un
+chunk JS. No registra el secreto ni lo incluye en el bundle. La variable debe
+existir solo durante la auditoría y borrarse después.
+
+`vercel curl` puede crear automáticamente un bypass persistente en el proyecto.
+Los creados para esta comprobación deben revocarse al terminar mediante
+`vercel project protection disable <proyecto> --protection-bypass
+--protection-bypass-secret <secreto>` (usar el valor desde un gestor/variable,
+nunca registrarlo en Git o en el acta). No usar `--sso`: desactivaría la protección.
+Releer por API que `ssoProtection.deploymentType` siga siendo `all`.
+
 ## Veda: procedimiento operativo y verificación
 
 El calendario existente fija la restricción en **24–28/11/2026 Europe/Madrid** y
