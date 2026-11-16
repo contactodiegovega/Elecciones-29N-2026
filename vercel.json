@@ -4,7 +4,7 @@
     "web": {
       "root": "web",
       "framework": "nextjs",
-      "installCommand": "python -m pip install -r requirements-build.txt && npm ci",
+      "installCommand": "npm ci",
       "buildCommand": "npm run build"
     }
   },

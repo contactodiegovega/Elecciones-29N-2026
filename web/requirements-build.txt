@@ -1,4 +1,5 @@
-# Only dependencies imported by src.electoral.web_publication and its imports.
+# Local/offline data preparation only; Vercel installs only npm dependencies.
+# Dependencies imported by src.electoral.web_publication and its imports.
 # The scientific pipeline's complete environment is in ../requirements.txt.
 pandas>=2.2
 pyarrow>=16

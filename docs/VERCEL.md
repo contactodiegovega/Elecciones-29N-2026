@@ -21,31 +21,50 @@
 `web` con raíz `web/`. Su instalación ejecuta:
 
 ```sh
-python -m pip install -r requirements-build.txt && npm ci
+npm ci
 ```
 
-Vercel debe disponer de Python >=3.12 y Node.js 22.x en el entorno de build.
-`web/requirements-build.txt` instala únicamente las dependencias de preparación
-de la web; el entrenamiento y los análisis científicos no se ejecutan en Vercel.
+Vercel solo necesita Node.js (seleccionar 22.x). No se instala ni ejecuta Python,
+pip o uv en el build. Esto evita `externally-managed-environment`: no se modifica
+el Python gestionado de Vercel. El entrenamiento y la preparación de datasets
+se ejecutan previamente, fuera del despliegue.
 
-`npm run build` ejecuta primero `prepare:data`, que llama a
-`python -m src.electoral.web_publication` desde la raíz, actualizando el reloj
-editorial y los JSON de encuestas sin descargar fuentes nuevas. Después, Next.js
+`npm run build` ejecuta primero `check:data`, un script Node que comprueba los
+JSON necesarios, todas las elecciones del catálogo, las 52 fichas, los 350
+escaños de ambos repartos y las 52 geometrías del mapa. No modifica datasets.
+Valida también que el snapshot editorial siga siendo coherente con el periodo
+actual de Madrid; si cambia el periodo, exige regenerarlo. Después, Next.js
 produce la exportación en `web/out/`. El adaptador Next.js de Vercel gestiona el
 resultado; no hay que sobrescribir Output Directory en el panel.
 
 Los demás datasets públicos se generan antes de incorporarlos a Git mediante
 el pipeline documentado en el README. Cada cambio de datos necesita una nueva
 compilación/despliegue; la web estática no ejecuta Python al recibir peticiones.
-El reloj editorial también queda fijado en el build: los cambios de periodo
-requieren regenerar y gestionar las versiones ya publicadas.
+El reloj editorial corresponde al snapshot preparado: los cambios de periodo
+requieren regenerar, versionar y gestionar las versiones ya publicadas. Un sitio
+estático ya desplegado no se actualiza automáticamente al cambiar la fecha.
+
+Para regenerar antes de publicar (desde `web/`, en un entorno local con Python):
+
+```sh
+uv venv .venv-data
+uv pip install --python .venv-data/bin/python -r requirements-build.txt
+PYTHON=.venv-data/bin/python npm run prepare:data
+```
+
+En PowerShell/Windows, usar `.venv-data/Scripts/python.exe` en los dos últimos
+comandos; asignar `$env:PYTHON = '.venv-data/Scripts/python.exe'` antes de ejecutar
+`npm run prepare:data`. Este entorno está aislado y no modifica Python global.
+El exportador completo sigue documentado en el README. Revisar y versionar los
+JSON resultantes antes de hacer push; Vercel usa los artefactos del checkout.
 
 ## Bloqueo de publicación existente
 
 Actualmente **un build en Vercel se detendrá intencionadamente**:
 `config/publication_policy.json` contiene los tres controles a `false`.
-Tanto el preparador como `next.config.ts` comprueban la publicación al detectar
-`VERCEL`, incluso en Preview.
+Tanto el validador Node como `next.config.ts` comprueban la publicación al detectar
+`VERCEL`, incluso en Preview. Eliminar la instalación de pip corrige el error
+de instalación, pero no concede los controles pendientes de esta política.
 
 Antes de habilitar un despliegue, el responsable debe autorizar la publicación y
 verificar la retirada de cachés y URLs antiguas, registrando los hechos en:
@@ -64,7 +83,7 @@ La configuración de despliegue no concede esa autorización.
 | --- | --- |
 | Ninguna obligatoria de aplicación | No hay secretos, URL de API ni variables `NEXT_PUBLIC_*` que configurar. |
 | `VERCEL` | La inyecta Vercel. Activa el control de publicación; no asignarla manualmente. |
-| `PYTHON` | Opcional para los scripts Node: ejecutable Python, por defecto `python`. La instalación configurada requiere que `python` esté disponible. |
+| `PYTHON` | Solo para `npm run prepare:data` fuera de Vercel: ejecutable Python, por defecto `python`. No se usa al compilar Next.js. |
 | `PUBLIC_RELEASE` | Opcional local: cualquier valor no vacío activa el control de publicación. Preferir `npm run check:release`. |
 | `POLL_UPDATES_ENABLED=true` | Variable de repositorio en GitHub Actions, solo si se quieren actualizaciones programadas de revisión en un repositorio privado. |
 
@@ -94,6 +113,26 @@ publicar deben incorporarse a Git y generar un nuevo despliegue.
 
 ## Verificación local
 
+### Corrección de `externally-managed-environment`
+
+Comprobado tras eliminar Python del build:
+
+- Instalación limpia: `npm ci --no-audit --no-fund` correcta.
+- `npm run build` tras esa instalación: correcto, 24 páginas estáticas generadas.
+- Python: 82 tests; Vitest: 54 tests; Playwright sobre la exportación: 8 tests.
+- ESLint y TypeScript correctos.
+- Simulando `VERCEL=1`, el build falla explícitamente por los tres controles
+  pendientes de `publication_policy.json`, sin invocar Python. Este bloqueo
+  independiente debe resolverse antes de que el despliegue remoto pueda terminar.
+
+Después del despliegue, comprobar respuestas HTTP 200 y JSON (no HTML de error)
+en `/data/meta.json`, `/data/provinces/index.json`, `/data/provinces/24.json`,
+`/data/latest_polls.json`, `/data/polls_2026.json` y
+`/maps/spain_provinces.geojson`. En el navegador, abrir `/`, cambiar de provincia
+y transferir votos; abrir `/provincias` y seleccionar Ceuta/Melilla; abrir
+`/encuestas`, desplegar la exploración y cambiar filtros. Revisar Network y
+Console para detectar 404, errores de contrato o fallos de JavaScript.
+
 Desde la raíz:
 
 ```sh
@@ -120,7 +159,7 @@ la raíz, usar `npx vercel@latest dev --local` (o `vercel dev` con proyecto vinc
 No es un despliegue. El control de publicación puede bloquearlo si el CLI inyecta
 `VERCEL`; debe respetarse la misma política.
 
-### Resultado de la revisión (16 de noviembre de 2026)
+### Resultado de la revisión inicial (16 de noviembre de 2026, anterior a la corrección de pip)
 
 - Python: **82 tests correctos**.
 - Vitest: **41 tests correctos**; lint y TypeScript correctos.

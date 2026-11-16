@@ -20,7 +20,9 @@ npm run preview
 # http://127.0.0.1:4173
 ```
 
-La preparación del build usa Python y las dependencias de `../requirements.txt`. No requiere descargar fuentes de encuestas para cada compilación.
+El build solo usa Node.js y valida los artefactos versionados antes de compilar.
+La regeneración explícita con `npm run prepare:data` utiliza Python fuera de
+Vercel. Véase [despliegue y preparación aislada](../docs/VERCEL.md).
 
 ## Cuatro secciones
 
@@ -47,7 +49,13 @@ Fuentes: [Interior](https://infoelectoral.interior.gob.es/es/elecciones-celebrad
 
 [Documentación del pipeline y las restricciones](../docs/POLL_UPDATES.md). La cobertura primaria inicial es CIS; los bloqueos de otros conectores quedan registrados. No se completa ningún dato ausente ni se confunde fecha de campo con publicación.
 
-`npm run prepare:data` regenera JSON y el reloj editorial antes de construir. Durante restricción, los JSON de sondeos y campaña se generan sin mediciones. **La publicación pública está bloqueada**: `build:public` exige autorización y capacidad verificada para retirar cachés y URLs anteriores. No hay despliegue automático en el workflow de encuestas.
+`npm run prepare:data` regenera JSON y el reloj editorial como paso explícito,
+antes de versionarlos. Durante restricción, los JSON de sondeos y campaña se
+generan sin mediciones. `npm run build` valida esos artefactos sin ejecutar Python;
+rechaza un snapshot de otro periodo editorial. **La publicación pública está
+bloqueada**: `build:public` y los builds en Vercel exigen autorización y capacidad
+verificada para retirar cachés y URLs anteriores. No hay despliegue automático
+en el workflow de encuestas.
 
 ## Verificar
 
