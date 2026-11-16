@@ -24,6 +24,10 @@ El build solo usa Node.js y valida los artefactos versionados antes de compilar.
 La regeneración explícita con `npm run prepare:data` utiliza Python fuera de
 Vercel. Véase [despliegue y preparación aislada](../docs/VERCEL.md).
 
+Vercel ejecuta `npm run build:review`: exportación aislada con resultados
+históricos, calculadora y mapas, sin archivos de encuestas/derivados. Mantener
+Vercel Authentication en All Deployments. [Controles y evidencias pendientes](../docs/PROTECTED_REVIEW.md).
+
 ## Cuatro secciones
 
 - `/`: buscador de 52 circunscripciones, mapa opcional, historia provincial y escenarios en el mismo componente. Añadir y transferir votos, antes/después y mínimos enteros. León es el ejemplo inicial.

@@ -35,46 +35,44 @@ export default function EChart({ option, height = 420, ariaLabel, onEvents, test
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    let chart = echarts.getInstanceByDom(el);
-    if (!chart) {
-      chart = echarts.init(el, undefined, { renderer: "canvas" });
-      chartRef.current = chart;
-      const ro = new ResizeObserver(() => chart?.resize());
-      ro.observe(el);
-      (el as unknown as { __ro?: ResizeObserver }).__ro = ro;
-      const raf = requestAnimationFrame(() => chart?.resize());
-      (el as unknown as { __raf?: number }).__raf = raf;
-    }
+    // A lazily revealed map can mount inside a zero-width/hidden container.
+    // ECharts 6 cannot invert a zero-sized geographic transform. Start at a
+    // nonzero size and let ResizeObserver apply the real dimensions when shown.
+    const chart = echarts.init(el, undefined, {
+      renderer: "canvas", width: Math.max(1, el.clientWidth), height: Math.max(1, el.clientHeight),
+    });
+    chartRef.current = chart;
+    const resize = () => {
+      if (!chart.isDisposed() && el.clientWidth > 0 && el.clientHeight > 0) {
+        chart.resize({ width: el.clientWidth, height: el.clientHeight });
+      }
+    };
+    const ro = new ResizeObserver(resize);
+    ro.observe(el);
+    const raf = requestAnimationFrame(resize);
     const events = ["click", "legendselectchanged", "datazoom"];
     for (const evt of events) {
       chart.off(evt);
       chart.on(evt, (params) => handlersRef.current?.[evt]?.(params));
     }
     return () => {
-      chart?.off("click");
-      chart?.off("legendselectchanged");
-      chart?.off("datazoom");
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      chartRef.current = null;
+      chart.dispose();
     };
   }, []);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const chart = echarts.getInstanceByDom(el);
-    if (!chart) return;
+    const chart = chartRef.current;
+    if (!chart || chart.isDisposed()) return;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     chart.setOption(reducedMotion ? { ...option, animation: false } : option, { notMerge: true, lazyUpdate: false });
-    chart.resize();
-  }, [option]);
-
-  useEffect(() => () => {
     const el = ref.current;
-    if (!el) return;
-    const raf = (el as unknown as { __raf?: number }).__raf;
-    if (raf) cancelAnimationFrame(raf);
-    (el as unknown as { __ro?: ResizeObserver }).__ro?.disconnect();
-    echarts.getInstanceByDom(el)?.dispose();
-  }, []);
+    if (el && el.clientWidth > 0 && el.clientHeight > 0) {
+      chart.resize({ width: el.clientWidth, height: el.clientHeight });
+    }
+  }, [option]);
 
   return (
     <div

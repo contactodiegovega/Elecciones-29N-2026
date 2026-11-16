@@ -1,5 +1,21 @@
 # Despliegue en Vercel
 
+## Modo vigente: revisión protegida
+
+`vercel.json` ejecuta **`npm run build:review`**, no el build de publicación.
+Construye Next.js en un directorio aislado con 78 recursos históricos permitidos,
+sin JSON de encuestas/derivados ni páginas que los importen. Genera un manifiesto
+auditable y copia la exportación a `out/`. Los originales se conservan.
+
+Se ha aplicado y releído por API **Vercel Authentication → All Deployments**
+(`ssoProtection.deploymentType=all`) en el proyecto. Las tres autorizaciones de
+publicación siguen pendientes. Los builds completos de publicación siguen
+bloqueados. Véase [protocolo y evidencias](PROTECTED_REVIEW.md) y
+[auditoría de dependencias](NPM_SECURITY.md).
+
+Para revisar localmente: `npm run build:review`; en PowerShell, después:
+`$env:REVIEW_E2E='1'; npm run test:e2e`. Quitar esa variable para probar la web completa.
+
 ## Arquitectura comprobada
 
 - Único servicio desplegable: **`web`**, Next.js en `web/`, público en `/`.
@@ -15,7 +31,7 @@
   `data/poll_updates/` también están en Git. No se necesitan los brutos ignorados
   de `data/raw/` para compilar la web.
 
-## Compilación
+## Instalación y compilación completa (distinta de la revisión)
 
 `vercel.json` se encuentra en la raíz del repositorio y configura el servicio
 `web` con raíz `web/`. Su instalación ejecuta:
@@ -60,11 +76,12 @@ JSON resultantes antes de hacer push; Vercel usa los artefactos del checkout.
 
 ## Bloqueo de publicación existente
 
-Actualmente **un build en Vercel se detendrá intencionadamente**:
+Actualmente **un build de publicación completa se detendrá intencionadamente**:
 `config/publication_policy.json` contiene los tres controles a `false`.
 Tanto el validador Node como `next.config.ts` comprueban la publicación al detectar
-`VERCEL`, incluso en Preview. Eliminar la instalación de pip corrige el error
-de instalación, pero no concede los controles pendientes de esta política.
+`VERCEL`, incluso en Preview. La compilación de revisión no ejecuta ese camino:
+exporta únicamente el catálogo histórico permitido y no autoriza una publicación
+completa. Eliminar pip no concede los controles pendientes de esta política.
 
 Antes de habilitar un despliegue, el responsable debe autorizar la publicación y
 verificar la retirada de cachés y URLs antiguas, registrando los hechos en:
@@ -92,16 +109,17 @@ Vercel no necesita `VERCEL_TOKEN` en GitHub Actions.
 
 ## GitHub y Vercel
 
-1. Revisar y confirmar el nombre `web`, su exposición en `/` y la ausencia de
-   servicios internos/bindings. Resolver el bloqueo de publicación antes de publicar.
+1. El servicio sigue siendo `web` en `/`, sin servicios internos/bindings.
+   Mantener All Deployments para revisar. Resolver el bloqueo de publicación
+   antes de cualquier publicación completa en abierto.
 2. Incorporar los cambios y los datos actualizados a la rama que se vaya a desplegar.
 3. Instalar la integración de Vercel para GitHub y conceder acceso al repositorio.
 4. Importar el repositorio como **un único proyecto**, con Root Directory en la
    **raíz del repositorio (`.`)**, no en `web`: `vercel.json` define la raíz del servicio.
    Permitir la detección de Services y evitar overrides globales de framework,
    instalación, build y salida. Seleccionar Node.js 22.x.
-5. Elegir explícitamente la rama de producción y los permisos/visibilidad de
-   Preview. El control de publicación actual también se aplica a Preview.
+5. La integración usa `main`. Mantener Vercel Authentication para **All
+   Deployments**, no solo Preview, y comprobar acceso anónimo a cada dominio.
 6. Tras la confirmación y autorización, desplegar y comprobar rutas profundas,
    `/data/provinces/24.json`, `/maps/spain_provinces.geojson`, calculadora y gráficos.
    Añadir el dominio propio cuando se haya verificado la instalación.

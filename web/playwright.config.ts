@@ -2,6 +2,8 @@ import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./tests",
+  testMatch: /.*\.spec\.ts$/,
+  testIgnore: process.env.REVIEW_E2E === "1" ? /application\.spec\.ts$/ : /review\.spec\.ts$/,
   timeout: 45000,
   workers: 1,
   retries: 0,

@@ -2,7 +2,10 @@
 
 ## Estado y alcance
 
-**Solo revisión local. Ningún despliegue autorizado.** La política de `config/publication_policy.json` bloquea la publicación pública. La actualización y la publicación son procesos separados.
+**Publicación pública bloqueada.** Se permite una revisión protegida sin encuestas
+ni derivados: [protocolo de revisión](PROTECTED_REVIEW.md). La política de
+`config/publication_policy.json` conserva pendientes las tres verificaciones de
+publicación pública. La actualización y la publicación son procesos separados.
 
 Se conservan la ingesta histórica (`polls.py`), el esquema canónico (`poll_schema.py`), sus Parquet y el explorador analítico. El nuevo proceso incremental añade verificaciones primarias sin alterar los experimentos ni atribuir fechas a las filas históricas por inferencia.
 
@@ -61,7 +64,12 @@ Tras revisar el producto, el propietario puede habilitar `POLL_UPDATES_ENABLED=t
 
 ## Veda, estáticos, cachés y rutas anteriores
 
-`npm run build` ejecuta `prepare:data` antes de Next. El reloj se calcula en el momento de construir, no a partir de un JSON congelado. Durante la restricción (24–28/11/2026) y la jornada electoral según la política editorial:
+`npm run prepare:data` es un paso explícito fuera de Vercel: calcula el reloj
+actual y regenera los JSON que deben revisarse y versionarse. `npm run build`
+valida esos artefactos y rechaza un snapshot de otro periodo editorial. Vercel
+usa ahora `build:review`, una exportación histórica sin archivos de encuestas ni
+derivados en ningún periodo. La preparación completa durante la restricción
+(24–28/11/2026) y la jornada electoral según la política editorial:
 
 - `polls_2023.json`, `polls_2026.json` y `latest_polls.json` contienen listas vacías.
 - `campaign.json` no contiene series, distribuciones ni snapshots de estimaciones.
@@ -71,7 +79,11 @@ Tras revisar el producto, el propietario puede habilitar `POLL_UPDATES_ENABLED=t
 
 **Esto no elimina versiones que ya estén en un CDN, navegador, hosting, Git público o artefacto anterior.** Por ese motivo la publicación sigue bloqueada. Deben existir retirada programada previa a la veda, purga verificable del CDN y rutas antiguas, política de caché adecuada y control de todos los artefactos accesibles. Un sitio estático publicado antes de la veda no se retira automáticamente por sí mismo.
 
-`npm run build:public` y los entornos Vercel/Netlify/`PUBLIC_RELEASE` fallan hasta que sean verdaderas las tres condiciones de `config/publication_policy.json`: autorización, retirada de cachés comprobada y retirada de URLs anteriores comprobada. No se modificaron esas condiciones ni se publicó la web.
+`npm run build:public` y los builds **completos** en Vercel/Netlify/`PUBLIC_RELEASE`
+fallan hasta que sean verdaderas las tres condiciones de
+`config/publication_policy.json`: autorización, retirada de cachés comprobada y
+retirada de URLs anteriores comprobada. El build de revisión no publica los
+artefactos sujetos a esos controles; las tres condiciones siguen a `false`.
 
 ## Pruebas
 

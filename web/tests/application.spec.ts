@@ -1,4 +1,5 @@
 import { test, expect, type Page } from "@playwright/test";
+// Kept as a regular file so Playwright can discover it on Windows/OneDrive.
 import path from "node:path";
 
 const capture = async (page: Page, name: string) => {
@@ -94,7 +95,7 @@ test("buscador, URLs explícitas, 52 JSON y compatibilidad de rutas", async ({ p
 
 test("mapa real y selección de circunscripciones pequeñas", async ({ page }) => {
   const errors: string[] = [];
-  page.on("pageerror", e => errors.push(`${page.url()}: ${e.message}`));
+  page.on("pageerror", e => errors.push(`${page.url()}: ${e.stack ?? e.message}`));
   await page.goto("/provincias");
   await expect(page.getByTestId("mapa-provincias").locator("canvas")).toBeVisible();
   expect(errors).toEqual([]);

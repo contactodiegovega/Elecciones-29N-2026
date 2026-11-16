@@ -114,9 +114,9 @@ export type DemographyRow = z.infer<typeof DemographyRowSchema> & Record<string,
 
 export const DemographySchema = z.object({
   rows: z.array(DemographyRowSchema),
-  coverage: z.array(z.record(z.unknown())).optional(),
-  age_national: z.array(z.record(z.unknown())).optional(),
-  dictionary: z.union([z.string(), z.record(z.unknown())]).optional(),
+  coverage: z.array(z.record(z.string(), z.unknown())).optional(),
+  age_national: z.array(z.record(z.string(), z.unknown())).optional(),
+  dictionary: z.union([z.string(), z.record(z.string(), z.unknown())]).optional(),
 }).passthrough();
 export type Demography = z.infer<typeof DemographySchema>;
 
@@ -139,9 +139,9 @@ export const SimulatorProvinceSchema = z.object({
   seats_change: z.number().optional(),
   valid_votes: z.number(),
   turnout_rate: z.number().nullable(),
-  baseline_votes: z.record(z.number()),
-  baseline_shares: z.record(z.number()),
-  seats_2023_official: z.record(z.number()),
+  baseline_votes: z.record(z.string(), z.number()),
+  baseline_shares: z.record(z.string(), z.number()),
+  seats_2023_official: z.record(z.string(), z.number()),
 });
 export type SimulatorProvince = z.infer<typeof SimulatorProvinceSchema>;
 
@@ -179,7 +179,7 @@ export type Simulator = z.infer<typeof SimulatorSchema>;
 
 export const CampaignSnapshotSchema = z.object({
   date: z.string(), n_polls: z.number(), n_houses: z.number(),
-  parties: z.record(z.number()).default({}),
+  parties: z.record(z.string(), z.number()).default({}),
 }).passthrough();
 export type CampaignSnapshot = z.infer<typeof CampaignSnapshotSchema>;
 
@@ -195,12 +195,12 @@ export const CampaignSchema = z.object({
   n_tracking_updates: z.number().optional(),
   snapshots: z.array(CampaignSnapshotSchema).default([]),
   warnings: z.array(z.string()).default([]),
-  aggregation: z.record(z.unknown()).optional(),
-  publication_status: z.record(z.unknown()).optional(),
-  latest_by_house: z.array(z.record(z.unknown())).default([]),
-  distribution: z.array(z.record(z.unknown())).default([]),
-  timeline: z.array(z.record(z.unknown())).default([]),
-  change_days: z.array(z.record(z.unknown())).default([]),
+  aggregation: z.record(z.string(), z.unknown()).optional(),
+  publication_status: z.record(z.string(), z.unknown()).optional(),
+  latest_by_house: z.array(z.record(z.string(), z.unknown())).default([]),
+  distribution: z.array(z.record(z.string(), z.unknown())).default([]),
+  timeline: z.array(z.record(z.string(), z.unknown())).default([]),
+  change_days: z.array(z.record(z.string(), z.unknown())).default([]),
 }).passthrough();
 export type Campaign = z.infer<typeof CampaignSchema>;
 
@@ -222,12 +222,12 @@ export const PollSourcesSchema = z.object({
   version: z.string().optional(),
   policy: z.string().optional(),
   active_connectors: z.array(z.unknown()).default([]),
-  official: z.array(z.record(z.unknown())).default([]),
-  secondary_aggregators: z.array(z.record(z.unknown())).default([]),
+  official: z.array(z.record(z.string(), z.unknown())).default([]),
+  secondary_aggregators: z.array(z.record(z.string(), z.unknown())).default([]),
   houses_pending_verification: z.array(z.unknown()).default([]),
-  ingested_source: z.record(z.unknown()).optional(),
+  ingested_source: z.record(z.string(), z.unknown()).optional(),
   coverage: z.array(PollSourceCoverageSchema).default([]),
-  totals: z.record(z.number()).default({}),
+  totals: z.record(z.string(), z.number()).default({}),
 }).passthrough();
 export type PollSources = z.infer<typeof PollSourcesSchema>;
 
@@ -250,8 +250,8 @@ export type MLModelRow = z.infer<typeof MLModelRowSchema>;
 
 export const MLSchema = z.object({
   question: z.string(), folds: z.array(z.string()),
-  phase3_macro: z.record(z.number()), phase3_by_election: z.array(MLModelRowSchema),
-  phase4_macro: z.record(z.number()), phase4_by_election: z.array(MLModelRowSchema),
+  phase3_macro: z.record(z.string(), z.number()), phase3_by_election: z.array(MLModelRowSchema),
+  phase4_macro: z.record(z.string(), z.number()), phase4_by_election: z.array(MLModelRowSchema),
   verdict: z.string(),
 }).passthrough();
 export type ML = z.infer<typeof MLSchema>;
@@ -273,7 +273,7 @@ export const ModelVersionSchema = z.object({
   target: z.string(),
   data_cutoff: z.string(),
   inputs: z.array(z.string()),
-  config: z.record(z.unknown()),
+  config: z.record(z.string(), z.unknown()),
   metrics: z.object({
     mae_macro_pp: z.number(),
     by_election: z.array(z.object({

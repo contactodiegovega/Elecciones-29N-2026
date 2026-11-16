@@ -5,9 +5,20 @@
       "root": "web",
       "framework": "nextjs",
       "installCommand": "npm ci",
-      "buildCommand": "npm run build"
+      "buildCommand": "npm run build:review"
     }
   },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "private, no-store, max-age=0" },
+        { "key": "CDN-Cache-Control", "value": "no-store" },
+        { "key": "Vercel-CDN-Cache-Control", "value": "no-store" },
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
+      ]
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
