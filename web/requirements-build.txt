@@ -1,0 +1,8 @@
+# Only dependencies imported by src.electoral.web_publication and its imports.
+# The scientific pipeline's complete environment is in ../requirements.txt.
+pandas>=2.2
+pyarrow>=16
+requests>=2.31
+beautifulsoup4>=4.12
+pypdf>=5,<7
+tzdata>=2024.1

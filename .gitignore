@@ -30,6 +30,9 @@ web/playwright-report/
 .env
 *.key
 secrets*.json
+.vercel/
+.env.local
+.env.*.local
 
 # VS Code (opcional, se permite settings locales)
 .vscode/*

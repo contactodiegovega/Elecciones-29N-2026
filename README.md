@@ -30,6 +30,9 @@ la metodología se agrupan como recursos secundarios en «Aprende». El registro
 encuentra en `/metodologia/modelos`. Los datasets y el pipeline científico se conservan.
 Detalles de las rutas, fuentes y comprobaciones: [web/README.md](web/README.md).
 
+Configuración de Vercel, arquitectura, requisitos de compilación y pasos de
+GitHub: [docs/VERCEL.md](docs/VERCEL.md).
+
 **Estado: revisión local, publicación bloqueada.** No se ha desplegado ni enviado a remoto.
 La actualización de encuestas se prepara con snapshots reales, registro de fallos,
 reproducción offline y una acción de GitHub exclusivamente para repositorios privados
