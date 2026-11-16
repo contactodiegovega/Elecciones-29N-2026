@@ -32,7 +32,7 @@ Vercel Authentication en All Deployments. [Controles y evidencias pendientes](..
 
 - `/`: buscador de 52 circunscripciones, mapa opcional, historia provincial, calculadora inmediata y D’Hondt en tres pasos. Añadir, transferir y editar votos, antes/después y mínimos enteros. León es el ejemplo inicial.
 - `/provincias`: mapa, asignación oficial de 350 diputados en 2026 y comparación con 2023. Acceso directo a la provincia en Inicio.
-- `/que-pasaria-si`: escenarios derivados del cálculo para todas las candidaturas y pares de transferencia. Cuatro tarjetas iniciales de tipos diversos; filtros y exploración progresiva. Cada tarjeta configura la calculadora directamente. Base: resultados y escaños históricos de 2023.
+- `/que-pasaria-si`: dos tarjetas iniciales: un cambio histórico observado (2019-Nov → 2023) y una simulación ilustrativa acotada sobre 2023. Filtros de tipo, modo, escala y candidatura, con exploración progresiva. Cada tarjeta configura la calculadora directamente, con su referencia histórica, blanco y asignación correctos. Las escalas ilustrativas son 0,5, 1 y 2 puntos del voto válido de referencia; añadir, transferir y redistribuir tienen supuestos distintos.
 - `/aprende`: «Aprende más»: circunscripciones, asignación de diputados, mayoría absoluta, último escaño, interpretación de supuestos y preguntas frecuentes. Histórico, participación, demografía, modelos y metodología permanecen como recursos secundarios.
 
 Los enlaces antiguos `/tu-provincia` y `/ultimo-escano` redirigen a Inicio conservando `province`. `/diputados` redirige a Provincias, `/analisis` mantiene el índice educativo y `/simulador` conduce a `/que-pasaria-si`. `/encuestas`, `/campana` y `/prediccion` ya no sirven su contenido. No se eliminan datasets ni el pipeline científico.
@@ -45,7 +45,9 @@ Los enlaces antiguos `/tu-provincia` y `/ultimo-escano` redirigen a Inicio conse
 
 Los mínimos mantienen constantes los demás votos y el blanco, actualizan el umbral y buscan el primer entero que garantiza un diputado más. Se comprueba el valor hallado y el anterior. Un sorteo no se presenta como una ganancia garantizada. Las transferencias conservan el total y rechazan cantidades superiores al origen.
 
-`lib/scenarios.ts` aplica esas mismas búsquedas a todas las candidaturas originales y pares ordenados de transferencia. Orden alfabético, sin ranking de conveniencia. Los ejemplos sin cambio se derivan del entero anterior al mínimo, saltando un posible empate, y se comprueba que todo el reparto siga igual. No se equiparan diferencias de cocientes con votos.
+`lib/contextual-scenarios.ts` genera las tarjetas vigentes, sin buscar votos mínimos ni forzar cambios de escaño. Se muestran magnitud sobre voto válido, cambio relativo de la candidatura, cuota final y fuente. La selección inicial usa el mismo límite didáctico del 10 % de votos originales para cada lista afectada; puede ampliarse explícitamente. No es una medida de plausibilidad. La redistribución usa proporciones y restos mayores, conservando el total. `lib/scenarios.ts` conserva los ejercicios matemáticos anteriores fuera de las tarjetas públicas.
+
+`src/electoral/scenario_history.py` genera 52 fichas históricas a partir de los resultados oficiales ya existentes. Solo enlaza etiquetas completas idénticas de partidos registrados, con exclusiones de composición explícitas en `config/scenario_identities.json`. No equipara SUMAR/Unidas Podemos ni coaliciones por `family_id` o por un `party_id` genérico. [Método, fuentes y límites](../docs/CONTEXTUAL_SCENARIOS.md).
 
 León 2023: 4 diputados; PP 101.605 votos y 2 escaños, PSOE 92.578 y 2. Último: PSOE, 92.578/2 = 46.289. Siguiente: VOX, 35.451/1 = 35.451. Las otras candidaturas aparecen con sus votos originales. La asignación de 2026 se etiqueta por separado.
 

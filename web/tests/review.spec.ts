@@ -14,6 +14,9 @@ test("revisión: calculadora histórica y mapa operativos", async ({ page }) => 
   await expect(page.getByRole("heading", { name: "Ceuta", exact: true })).toBeVisible();
   await page.goto("/ultimo-escano?province=11");
   await expect(page.getByTestId("province-analysis")).toHaveAttribute("data-province", "11");
+  await page.goto("/que-pasaria-si");
+  await expect(page.getByTestId("scenario-card")).toHaveCount(2);
+  await expect(page.getByTestId("scenario-card").first()).toContainText("Cambio histórico observado");
 });
 
 test("no se sirven encuestas, derivados ni modelos por URL directa o heredada", async ({ page, request }) => {

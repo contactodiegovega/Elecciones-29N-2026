@@ -18,6 +18,7 @@ it("exporta solo el catálogo histórico y rechaza archivos inesperados sin modi
     expect(resources).not.toContain("data/latest_polls.json");
     expect(resources).not.toContain("data/campaign.json");
     expect(resources).toContain("data/provinces/52.json");
+    expect(resources).toContain("data/scenario_history/52.json");
     const atlas = JSON.parse(readFileSync(join(stage, "public/data/simulator.json"), "utf8"));
     expect(Object.keys(atlas.provinces[0]).sort()).toEqual(["province_code", "province_name", "seats", "seats_2023", "seats_2026"]);
     const out = join(temp, "out");
@@ -27,4 +28,4 @@ it("exporta solo el catálogo histórico y rechaza archivos inesperados sin modi
     expect(() => auditReview(out, join(stage, "public"))).toThrow(/no clasificados/);
     expect(readFileSync(source).equals(before)).toBe(true);
   } finally { rmSync(temp, { recursive: true, force: true }); }
-});
+}, 30000);

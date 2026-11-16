@@ -1,5 +1,10 @@
 # El Último Escaño — rediseño y verificación
 
+> Registro del rediseño anterior. El criterio de tarjetas de mínimos descrito aquí
+> fue sustituido por [escenarios contextualizados](CONTEXTUAL_SCENARIOS.md).
+> Los cálculos de esta página siguen siendo ejercicios matemáticos válidos;
+> no aportan evidencia de plausibilidad electoral.
+
 ## Experiencia implementada
 
 - **Inicio** abre León 2023, sin geolocalización. Muestra reparto oficial, último

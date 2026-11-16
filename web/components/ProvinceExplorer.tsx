@@ -9,15 +9,13 @@ import { addVotes, analyzeLastSeat, DEFAULT_PROVINCE, minimumAdditionalVotes, sh
 import { useProvinceUrl } from "@/lib/use-province-url";
 import { fmtDec, fmtInt, fmtPct } from "@/lib/utils";
 import DhondtLesson from "./DhondtLesson";
-import ScenarioCards from "./ScenarioCards";
-import type { Scenario } from "@/lib/scenarios";
 import Link from "next/link";
 
 const ProvinceMap = dynamic(() => import("./ProvinceMap"), { ssr: false, loading: () => <Loading what="el mapa" /> });
 const BOE2023 = "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2023-18907";
 const cache = new Map<string, ProvinceData>();
 
-function ProvinceAnalysis({ data, scenarios = false }: { data: ProvinceData; scenarios?: boolean }) {
+function ProvinceAnalysis({ data }: { data: ProvinceData }) {
   const { rows, colors, turnout } = data;
   const parties = [...rows].sort((a, b) => shortCandidacy(a.label).localeCompare(shortCandidacy(b.label), "es"));
   const [mode, setMode] = useState<"add" | "transfer" | "manual">("add");
@@ -43,16 +41,11 @@ function ProvinceAnalysis({ data, scenarios = false }: { data: ProvinceData; sce
   const scenario = calculation.result;
   const changed = seatYear !== "2023" || blank !== turnout.votos_blancos || calculation.rows.some((r, i) => r.v !== rows[i].v);
   const reset = () => { setEdits({}); setAmount("0"); setBlank(turnout.votos_blancos); setSeatYear("2023"); };
-  const openScenario = (s: Scenario) => {
-    reset(); setMode(s.mode); setTo(s.to); if (s.from) setFrom(s.from); setAmount(String(s.votes));
-    requestAnimationFrame(() => { document.getElementById("calculadora")?.scrollIntoView({ behavior: "smooth", block: "start" }); document.getElementById("scenario-title")?.focus({ preventScroll: true }); });
-  };
   const last = baseline.last;
   const next = baseline.next;
   const choiceOptions = parties.map(r => <option key={r.label} value={r.label}>{shortCandidacy(r.label)}</option>);
 
   return <div className="space-y-7" data-testid="province-analysis" data-province={data.code}>
-    {scenarios && <ScenarioCards data={data} onSelect={openScenario} />}
     <section id="provincia" className="province-story" aria-label={`Resultados oficiales de ${data.name} en 2023`}>
       <div className="flex flex-wrap items-end justify-between gap-3 border-b border-line pb-3">
         <div><p className="eyebrow">Elecciones generales · 23 julio 2023</p><h2 className="mt-1 text-3xl font-bold tracking-tight">{data.name}<span className="ml-3 text-lg font-normal text-stone-500"> {data.seats2023} {data.seats2023 === 1 ? "diputado" : "diputados"}</span></h2></div>
@@ -116,7 +109,7 @@ function ProvinceAnalysis({ data, scenarios = false }: { data: ProvinceData; sce
       </details>
     </section>
 
-    {!scenarios && <><DhondtLesson data={data} /><Link className="scenario-invitation" href={`/que-pasaria-si?province=${data.code}`}><span><span className="eyebrow">Sigue explorando</span><strong className="mt-2 block text-2xl">¿Qué pasaría si…?</strong><span className="mt-2 block text-sm text-stone-600">Ejemplos verificados y simulación libre con los votos de {data.name}.</span></span><span aria-hidden="true" className="text-3xl">→</span></Link></>}
+    <DhondtLesson data={data} /><Link className="scenario-invitation" href={`/que-pasaria-si?province=${data.code}`}><span><span className="eyebrow">Sigue explorando</span><strong className="mt-2 block text-2xl">¿Qué pasaría si…?</strong><span className="mt-2 block text-sm text-stone-600">Cambios históricos observados y ejercicios ilustrativos con los votos de {data.name}.</span></span><span aria-hidden="true" className="text-3xl">→</span></Link>
 
     <section className="sensitivity-section" aria-label="Votos mínimos adicionales">
       <div><p className="eyebrow">La sensibilidad del reparto</p><h2 className="mt-1 text-xl font-bold">¿Cuántos votos más cambiarían un diputado?</h2></div>
@@ -152,7 +145,7 @@ function ProvinceAnalysis({ data, scenarios = false }: { data: ProvinceData; sce
   </div>;
 }
 
-function Explorer({ initial, provinces, scenarios = false }: { initial: ProvinceData; provinces: ProvinceIndex[]; scenarios?: boolean }) {
+function Explorer({ initial, provinces }: { initial: ProvinceData; provinces: ProvinceIndex[] }) {
   const { requested, code, select: selectUrl } = useProvinceUrl(provinces.map(p => p.code));
   const [loaded, setLoaded] = useState(initial);
   const [error, setError] = useState({ code: "", message: "" });
@@ -181,11 +174,10 @@ function Explorer({ initial, provinces, scenarios = false }: { initial: Province
     </div>
     {requested && requested !== code && <p role="status" className="text-sm text-stone-500">No reconocemos esa circunscripción. Mostramos León como punto de partida.</p>}
     {mapOpen && <div id="province-map" className="editorial-panel p-3"><ProvinceMap selected={code} onSelect={select} height={360} provinces={provinces.map(p => ({ province_code: p.code, province_name: p.name, seats: p.seats2026, seats_2023: p.seats2023, seats_2026: p.seats2026, valid_votes: 0, turnout_rate: null, baseline_votes: {}, baseline_shares: {}, seats_2023_official: {} }))} /><p className="px-3 text-xs text-stone-500">Color: diputados asignados en 2026 (1–38). Ámbar: selección. Canarias desplazada a la misma escala.</p></div>}
-    {scenarios && <label className="block text-sm">Elección histórica<select aria-label="Elección histórica" className="ml-3 rounded-lg border border-line bg-white p-3" value="2023-07-23" onChange={() => {}}><option value="2023-07-23">23 de julio de 2023 · resultados oficiales</option></select></label>}
-    {error.code === code ? <div><ErrorBox message={error.message} /><button className="button-secondary mt-2" onClick={() => { setError({ code: "", message: "" }); setRetry(x => x + 1); }}>Reintentar</button></div> : current ? <ProvinceAnalysis key={current.code} data={current} scenarios={scenarios} /> : <Loading what={`los resultados de ${provinces.find(p => p.code === code)?.name}`} />}
+    {error.code === code ? <div><ErrorBox message={error.message} /><button className="button-secondary mt-2" onClick={() => { setError({ code: "", message: "" }); setRetry(x => x + 1); }}>Reintentar</button></div> : current ? <ProvinceAnalysis key={current.code} data={current} /> : <Loading what={`los resultados de ${provinces.find(p => p.code === code)?.name}`} />}
   </div>;
 }
 
-export default function ProvinceExplorer(props: { initial: ProvinceData; provinces: ProvinceIndex[]; scenarios?: boolean }) {
+export default function ProvinceExplorer(props: { initial: ProvinceData; provinces: ProvinceIndex[] }) {
   return <Explorer {...props} />;
 }

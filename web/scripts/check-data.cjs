@@ -63,6 +63,8 @@ function checkData(publicDir = PUBLIC) {
   let seats2023 = 0, seats2026 = 0;
   for (const code of codes) {
     const province = readJSON(path.join(data, 'provinces', `${code}.json`));
+    const history = readJSON(path.join(data, 'scenario_history', `${code}.json`));
+    if (history.code !== code || history.previous.election !== '2019-11-10' || !history.identityPolicy.version || !history.artifacts.length) throw new Error(`Contexto histórico incoherente: ${code}`);
     if (province.code !== code) throw new Error(`Código provincial incoherente: ${code}`);
     seats2023 += province.seats2023;
     seats2026 += province.seats2026;

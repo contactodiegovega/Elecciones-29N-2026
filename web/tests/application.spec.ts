@@ -65,21 +65,38 @@ test("mínimos, adición, transferencia, edición y reinicio", async ({ page }) 
   await expect(result).toContainText("No cambia el reparto");
 });
 
-test("tarjetas diversas abren directamente el escenario configurado", async ({ page }) => {
+test("historia observada e ilustraciones acotadas abren la calculadora con su base correcta", async ({ page }) => {
   await page.goto("/que-pasaria-si");
   await expect(page.getByRole("heading", { name: "¿Qué pasaría si cambiaran los votos?" })).toBeVisible();
-  await expect(page.getByTestId("scenario-card")).toHaveCount(4);
-  await capture(page, "redesign-escenarios-desktop");
+  await expect(page.getByTestId("scenario-card")).toHaveCount(2);
+  await capture(page, "contexto-escenarios-desktop");
   const card = page.getByTestId("scenario-card").first();
-  await expect(card).toContainText("Su primer diputado");
-  await card.getByRole("button", { name: "Abrir este escenario" }).click();
+  await expect(card).toContainText("Cambio histórico observado");
+  await expect(card).toContainText("26.933");
+  await card.getByRole("button", { name: "Explorar este escenario" }).click();
   await expect(page.locator("#scenario-title")).toBeFocused();
-  await expect(page.getByRole("spinbutton", { name: "Cantidad de votos hipotéticos" })).not.toHaveValue("0");
-  await expect(page.getByRole("region", { name: "Resultado del escenario" })).toContainText("Escenario hipotético");
-  await page.getByLabel("Explorar ejemplos").selectOption("transfer");
+  const result = page.getByRole("region", { name: "Resultado avanzado" });
+  await expect(result).toContainText("Reconstrucción histórica observada");
+  await expect(result).toContainText("262.679 → 275.240");
+  await expect(page.getByRole("spinbutton", { name: "Editar votos de PP", exact: true })).toHaveValue("101605");
+  await page.getByRole("spinbutton", { name: "Editar votos de PP", exact: true }).fill("101606");
+  await expect(result).toContainText("Escenario hipotético");
+  await page.getByLabel("Tipo de ejemplo", { exact: true }).selectOption("illustrative");
+  await page.getByLabel("Modo ilustrativo", { exact: true }).selectOption("transfer");
   await page.getByTestId("scenario-card").first().getByRole("button").click();
-  await expect(page.getByRole("button", { name: "Transferir votos", exact: true })).toHaveAttribute("aria-pressed", "true");
-  await expect(page.getByRole("region", { name: "Resultado del escenario" })).toContainText("275.240");
+  await expect(page.getByLabel("Modo del escenario avanzado")).toHaveValue("transfer");
+  await expect(page.getByRole("spinbutton", { name: "Cantidad avanzada" })).toHaveValue("2752");
+  await expect(result).toContainText("275.240 → 275.240");
+  await page.getByLabel("Modo ilustrativo", { exact: true }).selectOption("redistribute");
+  await page.getByLabel("Escala ilustrativa", { exact: true }).selectOption("0.5");
+  await page.getByTestId("scenario-card").first().getByRole("button").click();
+  await expect(page.getByLabel("Modo del escenario avanzado")).toHaveValue("redistribute");
+  await expect(page.getByRole("spinbutton", { name: "Cantidad avanzada" })).toHaveValue("1376");
+  await expect(result).toContainText("275.240 → 275.240");
+  await page.getByText("¿Cuántos votos harían falta exactamente?", { exact: true }).click();
+  await expect(page.getByTestId("advanced-minimum")).toBeVisible();
+  await page.getByText("Ver cálculo", { exact: true }).click();
+  await expect(page.getByRole("table")).toBeVisible();
 });
 
 test("52 fichas, rutas retiradas y ausencia de archivos de sondeos", async ({ page, request }) => {
@@ -111,11 +128,11 @@ test("móvil: navegación, selección provincial y escenarios sin desbordamiento
   await capture(page, "redesign-inicio-mobile");
   await page.getByRole("button", { name: "Menú", exact: true }).click();
   await page.getByRole("link", { name: "¿Qué pasaría si…?", exact: true }).first().click();
-  await expect(page.getByTestId("scenario-card")).toHaveCount(4);
+  await expect(page.getByTestId("scenario-card")).toHaveCount(2);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  await capture(page, "redesign-escenarios-mobile");
+  await capture(page, "contexto-escenarios-mobile");
   await picker.fill("Madrid"); await picker.press("Enter");
-  await expect(page.getByTestId("province-analysis")).toHaveAttribute("data-province", "28");
+  await expect(page.getByTestId("contextual-analysis")).toHaveAttribute("data-province", "28");
   await expect(page.getByTestId("scenario-card").first()).toContainText("Madrid");
 });
 
@@ -128,4 +145,17 @@ test("un error de datos permite reintentar", async ({ page }) => {
   await expect(page.getByRole("main").getByRole("alert")).toContainText("No se pudieron cargar");
   await page.getByRole("button", { name: "Reintentar", exact: true }).click();
   await expect(page.getByTestId("province-analysis")).toHaveAttribute("data-province", "28");
+});
+
+test("el contexto provincial rechaza una ficha histórica ajena y permite reintentar", async ({ page }) => {
+  let first = true;
+  await page.route("**/data/scenario_history/28.json", async route => {
+    if (first) { first = false; const response = await route.fetch(); const json = await response.json(); await route.fulfill({ json: { ...json, code: "24" } }); }
+    else await route.continue();
+  });
+  await page.goto("/que-pasaria-si?province=28");
+  await expect(page.getByRole("main").getByRole("alert")).toContainText("no corresponden");
+  await page.getByRole("button", { name: "Reintentar contexto" }).click();
+  await expect(page.getByTestId("contextual-analysis")).toHaveAttribute("data-province", "28");
+  await expect(page.getByTestId("scenario-card").first()).toContainText("Madrid");
 });

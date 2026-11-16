@@ -49,6 +49,7 @@ function prepareReview(stage = STAGE) {
   const historical = [
     'provinces/index.json',
     ...Array.from({ length: 52 }, (_, i) => `provinces/${String(i + 1).padStart(2, '0')}.json`),
+    ...Array.from({ length: 52 }, (_, i) => `scenario_history/${String(i + 1).padStart(2, '0')}.json`),
     ...meta.elections.map(date => {
       if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || date > '2023-07-23') throw new Error('Elección histórica no clasificada.');
       return `labels_by_election/${date}.json`;

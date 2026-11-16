@@ -26,8 +26,10 @@ se distingue del reparto histórico de 2023. El nuevo motor provincial reproduce
 52 circunscripciones y los 350 escaños oficiales con candidaturas originales.
 
 La portada incluye D’Hondt en tres pasos, sincronizado con la provincia seleccionada.
-`/que-pasaria-si` genera ejemplos verificados de adiciones y transferencias mínimas,
-además de permitir la edición manual. No expresa pronósticos ni recomendaciones.
+`/que-pasaria-si` distingue cambios históricos observados (noviembre de 2019 → julio
+de 2023) y simulaciones ilustrativas de 0,5, 1 y 2 puntos del voto válido. Las tarjetas
+no se eligen por alcanzar un escaño: los mínimos quedan en la calculadora avanzada.
+No expresa pronósticos ni recomendaciones.
 
 El histórico, la participación, la demografía, los modelos y
 la metodología se agrupan como recursos secundarios en «Aprende más». El registro de experimentos se
@@ -36,6 +38,8 @@ Los antiguos JSON de sondeos y el laboratorio nacional se conservan fuera de la
 superficie pública, en `web/archive/`. Las rutas de sondeos y predicción están retiradas.
 Detalles de las rutas, fuentes y comprobaciones: [web/README.md](web/README.md).
 Informe del rediseño, ejemplos y capturas: [docs/REDESIGN_SCENARIOS.md](docs/REDESIGN_SCENARIOS.md).
+Método vigente de escenarios, correspondencias históricas y límites:
+[docs/CONTEXTUAL_SCENARIOS.md](docs/CONTEXTUAL_SCENARIOS.md).
 
 Configuración de Vercel, arquitectura, requisitos de compilación y pasos de
 GitHub: [docs/VERCEL.md](docs/VERCEL.md).

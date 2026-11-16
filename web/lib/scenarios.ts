@@ -8,8 +8,9 @@ export type Scenario = {
   losers: string[]; previousRequiresDraw: boolean;
 };
 
-/** Every original candidacy and ordered transfer pair receives the same calculation.
- * Presentation is alphabetical, never ranked by electoral convenience. */
+/** Advanced mathematical thresholds only; never editorial evidence or a plausibility model.
+ * The public contextual cards use contextual-scenarios.ts instead.
+ * Every original candidacy and ordered transfer pair receives the same calculation. */
 export function generateScenarios(data: ProvinceData): Scenario[] {
   const { rows, seats2023: seats, turnout } = data;
   const blank = turnout.votos_blancos;

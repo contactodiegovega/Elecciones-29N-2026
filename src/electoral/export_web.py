@@ -316,6 +316,8 @@ def main() -> None:
     from electoral.province_data import export_provinces
     from electoral.web_publication import prepare_web
     export_provinces()
+    from electoral.scenario_history import export_history
+    export_history()
     prepare_web()
     print("[export] COMPLETO sin pérdidas")
 
