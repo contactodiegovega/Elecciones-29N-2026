@@ -19,16 +19,23 @@ npm install
 npm run dev      # http://localhost:3000
 ```
 
-Cuatro secciones principales: **Inicio**, **Provincias**, **Encuestas** y **Aprende**.
+Cuatro secciones principales: **Inicio**, **Provincias**, **¿Qué pasaría si…?** y **Aprende más**.
 La calculadora está directamente en `/`, sin pasos intermedios. Para compartir León:
 `http://localhost:3000/?province=24`. La asignación oficial de 2026 (RD 806/2026)
 se distingue del reparto histórico de 2023. El nuevo motor provincial reproduce las
 52 circunscripciones y los 350 escaños oficiales con candidaturas originales.
 
-El histórico, la participación, la demografía, los modelos, el simulador avanzado y
-la metodología se agrupan como recursos secundarios en «Aprende». El registro de experimentos se
+La portada incluye D’Hondt en tres pasos, sincronizado con la provincia seleccionada.
+`/que-pasaria-si` genera ejemplos verificados de adiciones y transferencias mínimas,
+además de permitir la edición manual. No expresa pronósticos ni recomendaciones.
+
+El histórico, la participación, la demografía, los modelos y
+la metodología se agrupan como recursos secundarios en «Aprende más». El registro de experimentos se
 encuentra en `/metodologia/modelos`. Los datasets y el pipeline científico se conservan.
+Los antiguos JSON de sondeos y el laboratorio nacional se conservan fuera de la
+superficie pública, en `web/archive/`. Las rutas de sondeos y predicción están retiradas.
 Detalles de las rutas, fuentes y comprobaciones: [web/README.md](web/README.md).
+Informe del rediseño, ejemplos y capturas: [docs/REDESIGN_SCENARIOS.md](docs/REDESIGN_SCENARIOS.md).
 
 Configuración de Vercel, arquitectura, requisitos de compilación y pasos de
 GitHub: [docs/VERCEL.md](docs/VERCEL.md).
