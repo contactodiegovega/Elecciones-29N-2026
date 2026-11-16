@@ -62,10 +62,31 @@ function boundaryParticipant(result: Analysis, label: string) {
     q.label === label && q.votes === last.votes && q.divisor === last.divisor);
 }
 
-function guaranteedSeats(result: Analysis, label: string) {
+export function guaranteedSeats(result: Analysis, label: string) {
   const awardedAtTie = boundaryParticipant(result, label) && result.quotients.some(q =>
     q.label === label && q.awarded && q.divisor === result.last?.divisor);
   return result.allocation[label] - (awardedAtTie ? 1 : 0);
+}
+
+/** Minimum transfer giving the destination another guaranteed seat. Total and blank stay fixed. */
+export function minimumTransferVotes(rows: LabelRow[], seats: number, blank: number, from: string, to: string) {
+  const source = rows.find(r => r.label === from);
+  if (!source || from === to || !rows.some(r => r.label === to)) throw new Error("Elige dos candidaturas distintas disponibles.");
+  const before = analyzeLastSeat(rows, seats, blank);
+  if (before.drawRequired) return { status: "draw" as const };
+  const target = before.allocation[to] + 1;
+  if (target > seats) return { status: "full" as const };
+  const evaluate = (n: number) => analyzeLastSeat(transferVotes(rows, from, to, n), seats, blank);
+  const succeeds = (n: number) => guaranteedSeats(evaluate(n), to) >= target;
+  if (!source.v || !succeeds(source.v)) return { status: "unavailable" as const };
+  let low = 0, high = source.v;
+  while (low + 1 < high) {
+    const mid = Math.floor((low + high) / 2);
+    if (succeeds(mid)) high = mid; else low = mid;
+  }
+  const after = evaluate(high), previous = evaluate(high - 1);
+  if (guaranteedSeats(after, to) < target || guaranteedSeats(previous, to) >= target) throw new Error("Mínimo de transferencia no validado.");
+  return { status: "ok" as const, votes: high, target, after, previousRequiresDraw: previous.drawRequired, validated: true };
 }
 
 /** Minimum integer increase, holding every other candidacy AND blank votes fixed.
