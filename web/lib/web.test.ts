@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import {
   CampaignSchema, DemographySchema, ElectionNatSchema, LabelRowSchema, MetaSchema,
@@ -9,7 +9,7 @@ import {
 import { allocateDHondt, hashIndex, mean, median, partyColor, pearson } from "./utils";
 
 const PUB = join(__dirname, "..", "public");
-const json = (p: string) => JSON.parse(readFileSync(join(PUB, p), "utf-8"));
+const json = (p: string) => JSON.parse(readFileSync(existsSync(join(__dirname, "../archive", p)) ? join(__dirname, "../archive", p) : join(PUB, p), "utf-8"));
 
 describe("registro de colores", () => {
   const registry = json("data/colors.json").parties;

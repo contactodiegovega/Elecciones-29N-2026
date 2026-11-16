@@ -16,11 +16,12 @@ import pandas as pd
 
 from .electoral_calendar import editorial_status
 from .poll_updates import ROOT, STORE, write_json as write_audit_json
+from .web_artifacts import archive_path
 
 
 def write_json(path: Path, value) -> None:
     # Public payloads stay compact; private review manifests remain readable.
-    write_audit_json(path, value, compact=True)
+    write_audit_json(archive_path(path), value, compact=True)
 
 
 def json_value(value):
@@ -120,7 +121,7 @@ def prepare_web(public: Path = ROOT / "web" / "public" / "data", store: Path = S
               "sources": [{"id": s["id"], "status": s["status"]} for s in run.get("sources", [])] if status["polls_visible"] else [],
               "note": "Solo publicaciones primarias con fecha explícita. Cobertura limitada a conectores revisados; no se sustituyen por fechas de campo." if status["polls_visible"] else status["reason"]}
     write_json(public / "latest_polls.json", latest)
-    catalog_path = public / "poll_sources.json"
+    catalog_path = archive_path(public / "poll_sources.json")
     if catalog_path.exists():
         catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
         source_config = json.loads((root / "config" / "poll_sources.json").read_text(encoding="utf-8"))
@@ -130,7 +131,7 @@ def prepare_web(public: Path = ROOT / "web" / "public" / "data", store: Path = S
     meta_path = public / "meta.json"
     if meta_path.exists():
         meta = json.loads(meta_path.read_text(encoding="utf-8"))
-        meta["title"] = "El Último Escaño — reparto provincial, historia y encuestas"
+        meta["title"] = "El Último Escaño — reparto provincial y escenarios hipotéticos"
         write_json(meta_path, meta)
     campaign = root / "data" / "processed" / "campaign.json"
     if status["polls_visible"] and campaign.exists():

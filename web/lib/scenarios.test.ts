@@ -11,7 +11,13 @@ describe("escenarios simétricos de las 52 circunscripciones", () => {
     for (let i = 1; i <= 52; i++) {
       const data = ProvinceDataSchema.parse(JSON.parse(readFileSync(join(__dirname, `../public/data/provinces/${String(i).padStart(2, "0")}.json`), "utf8")));
       const scenarios = generateScenarios(data);
+      if (process.env.SCENARIO_EXAMPLES === "1" && [2, 24, 28, 42, 51, 52].includes(i)) {
+        const example = scenarios.find(s => s.kind === "first") ?? scenarios.find(s => s.kind === "extra")!;
+        const transfer = scenarios.find(s => s.kind === "transfer");
+        console.log(JSON.stringify({ province: data.name, seats: data.seats2023, to: example.to, add: example.votes, before: example.before.allocation, after: example.after.allocation, transfer: transfer && { from: transfer.from, to: transfer.to, votes: transfer.votes, after: transfer.after.allocation } }));
+      }
       expect(scenarios.length, data.name).toBeGreaterThan(0);
+      expect(scenarios.some(s => s.kind === "unchanged"), data.name).toBe(true);
       for (const r of data.rows) expect(scenarios.some(s => s.to === r.label) || r.s === data.seats2023).toBe(true);
       for (const s of scenarios) {
         expect(s.after.allocated).toBe(data.seats2023);

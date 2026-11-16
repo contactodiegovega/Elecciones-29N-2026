@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 from electoral.electoral_calendar import editorial_status  # noqa: E402
 from electoral.model_registry import main as export_model_registry  # noqa: E402
+from electoral.web_artifacts import archive_path, atlas_only  # noqa: E402
 
 PROC = ROOT / "data" / "processed"
 WEBDATA = ROOT / "web" / "public" / "data"
@@ -60,6 +61,10 @@ def clean(obj):
 
 
 def wjson(path: Path, obj):
+    path = archive_path(path)
+    if path == WEBDATA / "simulator.json":
+        wjson(ROOT / "web/archive/data/simulator.json", obj)
+        obj = atlas_only(obj)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(clean(obj), ensure_ascii=False, separators=(",", ":"),
                                default=str), encoding="utf-8")

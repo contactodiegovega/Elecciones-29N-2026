@@ -38,14 +38,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="mx-auto max-w-7xl px-4 py-8 text-xs leading-relaxed text-stone-500">
             <p className="text-base font-bold text-ink">El Último Escaño · Del voto al diputado</p>
             <p className="mt-2 max-w-4xl">
-              Resultados: Ministerio del Interior. Demografía: INE (CC BY 4.0). Compilación de encuestas:
-              Wikipedia (CC BY-SA 4.0); no transfiere permisos de fuentes primarias. Geometría: Eurostat GISCO
-              (© EuroGeographics). Escaños por provincia: RD 806/2026 (BOE). Encuestas primarias: CIS, con atribución
-              y sin respaldo institucional. Los escenarios son matemáticos e hipotéticos.
+              Resultados oficiales de 2023: Ministerio del Interior y JEC. Reglas: artículo 163 de la LOREG.
+              Geometría: Eurostat GISCO (© EuroGeographics). Demografía del archivo: INE (CC BY 4.0).
+              Los escenarios son matemáticos e hipotéticos; no son previsiones electorales.
             </p>
             <p className="mt-2">
-              Los huecos significan «dato no disponible», nunca cero. Encuestas de estimación de voto e intención
-              directa se mantienen separadas. <Link href="/aprende" className="underline">Aprende</Link> · <Link href="/metodologia" className="underline">Metodología y fuentes</Link>.
+              <Link href="/aprende" className="underline">Aprende más</Link> · <Link href="/metodologia" className="underline">Metodología y fuentes</Link>.
             </p>
           </div>
         </footer>

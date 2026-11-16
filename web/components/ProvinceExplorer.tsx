@@ -8,15 +8,19 @@ import { ProvinceDataSchema, type ProvinceData, type ProvinceIndex } from "@/lib
 import { addVotes, analyzeLastSeat, DEFAULT_PROVINCE, minimumAdditionalVotes, shortCandidacy, transferVotes } from "@/lib/last-seat";
 import { useProvinceUrl } from "@/lib/use-province-url";
 import { fmtDec, fmtInt, fmtPct } from "@/lib/utils";
+import DhondtLesson from "./DhondtLesson";
+import ScenarioCards from "./ScenarioCards";
+import type { Scenario } from "@/lib/scenarios";
+import Link from "next/link";
 
 const ProvinceMap = dynamic(() => import("./ProvinceMap"), { ssr: false, loading: () => <Loading what="el mapa" /> });
 const BOE2023 = "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2023-18907";
 const cache = new Map<string, ProvinceData>();
 
-function ProvinceAnalysis({ data }: { data: ProvinceData }) {
+function ProvinceAnalysis({ data, scenarios = false }: { data: ProvinceData; scenarios?: boolean }) {
   const { rows, colors, turnout } = data;
   const parties = [...rows].sort((a, b) => shortCandidacy(a.label).localeCompare(shortCandidacy(b.label), "es"));
-  const [mode, setMode] = useState<"add" | "transfer">("add");
+  const [mode, setMode] = useState<"add" | "transfer" | "manual">("add");
   const [from, setFrom] = useState(parties[0].label);
   const [to, setTo] = useState(parties[1]?.label ?? parties[0].label);
   const [amount, setAmount] = useState("0");
@@ -31,7 +35,7 @@ function ProvinceAnalysis({ data }: { data: ProvinceData }) {
     const edited = rows.map(r => ({ ...r, v: edits[r.label] ?? r.v }));
     try {
       const n = amount.trim() === "" ? 0 : Number(amount);
-      const current = mode === "add" ? addVotes(edited, to, n) : transferVotes(edited, from, to, n);
+      const current = mode === "manual" ? edited : mode === "add" ? addVotes(edited, to, n) : transferVotes(edited, from, to, n);
       return { rows: current, result: analyzeLastSeat(current, seats, blank), error: "" };
     } catch (e) { return { rows: edited, result: analyzeLastSeat(edited, seats, blank), error: (e as Error).message }; }
   }, [rows, edits, amount, mode, to, from, seats, blank]);
@@ -39,11 +43,16 @@ function ProvinceAnalysis({ data }: { data: ProvinceData }) {
   const scenario = calculation.result;
   const changed = seatYear !== "2023" || blank !== turnout.votos_blancos || calculation.rows.some((r, i) => r.v !== rows[i].v);
   const reset = () => { setEdits({}); setAmount("0"); setBlank(turnout.votos_blancos); setSeatYear("2023"); };
+  const openScenario = (s: Scenario) => {
+    reset(); setMode(s.mode); setTo(s.to); if (s.from) setFrom(s.from); setAmount(String(s.votes));
+    requestAnimationFrame(() => { document.getElementById("calculadora")?.scrollIntoView({ behavior: "smooth", block: "start" }); document.getElementById("scenario-title")?.focus({ preventScroll: true }); });
+  };
   const last = baseline.last;
   const next = baseline.next;
   const choiceOptions = parties.map(r => <option key={r.label} value={r.label}>{shortCandidacy(r.label)}</option>);
 
   return <div className="space-y-7" data-testid="province-analysis" data-province={data.code}>
+    {scenarios && <ScenarioCards data={data} onSelect={openScenario} />}
     <section id="provincia" className="province-story" aria-label={`Resultados oficiales de ${data.name} en 2023`}>
       <div className="flex flex-wrap items-end justify-between gap-3 border-b border-line pb-3">
         <div><p className="eyebrow">Elecciones generales · 23 julio 2023</p><h2 className="mt-1 text-3xl font-bold tracking-tight">{data.name}<span className="ml-3 text-lg font-normal text-stone-500"> {data.seats2023} {data.seats2023 === 1 ? "diputado" : "diputados"}</span></h2></div>
@@ -53,7 +62,6 @@ function ProvinceAnalysis({ data }: { data: ProvinceData }) {
         <div><dt className="inline">Participación </dt><dd className="inline font-semibold text-ink">{fmtPct(turnout.turnout_rate)}</dd></div>
         <div><dt className="inline">Votos válidos </dt><dd className="inline font-semibold text-ink">{fmtInt(turnout.votos_validos)}</dd></div>
         <div><dt className="inline">Censo </dt><dd className="inline font-semibold text-ink">{fmtInt(turnout.electores)}</dd></div>
-        <div><dt className="inline">Asignación 2026 </dt><dd className="inline font-semibold text-ink">{data.seats2026} {data.seats2026 === 1 ? "diputado" : "diputados"}</dd></div>
       </dl>
       <div className="mt-5 grid gap-6 lg:grid-cols-[0.75fr_1.25fr]">
         <div><h3 className="mb-3 text-sm font-semibold">Así quedaron los diputados</h3><SeatStrip allocation={baseline.allocation} colors={colors} label="Reparto oficial 2023" />
@@ -71,24 +79,28 @@ function ProvinceAnalysis({ data }: { data: ProvinceData }) {
     </section>
 
     <section id="calculadora" className="calculator-workbench" aria-label="Calculadora de cambios hipotéticos">
-      <div className="flex flex-wrap items-start justify-between gap-3"><div><p className="eyebrow">Prueba y compara · en esta misma provincia</p><h2 className="mt-1 text-2xl font-bold tracking-tight">¿Y si cambiaran los votos?</h2></div><button type="button" className="text-xs font-semibold text-accent underline underline-offset-4" onClick={reset}>Restablecer 2023</button></div>
+      <div className="flex flex-wrap items-start justify-between gap-3"><div><p className="eyebrow">Prueba y compara · en esta misma provincia</p><h2 id="scenario-title" tabIndex={-1} className="mt-1 text-2xl font-bold tracking-tight">¿Y si cambiaran los votos?</h2></div><button type="button" className="text-xs font-semibold text-accent underline underline-offset-4" onClick={reset}>Restablecer 2023</button></div>
       <div className="mt-5 grid gap-6 lg:grid-cols-[1fr_1fr]">
         <div>
           <div role="group" aria-label="Modo del escenario" className="scenario-tabs">
             <button type="button" aria-pressed={mode === "add"} onClick={() => { setMode("add"); setAmount("0"); }}>Añadir votos</button>
             <button type="button" aria-pressed={mode === "transfer"} onClick={() => { setMode("transfer"); setAmount("0"); }}>Transferir votos</button>
+            <button type="button" aria-pressed={mode === "manual"} onClick={() => { reset(); setMode("manual"); }}>Editar votos</button>
           </div>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          {mode !== "manual" && <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {mode === "transfer" && <label className="text-xs font-medium text-stone-600">Desde<select aria-label="Candidatura de origen" value={from} onChange={e => { setFrom(e.target.value); if (e.target.value === to) setTo(from); }} className={`${selectClass} mt-1.5 w-full`}>{choiceOptions}</select></label>}
             <label className="text-xs font-medium text-stone-600">{mode === "add" ? "Candidatura" : "Hacia"}<select aria-label="Candidatura de destino" value={to} onChange={e => { setTo(e.target.value); if (mode === "transfer" && e.target.value === from) setFrom(to); }} className={`${selectClass} mt-1.5 w-full`}>{choiceOptions}</select></label>
             <label className={`text-xs font-medium text-stone-600 ${mode === "transfer" ? "sm:col-span-2" : ""}`}>Votos hipotéticos<input type="number" aria-label="Cantidad de votos hipotéticos" min="0" max="1000000000" step="1" value={amount} onChange={e => setAmount(e.target.value)} className="mt-1.5 w-full rounded-lg border border-line bg-white px-3 py-2.5 text-base font-semibold tabular" /></label>
-          </div>
-          <p className="mt-3 text-xs leading-relaxed text-stone-500">{mode === "add" ? "Se añaden votos solo a la candidatura elegida. Las demás y el blanco se mantienen; crece el total de votos válidos." : "Los votos salen del origen y llegan al destino: el total de votos válidos se conserva."} El reparto se actualiza al escribir.</p>
+          </div>}
+          {mode === "manual" && <div className="mt-4 grid max-h-80 gap-3 overflow-auto sm:grid-cols-2">{rows.map(r => <label key={r.label} className="text-xs">{shortCandidacy(r.label)}<input type="number" min="0" max="100000000" aria-label={`Votos manuales de ${shortCandidacy(r.label)}`} value={edits[r.label] ?? r.v} onChange={e => { const n = e.target.valueAsNumber; if (Number.isSafeInteger(n) && n >= 0 && n <= 100000000) setEdits(v => ({ ...v, [r.label]: n })); }} className="mt-1 w-full rounded-lg border border-line p-3" /></label>)}</div>}
+          <p className="mt-3 text-xs leading-relaxed text-stone-500">{mode === "manual" ? "Introduce los votos de cada candidatura. El blanco permanece constante salvo que lo edites en Más controles. Se recalculan el total válido y el umbral." : mode === "add" ? "Se añaden votos solo a la candidatura elegida. Las demás y el blanco se mantienen; crece el total de votos válidos." : "Los votos salen del origen y llegan al destino: el total de votos válidos se conserva."} El reparto se actualiza al escribir.</p>
           {calculation.error && <p role="alert" className="mt-3 text-sm text-red-800">{calculation.error} Se muestra el reparto sin aplicar esa operación.</p>}
         </div>
         <div className="scenario-result" role="region" aria-live="polite" aria-label="Resultado del escenario">
           <p className="text-[11px] font-semibold uppercase tracking-wider text-accent">{changed ? `Escenario hipotético · escaños ${seatYear}` : "Punto de partida · votos oficiales 2023"}</p>
-          <div className="mt-3"><SeatStrip allocation={scenario.allocation} colors={colors} label="Reparto del escenario" /></div>
+          <div className="mt-3 space-y-4"><SeatStrip allocation={baseline.allocation} colors={colors} label="Antes · oficial 2023" /><SeatStrip allocation={scenario.allocation} colors={colors} label="Reparto del escenario" /></div>
+          <p className="mt-3 text-sm font-semibold">{scenario.allocated !== seats ? `No pueden adjudicarse los ${seats} escaños: no hay suficientes candidaturas con votos elegibles.` : rows.every(r => baseline.allocation[r.label] === scenario.allocation[r.label]) ? "No cambia el reparto de diputados." : rows.filter(r => baseline.allocation[r.label] !== scenario.allocation[r.label]).map(r => `${shortCandidacy(r.label)}: ${baseline.allocation[r.label]} → ${scenario.allocation[r.label]}`).join(" · ")}</p>
+          <p className="mt-2 text-xs text-stone-500">{seats === 1 ? "Gana quien más votos recibe." : `Umbral recalculado: ${fmtInt(Math.ceil(scenario.validVotes * 0.03))} votos (3 %). Los mayores cocientes elegibles reciben los diputados.`}</p>
           <p className="mt-4 text-sm"><span className="text-stone-500">Último diputado: </span><strong>{scenario.last ? shortCandidacy(scenario.last.label) : "sin adjudicar"}</strong>{changed && baseline.last && <span className="ml-1 text-xs text-stone-500">(2023: {shortCandidacy(baseline.last.label)})</span>}</p>
           {scenario.next && <p className="mt-2 text-xs text-stone-500">Siguiente fuera: <strong className="text-ink">{shortCandidacy(scenario.next.label)}</strong> · {fmtInt(scenario.next.votes)} ÷ {scenario.next.divisor} = {fmtDec(scenario.next.value)}</p>}
           <p className="mt-2 text-xs text-stone-500">Votos válidos del escenario: <strong className="text-ink">{fmtInt(scenario.validVotes)}</strong></p>
@@ -104,6 +116,8 @@ function ProvinceAnalysis({ data }: { data: ProvinceData }) {
       </details>
     </section>
 
+    {!scenarios && <><DhondtLesson data={data} /><Link className="scenario-invitation" href={`/que-pasaria-si?province=${data.code}`}><span><span className="eyebrow">Sigue explorando</span><strong className="mt-2 block text-2xl">¿Qué pasaría si…?</strong><span className="mt-2 block text-sm text-stone-600">Ejemplos verificados y simulación libre con los votos de {data.name}.</span></span><span aria-hidden="true" className="text-3xl">→</span></Link></>}
+
     <section className="sensitivity-section" aria-label="Votos mínimos adicionales">
       <div><p className="eyebrow">La sensibilidad del reparto</p><h2 className="mt-1 text-xl font-bold">¿Cuántos votos más cambiarían un diputado?</h2></div>
       <div className="mt-4 flex flex-wrap items-center gap-4">
@@ -114,11 +128,11 @@ function ProvinceAnalysis({ data }: { data: ProvinceData }) {
       <p className="mt-2 text-xs leading-relaxed text-stone-500">Se parte de los votos del escenario visible y se mantienen constantes todas las demás candidaturas y el blanco. No es un umbral fijo para otra elección.</p>
     </section>
 
-    <section aria-label="Votos y escaños de todas las candidaturas">
+    <details className="advanced-fold"><summary>Votos y escaños de todas las candidaturas</summary><section className="mt-4" aria-label="Votos y escaños de todas las candidaturas">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2"><h2 className="text-xl font-bold">Todos los votos, antes y después</h2><CsvButton filename={`${data.code}_2023_escenario.csv`} rows={rows.map(r => ({ candidatura: r.label, votos_2023: r.v, escanos_2023: r.s, votos_escenario: calculation.rows.find(x => x.label === r.label)?.v, escanos_escenario: scenario.allocation[r.label], asignacion_escenario: seatYear }))} /></div>
       <div className="overflow-x-auto"><table className="w-full text-sm"><caption className="sr-only">Resultados oficiales 2023 y comparación hipotética de {data.name}</caption><thead><tr className="border-b border-line text-left"><th className="py-3 pr-3">Candidatura</th><th className="px-2 py-3 text-right">Votos 2023</th><th className="px-2 py-3 text-right">Escaños 2023</th><th className="px-2 py-3 text-right">Votos escenario</th><th className="py-3 pl-2 text-right">Escaños escenario</th></tr></thead><tbody className="tabular">{rows.map(r => <tr key={r.label} className="border-b border-line"><td className="min-w-44 py-3 pr-3" title={r.label}><span className="mr-2 inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: colors[r.label] }} />{shortCandidacy(r.label)}</td><td className="px-2 text-right">{fmtInt(r.v)}</td><td className="px-2 text-right font-semibold">{r.s}</td><td className="px-2 text-right">{fmtInt(calculation.rows.find(x => x.label === r.label)?.v)}</td><td className="pl-2 text-right font-semibold">{scenario.allocation[r.label]}{scenario.allocation[r.label] !== r.s && <span className="ml-2 text-xs font-normal text-stone-500">({scenario.allocation[r.label] > r.s ? "+" : ""}{scenario.allocation[r.label] - r.s})</span>}</td></tr>)}</tbody></table></div>
       <p className="mt-3 text-xs text-stone-500">{rows.length} candidaturas con votos registrados. Blanco 2023: {fmtInt(turnout.votos_blancos)}; nulos: {fmtInt(turnout.votos_nulos)}. El blanco cuenta para el umbral; el nulo no. Las celdas nacionales a cero no acreditan concurrencia provincial.</p>
-    </section>
+    </section></details>
 
     <details className="advanced-fold"><summary>Cómo se reparten: orden, tabla D’Hondt y metodología</summary>
       <p className="mt-4 text-sm leading-relaxed text-stone-600">{seats === 1 ? "Circunscripción uninominal: gana quien más votos recibe (LOREG 163.2)." : `En este escenario se adjudican ${seats} diputados. Para entrar en el reparto se exige el 3 % de los votos válidos (${fmtDec(scenario.validVotes * 0.03)}). Se divide cada candidatura admitida entre 1, 2, 3… y se eligen los mayores cocientes.`} En un empate de cocientes prima el total de votos. A igualdad de votos, hace falta sorteo; no se atribuye certeza a ese resultado.</p>
@@ -138,7 +152,7 @@ function ProvinceAnalysis({ data }: { data: ProvinceData }) {
   </div>;
 }
 
-function Explorer({ initial, provinces }: { initial: ProvinceData; provinces: ProvinceIndex[] }) {
+function Explorer({ initial, provinces, scenarios = false }: { initial: ProvinceData; provinces: ProvinceIndex[]; scenarios?: boolean }) {
   const { requested, code, select: selectUrl } = useProvinceUrl(provinces.map(p => p.code));
   const [loaded, setLoaded] = useState(initial);
   const [error, setError] = useState({ code: "", message: "" });
@@ -167,10 +181,11 @@ function Explorer({ initial, provinces }: { initial: ProvinceData; provinces: Pr
     </div>
     {requested && requested !== code && <p role="status" className="text-sm text-stone-500">No reconocemos esa circunscripción. Mostramos León como punto de partida.</p>}
     {mapOpen && <div id="province-map" className="editorial-panel p-3"><ProvinceMap selected={code} onSelect={select} height={360} provinces={provinces.map(p => ({ province_code: p.code, province_name: p.name, seats: p.seats2026, seats_2023: p.seats2023, seats_2026: p.seats2026, valid_votes: 0, turnout_rate: null, baseline_votes: {}, baseline_shares: {}, seats_2023_official: {} }))} /><p className="px-3 text-xs text-stone-500">Color: diputados asignados en 2026 (1–38). Ámbar: selección. Canarias desplazada a la misma escala.</p></div>}
-    {error.code === code ? <div><ErrorBox message={error.message} /><button className="button-secondary mt-2" onClick={() => { setError({ code: "", message: "" }); setRetry(x => x + 1); }}>Reintentar</button></div> : current ? <ProvinceAnalysis key={current.code} data={current} /> : <Loading what={`los resultados de ${provinces.find(p => p.code === code)?.name}`} />}
+    {scenarios && <label className="block text-sm">Elección histórica<select aria-label="Elección histórica" className="ml-3 rounded-lg border border-line bg-white p-3" value="2023-07-23" onChange={() => {}}><option value="2023-07-23">23 de julio de 2023 · resultados oficiales</option></select></label>}
+    {error.code === code ? <div><ErrorBox message={error.message} /><button className="button-secondary mt-2" onClick={() => { setError({ code: "", message: "" }); setRetry(x => x + 1); }}>Reintentar</button></div> : current ? <ProvinceAnalysis key={current.code} data={current} scenarios={scenarios} /> : <Loading what={`los resultados de ${provinces.find(p => p.code === code)?.name}`} />}
   </div>;
 }
 
-export default function ProvinceExplorer(props: { initial: ProvinceData; provinces: ProvinceIndex[] }) {
+export default function ProvinceExplorer(props: { initial: ProvinceData; provinces: ProvinceIndex[]; scenarios?: boolean }) {
   return <Explorer {...props} />;
 }

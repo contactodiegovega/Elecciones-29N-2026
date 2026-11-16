@@ -84,7 +84,7 @@ function auditReview(out, pub) {
     }
   }
   // Snapshots/source evidence must never be in an emitted HTML, Flight payload or JS chunk.
-  const sensitive = JSON.parse(fs.readFileSync(path.join(WEB, 'public/data/latest_polls.json'), 'utf8'));
+  const sensitive = JSON.parse(fs.readFileSync(path.join(WEB, 'archive/data/latest_polls.json'), 'utf8'));
   const hashes = sensitive.polls.flatMap(p => [p.source_hash, ...(p.document_evidence || []).map(d => d.sha256)]).filter(Boolean);
   for (const file of files(out)) {
     const content = fs.readFileSync(path.join(out, file)).toString('utf8');

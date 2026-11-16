@@ -24,11 +24,13 @@ export function generateScenarios(data: ProvinceData): Scenario[] {
     const minimum = minimumAdditionalVotes(rows, seats, blank, party.label);
     if (minimum.status === "ok") {
       append({ id: `add:${party.label}`, kind: before.allocation[party.label] ? "extra" : "first", mode: "add", to: party.label, votes: minimum.votes, after: minimum.after, previousRequiresDraw: minimum.previousRequiresDraw });
-      // The exact predecessor is derived from the verified boundary, never a round arbitrary amount.
-      const votes = minimum.votes - 1;
-      const after = analyzeLastSeat(addVotes(rows, party.label, votes), seats, blank);
-      if (votes > 0 && !after.drawRequired && rows.every(r => after.allocation[r.label] === before.allocation[r.label]))
-        append({ id: `unchanged:${party.label}`, kind: "unchanged", mode: "add", to: party.label, votes, after, previousRequiresDraw: false });
+      // Derive a stable example just before the verified boundary, skipping a tied predecessor.
+      const votes = minimum.votes - (minimum.previousRequiresDraw ? 2 : 1);
+      if (votes > 0) {
+        const after = analyzeLastSeat(addVotes(rows, party.label, votes), seats, blank);
+        if (!after.drawRequired && rows.every(r => after.allocation[r.label] === before.allocation[r.label]))
+          append({ id: `unchanged:${party.label}`, kind: "unchanged", mode: "add", to: party.label, votes, after, previousRequiresDraw: false });
+      }
     }
     for (const source of parties) if (source.label !== party.label) {
       const transfer = minimumTransferVotes(rows, seats, blank, source.label, party.label);

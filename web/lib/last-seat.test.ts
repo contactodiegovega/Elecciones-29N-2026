@@ -5,7 +5,7 @@ import { addVotes, analyzeLastSeat, DEFAULT_PROVINCE, minimumAdditionalVotes, re
 import { ProvinceDataSchema } from "./province";
 import { LabelRowSchema, SimulatorSchema, TurnoutRowSchema, type LabelRow } from "./types";
 
-const json = (path: string) => JSON.parse(readFileSync(join(__dirname, "../public", path), "utf-8"));
+const json = (path: string) => JSON.parse(readFileSync(join(__dirname, path === "data/simulator.json" ? "../archive" : "../public", path), "utf-8"));
 const row = (label: string, v: number, s = 0): LabelRow => ({ p: "99", label, party: null, v, s, share: 0 });
 
 describe("reconstrucción histórica con candidaturas originales", () => {

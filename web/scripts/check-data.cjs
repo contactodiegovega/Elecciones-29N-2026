@@ -6,9 +6,8 @@ const ROOT = path.resolve(__dirname, '../..');
 const PUBLIC = path.join(ROOT, 'web/public');
 const REQUIRED = [
   'meta', 'territories', 'results_national', 'turnout', 'colors', 'taxonomy',
-  'demography', 'ml', 'model_registry', 'oos_map', 'simulator', 'campaign',
-  'poll_sources', 'publication_status', 'latest_polls', 'ml_gate',
-  'polls_2023', 'polls_2026',
+  'demography', 'ml', 'model_registry', 'oos_map', 'simulator',
+  'publication_status', 'ml_gate',
 ];
 
 function readJSON(file) {
@@ -51,6 +50,9 @@ function validatePublication({ policy, calendar, status, today, release }) {
 function checkData(publicDir = PUBLIC) {
   const data = path.join(publicDir, 'data');
   for (const name of REQUIRED) readJSON(path.join(data, `${name}.json`));
+  for (const name of require('./withdraw-public.cjs').WITHDRAWN) {
+    if (require('node:fs').existsSync(path.join(data, `${name}.json`))) throw new Error(`Recurso retirado expuesto: ${name}`);
+  }
   const meta = readJSON(path.join(data, 'meta.json'));
   if (!Array.isArray(meta.elections) || !meta.elections.length) throw new Error('Falta el catálogo de elecciones.');
   for (const election of meta.elections) readJSON(path.join(data, 'labels_by_election', `${election}.json`));

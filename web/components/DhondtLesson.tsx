@@ -1,16 +1,25 @@
 "use client";
 import { useState } from "react";
-import leon from "@/public/data/provinces/24.json";
+import type { ProvinceData } from "@/lib/province";
 import { analyzeLastSeat, shortCandidacy } from "@/lib/last-seat";
-import { fmtDec } from "@/lib/utils";
+import { fmtDec, fmtInt } from "@/lib/utils";
 
-export default function DhondtLesson() {
+export default function DhondtLesson({ data }: { data: ProvinceData }) {
   const [step, setStep] = useState(1);
-  const analysis = analyzeLastSeat(leon.rows, leon.seats2023, leon.turnout.votos_blancos);
-  return <div className="mt-5 rounded-xl bg-stone-100 p-5">
-    <p className="eyebrow">León · resultados oficiales 2023</p><p className="mt-2 text-sm text-stone-600">Avanza diputado a diputado. Gana el cociente más alto que todavía no tenga escaño.</p>
-    <ol className="mt-4 grid gap-2 sm:grid-cols-2">{analysis.quotients.slice(0, leon.seats2023 + 1).map(q => <li key={q.rank} className={`flex items-center justify-between gap-3 rounded-lg p-3 text-sm ${q.rank <= step ? "bg-white font-semibold" : "text-stone-400"}`}><span>#{q.rank} {shortCandidacy(q.label)} ÷ {q.divisor}</span><span className="tabular">{fmtDec(q.value)} {q.rank <= step ? "✓" : ""}</span></li>)}</ol>
-    <div className="mt-4 flex items-center gap-4"><button type="button" className="button-secondary" disabled={step === 1} onClick={() => setStep(s => s - 1)}>Anterior</button><span className="text-xs text-stone-500" role="status">Diputado {step} de {leon.seats2023}</span><button type="button" className="button-primary disabled:opacity-40" disabled={step === leon.seats2023} onClick={() => setStep(s => s + 1)}>Siguiente</button></div>
-    {step === leon.seats2023 && <p className="mt-4 text-sm">El último diputado lo recibe <strong>{shortCandidacy(analysis.last!.label)}</strong>. El siguiente cociente ({shortCandidacy(analysis.next!.label)}) queda fuera.</p>}
-  </div>;
+  const [divisor, setDivisor] = useState(1);
+  const analysis = analyzeLastSeat(data.rows, data.seats2023, data.turnout.votos_blancos);
+  return <section id="dhondt" className="lesson editorial-panel p-5 md:p-7" aria-label="D’Hondt en tres pasos">
+    <p className="eyebrow">Del voto al diputado · {data.name} 2023</p>
+    <h2 className="mt-2 text-2xl font-bold">D’Hondt, en tres pasos</h2>
+    <div className="mt-5 grid gap-2 sm:grid-cols-3" role="group" aria-label="Pasos de D’Hondt">
+      {["¿Cuántos diputados?", "¿Cómo se calculan?", "¿Quién obtiene el último?"].map((title, i) => <button key={title} className={`lesson-step ${step === i + 1 ? "lesson-active" : ""}`} aria-pressed={step === i + 1} onClick={() => setStep(i + 1)}><span className="mr-2 opacity-60">0{i + 1}</span>{title}</button>)}
+    </div>
+    <div key={step} className="lesson-content mt-5" aria-live="polite">
+      {step === 1 && <><p className="text-3xl font-bold">{data.name}: {data.seats2023} {data.seats2023 === 1 ? "diputado" : "diputados"}</p><p className="mt-3 max-w-2xl text-sm leading-relaxed text-stone-600">{data.seats2023 === 1 ? "En Ceuta y Melilla gana la candidatura más votada: no se aplica la barrera del 3 %." : `Solo participan las candidaturas con al menos el 3 % de los votos válidos: ${fmtInt(Math.ceil(analysis.validVotes * 0.03))} votos en este resultado. Superarlo no garantiza representación.`} El blanco es válido; el voto nulo no cuenta para el umbral.</p></>}
+      {step === 2 && <><p className="text-sm text-stone-600">Pulsa un divisor. Dividimos los votos originales de cada candidatura admitida; cada resultado es un cociente.</p><div className="my-4 flex flex-wrap gap-2" role="group" aria-label="Divisores">{Array.from({ length: data.seats2023 }, (_, i) => <button className="button-secondary" aria-pressed={divisor === i + 1} key={i} onClick={() => setDivisor(i + 1)}>÷ {i + 1}</button>)}</div><div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{data.rows.filter(r => analysis.eligible.includes(r.label)).map(r => <p key={r.label} className="rounded-lg border-l-4 bg-stone-50 p-3 text-sm" style={{ borderColor: data.colors[r.label] }}><strong>{shortCandidacy(r.label)}</strong><span className="mt-1 block tabular">{fmtInt(r.v)} ÷ {divisor} = <strong>{fmtDec(r.v / divisor)}</strong></span></p>)}</div></>}
+      {step === 3 && <><p className="mb-4 text-sm text-stone-600">Los {data.seats2023} cocientes más altos reciben un diputado. El siguiente queda fuera.</p><ol className="grid gap-2 sm:grid-cols-2">{analysis.quotients.slice(0, data.seats2023 + 1).map(q => <li key={q.rank} className={`rounded-lg border-l-4 p-3 text-sm ${q.awarded ? "bg-teal-50" : "bg-stone-100 text-stone-600"} ${q === analysis.last ? "ring-2 ring-accent" : ""}`} style={{ borderColor: data.colors[q.label] }}><strong>#{q.rank} {shortCandidacy(q.label)}</strong> · {fmtInt(q.votes)} ÷ {q.divisor} = {fmtDec(q.value)}<span className="ml-2 font-semibold">{q === analysis.last ? "Último diputado ✓" : q.awarded ? "✓" : "Fuera"}</span></li>)}</ol><p className="mt-4 text-sm">{analysis.last && shortCandidacy(analysis.last.label)} entra porque su cociente ocupa el último puesto disponible.{analysis.next && ` ${shortCandidacy(analysis.next.label)} queda después del corte.`} La distancia entre cocientes no equivale a votos adicionales.</p></>}
+    </div>
+    <details className="mt-5 border-t border-line pt-4"><summary className="cursor-pointer text-sm font-semibold">Ver el cálculo completo</summary><div className="mt-4 max-h-96 overflow-auto"><table className="w-full text-sm"><caption className="sr-only">Tabla D’Hondt oficial de {data.name} 2023</caption><thead><tr><th className="p-2 text-left">Candidatura</th>{Array.from({ length: data.seats2023 + 1 }, (_, i) => <th key={i} className="p-2">÷ {i + 1}</th>)}</tr></thead><tbody>{data.rows.map(r => <tr key={r.label}><th className="whitespace-nowrap p-2 text-left font-normal">{shortCandidacy(r.label)}{!analysis.eligible.includes(r.label) ? " · fuera del umbral" : ""}</th>{Array.from({ length: data.seats2023 + 1 }, (_, i) => { const q = analysis.quotients.find(q => q.label === r.label && q.divisor === i + 1); return <td key={i} className={`p-2 text-right tabular ${q?.awarded ? "bg-teal-50 font-bold" : ""}`}>{fmtDec(r.v / (i + 1))}{q?.awarded ? " ✓" : ""}</td>; })}</tr>)}</tbody></table></div><p className="mt-3 text-xs text-stone-500">El divisor extra muestra el siguiente cociente. Las candidaturas excluidas no participan. En Ceuta y Melilla solo cuenta el primer divisor.</p></details>
+    <a className="mt-4 inline-block text-xs text-accent underline" href="https://www.boe.es/buscar/act.php?id=BOE-A-1985-11672#a163">Reglas legales · artículo 163 de la LOREG ↗</a>
+  </section>;
 }

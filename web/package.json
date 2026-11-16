@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "prebuild": "npm run check:data",
-    "check:data": "node scripts/check-data.cjs",
-    "prepare:data": "node scripts/prepare-data.cjs",
+    "check:data": "node scripts/withdraw-public.cjs && node scripts/check-data.cjs",
+    "prepare:data": "node scripts/prepare-data.cjs && node scripts/withdraw-public.cjs",
     "build": "next build",
     "build:review": "node scripts/build-review.cjs",
     "build:public": "npm run check:release && npm run build",

@@ -22,7 +22,7 @@ def test_official_seats_2026_match_boe_and_keep_350():
 
 
 def test_simulator_uses_2026_distribution_and_still_validates_2023():
-    sim = _json("web/public/data/simulator.json")
+    sim = _json("web/archive/data/simulator.json")
     assert sim["total_seats"] == 350
     assert sum(p["seats"] for p in sim["provinces"]) == 350
     assert all(p["seats"] == p["seats_2026"] for p in sim["provinces"])

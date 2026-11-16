@@ -6,8 +6,8 @@ import { useState } from "react";
 export const MAIN_NAV = [
   { href: "/", label: "Inicio" },
   { href: "/provincias", label: "Provincias" },
-  { href: "/encuestas", label: "Encuestas" },
-  { href: "/aprende", label: "Aprende" },
+  { href: "/que-pasaria-si", label: "¿Qué pasaría si…?" },
+  { href: "/aprende", label: "Aprende más" },
 ];
 
 export default function SiteNav() {

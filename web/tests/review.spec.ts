@@ -23,7 +23,7 @@ test("no se sirven encuestas, derivados ni modelos por URL directa o heredada", 
     await expect(page.getByTestId("latest-poll")).toHaveCount(0);
   }
   await page.goto("/prediccion");
-  await expect(page.getByRole("heading", { name: "Contenido no incluido en la revisión" })).toBeVisible();
+  await expect(page.getByRole("main")).not.toContainText("Mi predicción");
   for (const name of ["polls_2023", "polls_2026", "latest_polls", "campaign", "poll_sources", "publication_status", "ml", "ml_gate", "model_registry", "oos_map"]) {
     expect((await request.get(`/data/${name}.json`)).status()).toBe(404);
   }

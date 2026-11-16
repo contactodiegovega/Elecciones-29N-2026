@@ -5,6 +5,7 @@ export default function SeatStrip({ allocation, colors, label }: {
 }) {
   const groups = Object.entries(allocation).filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "es"));
   return <div>
+    <p className="mb-2 text-xs font-medium text-stone-500">{label}</p>
     <div className="flex flex-wrap gap-2" role="img" aria-label={`${label}: ${groups.map(([p, n]) => `${shortCandidacy(p)} ${n}`).join(", ") || "Sin diputados adjudicados"}`}>
       {groups.flatMap(([party, n]) => Array.from({ length: n }, (_, i) => <span key={`${party}-${i}`} title={shortCandidacy(party)} className="seat-symbol" style={{ backgroundColor: colors[party] }} />))}
     </div>

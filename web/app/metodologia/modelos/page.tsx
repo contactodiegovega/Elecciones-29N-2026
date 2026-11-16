@@ -175,7 +175,7 @@ export default function RegistroModelos() {
 
       <div className="grid gap-3 md:grid-cols-3">
         <LinkCard href="/simulador" title="Probar un escenario" desc="Tú pones los porcentajes; el motor reparte los 350 escaños con D'Hondt." meta="Hipotético" />
-        <LinkCard href="/encuestas" title="Ver encuestas" desc="Qué miden las casas, con qué método y qué límites declaran." meta="Datos, no proyección" />
+        <LinkCard href="/que-pasaria-si" title="Explorar escenarios" desc="Compara cambios hipotéticos con los resultados oficiales de 2023." meta="Cálculos, no pronósticos" />
         <LinkCard href="/laboratorio-ml" title="Laboratorio técnico" desc="Tablas completas de error, ablaciones y auditoría temporal." meta="Investigación" />
       </div>
     </div>

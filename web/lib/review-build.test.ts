@@ -10,7 +10,7 @@ const { prepareReview, auditReview } = require("../scripts/build-review.cjs");
 it("exporta solo el catálogo histórico y rechaza archivos inesperados sin modificar originales", () => {
   // Under web/ so Next could resolve the same dependencies if needed; no build is run here.
   const temp = mkdtempSync(join(tmpdir(), "electoral-review-"));
-  const source = join(__dirname, "../public/data/latest_polls.json");
+  const source = join(__dirname, "../archive/data/latest_polls.json");
   const before = readFileSync(source);
   try {
     const stage = join(temp, "stage");
